@@ -4,23 +4,23 @@
     <title>Profile</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
-</head>
-<header>
-    <!-- Header Nav -->
-    <nav>
-        <ul>
-            <li><img src="/pictures/communityjournal.png" alt="logo" name="logo" id="logo"></li>
-            <li>Profile</li>
-            <li>Messages</li>
-            <li>Personal Page</li>
-            <li>Search</li>
-            <li>Profile</li>
-            <li><button type="submit" name="logout" alt="logout">Logout</button></li>
-        </ul>
-    </nav>
-</header>
-<hr>
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="logo.png" </head>
+    <header>
+        <!-- Header Nav -->
+        <nav>
+            <ul>
+                <li><img src="logo.png" alt="logo" name="logo" id="logo"></li>
+                <li>Profile</li>
+                <li>Messages</li>
+                <li>Personal Page</li>
+                <li>Search</li>
+                <li>Profile</li>
+                <li><button type="submit" name="logout" alt="logout">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
 
 <body>
     <section>
