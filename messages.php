@@ -11,7 +11,7 @@
         <h1>Messaging Page</h1>
         <ul>
             <li><a href="dashboard.php"><img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a></li>
-            <li><a href="private.php">Private</a></li>
+            <li><a href="public.php">Public</a></li>
             <li><a href="personal.php">Personal</a></li>
             <li><input type="text" name="search" placeholder="Search"></li>
             <li><a href="profile.php">Profile</a></li>
