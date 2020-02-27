@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS users, friends, messages, group, junction_table, blogfeed, personal;
+
 CREATE DATABASE community_journal;
 
 CREATE TABLE users
@@ -12,7 +14,7 @@ CREATE TABLE users
     country varchar(100),
     profile_pic LONGBLOB,
     headline varchar(75),
-    bio varchar(200),
+    bio varchar(200)
 );
 
 
@@ -22,7 +24,7 @@ CREATE TABLE friends
     username varchar(255),
     online boolean,
     friend_request boolean,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 
@@ -30,14 +32,13 @@ CREATE TABLE messages
 (
     message_id bigserial PRIMARY KEY,
     sender_id bigserial,
-    group_id bigserial ,
-    content varchar(255),
+    group_id bigserial,
+    content varchar(255)
 );
 
 CREATE TABLE group
 (
-    group_id bigserial,
-    FOREIGN KEY (group_id) REFERENCES messages(group_id),
+    group_id bigserial FOREIGN KEY (group_id) REFERENCES messages(group_id)
 );
 
 
@@ -48,7 +49,7 @@ CREATE TABLE junction_table
     message_id bigserial,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (group_id) REFERENCES messages(group_id),
-    FOREIGN KEY  (message_id) REFERENCES messages(message_id),
+    FOREIGN KEY (message_id) REFERENCES messages(message_id)
 );
 
 CREATE TABLE blogfeed
@@ -57,14 +58,12 @@ CREATE TABLE blogfeed
     blogpic LONGBLOB,
     Dates timestamp,
     blog_id bigserial PRIMARY KEY,
-    commment varchar(255),
+    commment varchar(255)
 );
 
-CREATE TBALE personal
+CREATE TABLE personal
 (
-  personal_id bigserial PRIMARY KEY,
-  saved_drafts varchar
-(255),
-  list varchar
-(255),
+    personal_id bigserial PRIMARY KEY,
+    saved_drafts varchar(255),
+    list varchar(255)
 );
