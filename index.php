@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="Pictures/logo.png">
+    <link href="styles.css" rel="stylesheet" type="text/css">
     <title>Community Journal</title>
 </head>
     <h1>Welcome to Community Journal</h1>  
