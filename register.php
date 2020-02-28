@@ -6,21 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/style.css" rel="stylesheet">
     <link rel="icon" href="pictures/logo.png">
+    <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
-<header>
-    <!-- Header Nav -->
-    <nav>
-        <ul>
-            <li><img src="/pictures/communityjournal.png" alt="logo" name="logo" id="logo"></li>
-            <li>Profile</li>
-            <li>Messages</li>
-            <li>Personal Page</li>
-            <li>Search</li>
-            <li>Profile</li>
-            <li><button type="submit" name="logout" alt="logout">Logout</button></li>
-        </ul>
-    </nav>
-</header>
+
+<a id = 'back' href = 'index.php'>⬅️</a>
+
+
 <hr>
 
 <body>

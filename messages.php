@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="Pictures/logo.png">
+    <link href="styles.css" rel="stylesheet" type="text/css">
     <title>Public Page</title>
 </head>
     <body>
