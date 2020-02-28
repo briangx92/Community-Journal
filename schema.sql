@@ -60,11 +60,9 @@ CREATE TABLE blogfeed
     commment varchar(255),
 );
 
-CREATE TBALE personal
+CREATE TABLE personal
 (
   personal_id bigserial PRIMARY KEY,
-  saved_drafts varchar
-(255),
-  list varchar
-(255),
+  saved_drafts varchar(255),
+  list varchar(255),
 );
