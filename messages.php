@@ -10,8 +10,12 @@
 </head>
     <body>
         <h1>Messaging Page</h1>
+
+        <div class="logo">
+          <img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard.">
+        </div>
+
         <ul>
-            <li><a href="dashboard.php"><img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a></li>
             <li><a href="public.php">Public</a></li>
             <li><a href="personal.php">Personal</a></li>
             <li><input type="text" name="search" placeholder="Search"></li>
@@ -22,7 +26,7 @@
                 </form>
             </li>
         </ul>
-        
+
         <table>
             <tr>
                 <th>Online</th>
