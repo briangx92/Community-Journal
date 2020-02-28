@@ -63,7 +63,7 @@ CREATE TABLE blogfeed
 
 CREATE TABLE personal
 (
-    personal_id bigserial PRIMARY KEY,
-    saved_drafts varchar(255),
-    list varchar(255)
+  personal_id bigserial PRIMARY KEY,
+  saved_drafts varchar(255),
+  list varchar(255),
 );
