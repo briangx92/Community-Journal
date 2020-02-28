@@ -12,15 +12,17 @@
     <img src="Pictures/logo.png" alt="This is the logo of the company.">
 
     <h2>Login</h2>
+    
+    <form>
 
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="Enter Email" name="email" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
 
-    <button type="submit" class="btn" name = "login">Login</button>
-    <button type="submit" class="btn" name = "register">Register</button>
+      <button type="submit" class="btn" name = "login">Login</button>
+      <button type="submit" class="btn" name = "register">Register</button>
 
   </form>
 </div>
