@@ -59,90 +59,87 @@ if (isset(($_POST['sub']))) {
     $phone = $_POST['phone'];
     $user = $_POST['username'];
     $country = $_POST['country'];
+    $passConfirm = $_POST['verifyPassword'];
 
 
     // Check input errors before inserting in database
     if(empty($email_err) && empty($password_err)){
 
+      if ($password = $passConfirm) {
+
         // Prepare an insert statement
-        $sql = "INSERT INTO `users` (Fname, Lname, email, phone, username, password, country) VALUES ('$fName', 'us', 'asd', 'asd', 'FinkTyler2', 'asd', 'Asd')";
-        mysqli_query($conn, $sql);
-        header("location: http://localhost/Community-Journal/index.php");
+        $sql = "INSERT INTO `users` (Fname, Lname, email, phone, username, password, country) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        if($stmt = mysqli_prepare($conn, $sql)){
+
+            mysqli_stmt_bind_param($stmt, "sssssss", $param_fName, $param_lName, $param_email, $param_phone, $param_username, $param_password, $param_country);
 
 
+            $param_fName = $fName;
+            $param_lName = $lName;
+            $param_email = $email;
+            $param_phone = $phone;
+            $param_username = $user;
+            $param_password = $password;
+            $param_country = $country;
 
 
-//  this is where is breaks you can incomment out the if else and it will automatically go to the else
+            if(mysqli_stmt_execute($stmt)){
 
-        // if($stmt = mysqli_prepare($conn, $sql)){
-        //     // Bind variables to the prepared statement as parameters
-        //     mysqli_stmt_bind_param($stmt, "sssssss", $param_fName, $param_lName, $param_email, $param_phone, $param_username, $param_password, $param_country);
-        //
-        //     // Set parameters
-        //     $param_fName = $fName;
-        //     $param_lName = $lName;
-        //     $param_email = $email;
-        //     $param_phone = $phone;
-        //     $param_username = $user;
-        //     $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-        //     $param_country = $country;
-        //
-        //     // Attempt to execute the prepared statement
-        //     if(mysqli_stmt_execute($stmt)){
-        //         // Redirect to login page
-                // header("location: http://localhost/Community-Journal/index.php");
-        //     } else{
-        //         echo "Something went wrong. Please try again later.";
-        //     }
-        // }
+                header("location: http://localhost/Community-Journal/index.php");
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
         // Close statement
-        // mysqli_stmt_close($stmt);
+        mysqli_stmt_close($stmt);
     }
+  }
   }
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="master.css">
+    <link rel="stylesheet" href="css/main.scss">
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
+    <div class="">
+      <h1>Community Journal Register Page</h1>
+
+    </div>
 
 
 
-    <div class="col-3 right">
       <div class="regform">
         <form method="post">
-              <div>
-                <label class="tb">First Name</label>
-                <input class="tb" type="text" name="fName" required>
-              </div>
-              <div>
-                <label>Last Name</label>
-                <input type="text" name="lName" required>
-              </div>
-              <div>
-                <label>Email</label>
-                <input type="text" name="email" required>
+          <div class="segment">
+            <h1>Sign up</h1>
+          </div>
+            <input placeholder="First Name" class="tb" type="text" name="fName" required>
+
+            <input placeholder="Last Name" type="text" name="lName" required>
+
+            <input placeholder="Email" type="text" name="email" required>
+
+            <div class="">
                 <span class="help-block"><?php echo $email_err; ?></span>
-              </div>
-              <div>
-                <label>Phone</label>
-                <input type="text" name="phone" required>
-              </div>
-              <div>
-                <label>Username</label>
-                <input type="text" name="username" required>
-                <span class="help-block"></span>
-              </div>
-              <div>
-                <label>Password</label>
-                <input type="text" name="password" required>
+            </div>
+
+            <input placeholder="Phone Number" type="text" name="phone" required>
+
+            <input placeholder="Username" type="text" name="username" required>
+
+            <input placeholder="Password" type="text" name="password" required>
+
+            <input placeholder="Retype Password" type="text" name="verifyPassword"  required>
+
+            <div class="">
                 <span class="help-block"><?php echo $password_err; ?></span>
-              </div>
-              <div class="">
+            </div>
+
                 <select id="country" name="country">
                     <option value="Afganistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
@@ -391,9 +388,7 @@ if (isset(($_POST['sub']))) {
                     <option value="Zambia">Zambia</option>
                     <option value="Zimbabwe">Zimbabwe</option>
                 </select>
-              </div>
 
-              <!-- Submit buttons -->
               <div class="regsub">
               <button id="regsub" type="submit" name="sub">Submit</button>
               </div>
