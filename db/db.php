@@ -3,12 +3,8 @@
 $dbServername = "localhost";
 $dbUsername = "root";
 $dbPassword = "";
-$dbName = "community_journal";
+$dbName = "community-journal";
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-
-
-
-
 
 ?>
