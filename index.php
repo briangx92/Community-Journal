@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($email_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT user_id, email, password FROM users WHERE email = ?";
+        $sql = "SELECT user_id, email, password FROM users WHERE email = 'tfinkster1@gmail.com'";
 
         if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -47,16 +47,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     // Bind result variables
                     mysqli_stmt_bind_result($stmt, $user_id, $email, $hash);
                     if(mysqli_stmt_fetch($stmt)){
-                        if(password_verify($password, $hash)){
+                        if($password == $hash){
                             // Password is correct, so start a new session
                             session_start();
                             // Store data in session variables
-                            $_SESSION['fname'] = $fName;
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $user_id;
-                            $_SESSION["email"] = $email;
-                            $_SESSION['approved'] = $approved;
-                            print_r($_SESSION["loggedin"]);
+                            // maybe?
+                            // $_SESSION['approved'] = $approved;
                             header("location: http://localhost/Community-Journal/register.php");
 
                         } else{
