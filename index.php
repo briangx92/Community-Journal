@@ -104,13 +104,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <form class="login" method="post">
                 <div class="form-group">
                     <label>Email</label>
-                    <input id="email_login  " type="text" name="email" class="form-control">
-                    <span class="help-block"><?php echo $email_err; ?></span>
+                    <input id="email_login" type="text" name="email" class="form-control">
                 </div>
                 <div class="form-group ">
                     <label>Password</label>
                     <input id="password_login" type="password" name="password" class="form-control">
-                    <span class="help-block"><?php echo $password_err; ?></span>
                 </div>
                 <div class="form-group">
                     <input id="submit_login" type="submit"value="Login">
@@ -118,7 +116,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </form>
         </div>
       </div>
-  <div >
+  <div class = "please">
     <button class="registerBtn" onclick="window.location.href = 'http://localhost/Community-Journal/register.php';">Register</button>
   </div>
 

@@ -1,6 +1,5 @@
-
 body, html {
-  background-color:#EBECF0;
+  background-color:#FCF6F5FF;
 }
 
 body, p, input, select, textarea, button {
@@ -15,22 +14,40 @@ div, p {
 }
 
 
-form {
+form, .registerBtn {
   padding: 16px;
   width: 50%;
   margin: 0 auto;
+}
+
+#h1-reg {
+  text-align: center;
+  color: #990011FF;
+}
+
+.please {
+  text-align: center;
+}
+
+#submit_login {
+  background-color: green;
+  color: #FCF6F5FF;
+}
+
+#password_login, #email_login, .reg {
+  box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
 }
 
 label {
   display: block;
   margin-bottom: 16px*1.5;
   width: 100%;
+  color: #990011FF;
 }
 
 input, select {
   margin-top: 21px;
   margin-right: 16px/2;
-  box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
@@ -39,8 +56,7 @@ input, select {
   font-size: 16px;
   border-radius: 3.5px;
   padding: 16px;
-  background-color:#EBECF0;
-  text-shadow: 1px 1px 0 #FFF;
+  background-color:#FCF6F5FF;
 
 
   &:focus {
@@ -50,9 +66,9 @@ input, select {
 
 button {
   width: 50%;
+  text-align: center;
   margin-top: 21px;
   margin-right: 16px/2;
-  box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
   border: 0;
@@ -60,8 +76,8 @@ button {
   font-size: 16px;
   border-radius: 16px*20;
   padding: 16px;
-  background-color:#EBECF0;
-  text-shadow: 1px 1px 0 #FFF;
+  background-color:#990011FF;
+  color: #FCF6F5FF;
 
   &:hover {
     box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;

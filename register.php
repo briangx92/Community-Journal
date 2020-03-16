@@ -107,7 +107,7 @@ if (isset(($_POST['sub']))) {
   </head>
   <body>
     <div class="">
-      <h1>Community Journal Register Page</h1>
+      <h1 id = "h1-reg">Register Community Journal</h1>
 
     </div>
 
@@ -118,29 +118,30 @@ if (isset(($_POST['sub']))) {
           <div class="segment">
             <h1>Sign up</h1>
           </div>
-            <input placeholder="First Name" class="tb" type="text" name="fName" required>
+            <input class = "reg" placeholder="First Name" class="tb" type="text" name="fName" required>
 
-            <input placeholder="Last Name" type="text" name="lName" required>
+            <input class = "reg" placeholder="Last Name" type="text" name="lName" required>
 
-            <input placeholder="Email" type="text" name="email" required>
+            <input class = "reg" placeholder="Email" type="text" name="email" required>
 
             <div class="">
-                <span class="help-block"><?php echo $email_err; ?></span>
+                <span class = "reg" class="help-block"><?php echo $email_err; ?></span>
             </div>
 
-            <input placeholder="Phone Number" type="text" name="phone" required>
+            <input class = "reg" placeholder="Phone Number" type="text" name="phone" required>
 
-            <input placeholder="Username" type="text" name="username" required>
+            <input class = "reg" placeholder="Username" type="text" name="username" required>
 
-            <input placeholder="Password" type="text" name="password" required>
+            <input class = "reg" placeholder="Password" type="text" name="password" required>
 
-            <input placeholder="Retype Password" type="text" name="verifyPassword"  required>
+            <input class = "reg" placeholder="Retype Password" type="text" name="verifyPassword"  required>
 
             <div class="">
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
 
-                <select id="country" name="country">
+                <select class = "reg" id="country" name="country">
+                    <option value="United States of America" selected>United States of America</option>
                     <option value="Afganistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
                     <option value="Algeria">Algeria</option>
@@ -372,7 +373,6 @@ if (isset(($_POST['sub']))) {
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="Ukraine">Ukraine</option>
                     <option value="United Arab Erimates">United Arab Emirates</option>
-                    <option value="United States of America" selected>United States of America</option>
                     <option value="Uraguay">Uruguay</option>
                     <option value="Uzbekistan">Uzbekistan</option>
                     <option value="Vanuatu">Vanuatu</option>
