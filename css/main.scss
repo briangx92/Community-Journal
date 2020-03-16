@@ -40,12 +40,15 @@ input, select {
   border-radius: 3.5px;
   padding: 16px;
   background-color:#EBECF0;
-  text-shadow: 1px 1px 0 #FFF;
+  text-shadow: 1px 1px 0 #FFFF
+}
+input:hover {
+  color: blue;
+  box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
+}
 
-
-  &:focus {
-    box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
-  }
+input:focus {
+  box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
 }
 
 button {
@@ -62,16 +65,14 @@ button {
   padding: 16px;
   background-color:#EBECF0;
   text-shadow: 1px 1px 0 #FFF;
+}
+button:hover {
+  color: blue;
+  box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
+}
 
-  &:hover {
-    box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
-  }
-
-  &:active {
-    box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
-  }
-
-
+button:active {
+  box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
 }
 
 .input-group {
@@ -82,5 +83,13 @@ button {
   label {
     margin: 0;
     flex: 1;
+  }
+
+  .centerWrap {
+    text-align: center;
+  }
+
+  .center-button {
+    display: inline-block;
   }
 }
