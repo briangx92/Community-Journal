@@ -4,7 +4,7 @@ CREATE DATABASE community_journal;
 
 CREATE TABLE users
 (
-    user_id bigserial PRIMARY KEY,
+    user_id serial PRIMARY KEY,
     Fname varchar(50),
     Lname varchar(50),
     email varchar(50),
