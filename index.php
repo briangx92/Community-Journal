@@ -94,13 +94,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="css/main.scss" rel="stylesheet" type="text/css">
     <title>Community Journal</title>
 </head>
-    <h1>Welcome to Community Journal</h1>
-
-    <img src="Pictures/logo.png" alt="This is the logo of the company.">
+    <img class = "nav-part" src="Pictures/logo.png" alt="This is the logo of the company.">
+    <h1 class = "nav-part2" id = "h1-index"> Community Journal</h1>
     <div class="row">
       <div class="col-6">
         <div class="wrapper">
-            <h2>Login</h2>
+            <h2 class = "h2-login">Login</h2>
             <form class="login" method="post">
                 <div class="form-group">
                     <label>Email</label>
@@ -115,13 +114,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
             </form>
         </div>
-      </div>
-  <div class = "please">
+      
+  <div class = "reg-wrapper">
     <button class="registerBtn" onclick="window.location.href = 'http://localhost/Community-Journal/register.php';">Register</button>
   </div>
 
 </div>
-
+</div>
 <footer>
   <ul>
     <li>Phone: 717-555-5555</li>
