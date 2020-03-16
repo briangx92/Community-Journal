@@ -115,8 +115,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </form>
         </div>
       
-  <div class = "reg-wrapper">
-    <button class="registerBtn" onclick="window.location.href = 'http://localhost/Community-Journal/register.php';">Register</button>
+  <div class = "reg-wrapper" >
+    <button class="registerBtn"  onclick="window.location.href = 'http://localhost/Community-Journal/register.php';">Register</button>
   </div>
 
 </div>

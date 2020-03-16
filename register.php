@@ -106,8 +106,9 @@ if (isset(($_POST['sub']))) {
     <title></title>
   </head>
   <body>
-    <div class="">
-      <h1 id = "h1-reg">Register Community Journal</h1>
+    <a href="index.php" class = "backarrow"> ⇚</a>
+    <div>
+      <h1 id = "h1-reg">Register for Community Journal</h1>
 
     </div>
 
@@ -116,7 +117,7 @@ if (isset(($_POST['sub']))) {
       <div class="regform">
         <form method="post">
           <div class="segment">
-            <h1>Sign up</h1>
+            <h2 id = "h2-reg">Sign up</h2>
           </div>
             <input class = "reg" placeholder="First Name" class="tb" type="text" name="fName" required>
 

@@ -24,6 +24,22 @@ form, .registerBtn {
   margin: 0 auto;
 }
 
+.backarrow {
+  text-align: center;
+  font-size: 50pt;
+  position: absolute;
+  margin: 0;
+  color: #990011FF;
+  text-decoration: none;
+  padding-bottom: 15px;
+}
+
+.backarrow:hover {
+  color: #FCF6F5FF;
+  background-color: #990011FF;
+  border-radius: 50px;
+}
+
 #submit_login {
   background-color: #008900;
   color: #FCF6F5FF;
@@ -38,7 +54,7 @@ form, .registerBtn {
   float: right;
 }
 
-#h1-reg, #h1-index {
+#h1-reg, #h1-index, #h2-reg {
   text-align: center;
   color: #990011FF;
 }
