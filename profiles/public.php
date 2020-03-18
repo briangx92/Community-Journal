@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet" type="text/css">
-    <link rel="icon" href="Pictures/logo.png">
-    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Pictures/logo.png">
+    <link href="../css/main.scss" rel="stylesheet" type="text/css">
     <title>Public Page</title>
 </head>
     <body>
@@ -13,7 +13,7 @@
         <h1>Public Page</h1>
         
         <div class="logo">
-          <img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard.">
+          <img src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard.">
         </div>
 
         <ul>
