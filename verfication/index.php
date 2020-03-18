@@ -48,7 +48,7 @@ require '../include/login.php';
       </div>
 
 
-<footer>
+<footer class = 'login-footer'>
   <ul>
     <li>Phone: 717-555-5555</li>
     <br>
