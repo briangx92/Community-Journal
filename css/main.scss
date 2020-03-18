@@ -1,4 +1,3 @@
-
 body, html {
   background-color:#FCF6F5FF;
 }
@@ -9,99 +8,21 @@ body, p, input, select, textarea, button {
     font-size: 16px;
 }
 
-h2 {
-  text-align: center;
-  color: #990011FF;
-}
-
 div, p {
   color: #BABECC;
   text-shadow: 1px 1px 1px #FFF;
 }
 
+h2 {
+  text-align: center;
+  color: #990011FF;
+}
 
 form, .registerBtn {
   padding: 16px;
   width: 50%;
   margin: 0 auto;
 }
-
-label {
-  color: #990011FF;
-  display: block;
-  margin-bottom: 16px*1.5;
-  width: 100%;
-}
-
-input, select {
-  margin-top: 21px;
-  margin-right: 16px/2;
-  box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s ease-in-out;
-  border: 0;
-  outline: 0;
-  font-size: 16px;
-  border-radius: 4px;
-  padding: 16px;
-  background-color:#FCF6F5FF;
-  text-shadow: 1px 1px 0 #FFFF;
-}
-input:hover {
-  color: #990011FF;
-  box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
-}
-
-input:focus {
-  box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
-}
-
-button {
-  width: 75%;
-  text-align: center;
-  margin-top: 21px;
-  margin-right: 16px/2;
-  box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
-  box-sizing: border-box;
-  transition: all 0.2s ease-in-out;
-  border: 0;
-  outline: 0;
-  font-size: 16px;
-  border-radius: 4px ;
-  padding: 16px;
-  background-color:#EBECF0;
-  text-shadow: 1px 1px 0 #FFF;
-}
-button:hover {
-  color: #990011FF;
-  box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
-}
-
-button:active {
-  box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
-}
-
-.input-group {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-
-  label {
-    margin: 0;
-    flex: 1;
-  }
-
-  .centerWrap {
-    text-align: center;
-  }
-
-  .center-button {
-    display: inline-block;
-  }
-}
-// arrow
 
 .backarrow {
   text-align: center;
@@ -123,7 +44,7 @@ button:active {
   background-color: #008900;
   color: #FCF6F5FF;
 }
-
+ 
 .nav-part {
   float: left;
   height: 100px;
@@ -133,9 +54,14 @@ button:active {
   float: right;
 }
 
-#h1-reg, #h1-index, #h2-reg {
+#h1-reg, #h2-reg {
   text-align: center;
   color: #990011FF;
+}
+
+#h1-index {
+  color: #990011FF;
+  float: right;
 }
 
 .reg-wrapper {
@@ -146,8 +72,74 @@ button:active {
   box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
 }
 
+label {
+  display: block;
+  margin-bottom: 16px*1.5;
+  width: 100%;
+  color: #990011FF;
+}
+
+input, select {
+  margin-top: 21px;
+  margin-right: 16px/2;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  border-radius: 3.5px;
+  padding: 16px;
+  background-color:#FCF6F5FF;
+
+
+  &:focus {
+    box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+  }
+}
+
+button {
+  text-align: center;
+  margin-top: 21px;
+  margin-right: 16px/2;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  border-radius: 16px*20;
+  padding: 16px;
+  background-color:#990011FF;
+  color: #FCF6F5FF;
+
+  &:hover {
+    box-shadow: -2px -2px 5px #FFF, 2px 2px 5px #BABECC;
+  }
+
+  &:active {
+    box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+  }
+
+
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  label {
+    margin: 0;
+    flex: 1;
+  }
+}
+
 .row {
   padding-top: 150px;
+}
+
+#regsub {
+  width: 75%;
 }
 
 footer {

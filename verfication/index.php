@@ -8,9 +8,8 @@ require '../include/login.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="../css/main.scss" rel="stylesheet" type="text/css">
     <link rel="icon" href="Pictures/logo.png">
-    <link href="../css/style.scss" rel="stylesheet" type="text/css">
     <title>Community Journal</title>
 </head>
 
