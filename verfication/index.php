@@ -9,7 +9,7 @@ require '../include/login.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/main.scss" rel="stylesheet" type="text/css">
-    <link rel="icon" href="Pictures/logo.png">
+    <link rel="icon" href="../Pictures/logo.png">
     <title>Community Journal</title>
 </head>
 

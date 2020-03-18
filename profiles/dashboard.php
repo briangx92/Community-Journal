@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style.css" rel="stylesheet" type="text/css">
-    <link rel="icon" href="Pictures/logo.png">
-    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Pictures/logo.png">
+    <link href="../css/main.scss" rel="stylesheet" type="text/css">
 </head>
 <header>
     <nav>
         <ul>
-            <li><a href="dashboard.php"><img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a></li>
+            <li><a href="dashboard.php"><img src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a></li>
             <li><a href="messages.php">Messages</a></li>
             <li><a href="personal.php">Personal</a></li>
             <li><a href="public.php">Public</a></li>

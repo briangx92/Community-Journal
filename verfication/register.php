@@ -7,7 +7,8 @@ require '../include/sign-up.php';
   <head>
     <link href="../css/main.scss" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
-    <title></title>
+    <link rel="icon" href="../Pictures/logo.png">
+    <title>Register</title>
   </head>
   <body>
 
