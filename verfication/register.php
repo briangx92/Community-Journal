@@ -5,26 +5,26 @@ require '../include/sign-up.php';
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="../css/main.scss">
+    <link rel="stylesheet" href="../css/style.scss">
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
 
-    <div class="">
-      <h1>Community Journal Register Page</h1>
-    </div>
+    <a href="index.php" class="backarrow"> ⇚</a>
+    <div>
+      <h1 id ="h1-reg">Register for Community Journal</h1>
 
       <div class="regform">
         <form method="post">
           <div class="segment">
-            <h1>Sign up</h1>
+            <h2 id = "h2-reg">Sign up</h2>
           </div>
             <div class="form-group">
               <div class="name-group">
-                <input placeholder="First Name" class="tb" type="text" name="fName" required>
-                <input placeholder="Last Name" type="text" name="lName" required>
-                <input placeholder="Username" type="text" name="username" required>
+                <input class = "reg" placeholder="First Name" class="tb" type="text" name="fName" required>
+                <input class = "reg" placeholder="Last Name" type="text" name="lName" required>
+                <input class = "reg" placeholder="Username" type="text" name="username" required>
                 <span class="help-block"><?php echo $username_err; ?></span>
               </div>
 
@@ -38,20 +38,21 @@ require '../include/sign-up.php';
               </div>
 
               <div class="email-group">
-                <input placeholder="Email" type="text" name="email" required>
+                <input class = "reg" placeholder="Email" type="text" name="email" required>
                 <div class="">
-                    <span class="help-block"><?php echo $email_err; ?></span>
+                    <span class = "reg" class="help-block"><?php echo $email_err; ?></span>
                 </div>
               </div>
-              <input placeholder="Phone Number" type="text" name="phone" required>
+               <input class = "reg" placeholder="Phone Number" type="text" name="phone" required>
 
               <div class="pass-group">
-                <input placeholder="Password" type="text" name="password" required>
+                <input class = "reg" placeholder="Password" type="text" name="password" required>
                 <span class="help-block"><?php echo $password_err; ?></span>
-                <input placeholder="Retype Password" type="text" name="verifyPassword"  required>
+                <input class = "reg" placeholder="Retype Password" type="text" name="verifyPassword"  required>
               </div>
 
-                  <select id="country" name="country">
+              <select class = "reg" id="country" name="country">
+                      <option value="United States of America" selected>United States of America</option>
                       <option value="Afganistan">Afghanistan</option>
                       <option value="Albania">Albania</option>
                       <option value="Algeria">Algeria</option>
@@ -283,7 +284,6 @@ require '../include/sign-up.php';
                       <option value="United Kingdom">United Kingdom</option>
                       <option value="Ukraine">Ukraine</option>
                       <option value="United Arab Erimates">United Arab Emirates</option>
-                      <option value="United States of America" selected>United States of America</option>
                       <option value="Uraguay">Uruguay</option>
                       <option value="Uzbekistan">Uzbekistan</option>
                       <option value="Vanuatu">Vanuatu</option>
@@ -300,11 +300,11 @@ require '../include/sign-up.php';
                       <option value="Zimbabwe">Zimbabwe</option>
                   </select>
 
-                    <div class="regsub">
-                  <button id="regsub" type="submit" name="sub">Submit</button>
+                <div class="centerWrap" style="text-align: center">
+                  <div class="center">
+                      <button id="regsub" type="submit" name="sub">Submit</button>
+                  </div>
                 </div>
-                <div id="ins_patient" class="regsub" style="display: none;">
-                <button type="submit" name="patient_sub">Submit</button>
               </div>
             </div>
         </form>

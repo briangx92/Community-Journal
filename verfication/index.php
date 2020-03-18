@@ -10,19 +10,24 @@ require '../include/login.php';
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="Pictures/logo.png">
-    <link href="../css/main.scss" rel="stylesheet" type="text/css">
+    <link href="../css/style.scss" rel="stylesheet" type="text/css">
     <title>Community Journal</title>
 </head>
 
-    <h1>Welcome to Community Journal</h1>
 
-  <img src="../Pictures/logo.png" alt="This is the logo of the company.">
+
+  <div class="header">
+      <img src="../Pictures/logo.png" alt="This is the logo of the company.">
+      <h1 id = "h1-index"> Community Journal</h1>
+  </div>
+
+
       <div class="wrapper">
-          <h2>Login</h2>
+        <h2 class="h2-login">Login</h2>
           <form class="login" method="post">
               <div class="form-group">
                   <label>Email</label>
-                  <input id="email_login  " type="text" name="email" class="form-control">
+                  <input id="email_login" type="text" name="email" class="form-control">
                   <span class="help-block"><?php echo $email_err; ?></span>
               </div>
               <div class="form-group ">
@@ -34,12 +39,15 @@ require '../include/login.php';
                   <input id="submit_login" type="submit"value="Login">
               </div>
         </form>
-  <div >
-    <button class="registerBtn" onclick="window.location.href = 'http://localhost/Community-Journal/verfication/register.php';">Register</button>
-  </div>
 
+        <div class="centerWrap" style="text-align: center">
+          <div class="center">
+              <button class="registerBtn"  onclick="window.location.href = 'http://localhost/Community-Journal/verfication/register.php';">Register</button>
+          </div>
+        </div>
 
-</div>
+      </div>
+
 
 <footer>
   <ul>
