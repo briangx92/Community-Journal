@@ -70,14 +70,10 @@
 </body>
 <hr>
 <!-- Footer -->
-<footer>
-  <ul>
+<footer class = 'login-footer'>  <ul>
     <li>Phone: 717-555-5555</li>
-    <br>
     <li>Email: CommunityJournal@gmail.com</li>
-    <br>
     <li>Fax: 171-123-4567</li>
-    <br>
   </ul>
 </footer>
 
