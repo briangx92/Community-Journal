@@ -9,24 +9,20 @@
     <title>Public Page</title>
 </head>
     <body>
-
-        <h1>Public Page</h1>
-        
-        <div class="logo">
-          <img src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard.">
-        </div>
-
-        <ul>
-            <li><a href="personal.php">Personal</a></li>
-            <li><a href="messages.php">Messages</a></li>
-            <li><input type="text" name="search" placeholder="Search"></li>
-            <li><a href="profile.php">Profile</a></li>
-            <li>
-                <form action="" class = "logout">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
-                </form>
-            </li>
-        </ul>
+        <header>
+            <nav>
+                <ul>
+                    <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>  
+                    <li><a href="personal.php">Personal</a></li>
+                    <li><a href="../messages.php">Messages</a></li>
+                    <li><a href="profile.php">Profile</a></li>
+                    <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
+                    <form action="" class = "logout-nav">
+                        <button type="submit" class="btn" name = "logout">Logout</button>
+                    </form>
+                </ul>
+            </nav>
+        </header>
 
         <h2>Create a Post</h2>
 

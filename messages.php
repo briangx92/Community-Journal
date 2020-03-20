@@ -5,28 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="style.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="Pictures/logo.png">
-    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link href="css/main.scss" rel="stylesheet" type="text/css">
     <title>Public Page</title>
 </head>
     <body>
-        <h1>Messaging Page</h1>
-
-        <div class="logo">
-          <img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard.">
-        </div>
-
-        <ul>
-            <li><a href="public.php">Public</a></li>
-            <li><a href="personal.php">Personal</a></li>
-            <li><input type="text" name="search" placeholder="Search"></li>
-            <li><a href="profile.php">Profile</a></li>
-            <li>
-                <form action="" class = "logout">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
-                </form>
-            </li>
-        </ul>
-
+        <header>
+            <nav>
+                <ul>
+                    <a href="profiles/dashboard.php"><img class = "img-link" src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                    <li><a href="profiles/public.php">Public</a></li>
+                    <li><a href="profiles/personal.php">Personal</a></li>
+                    <li><a href="profiles/profile.php">Profile</a></li>
+                    <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
+                    <form action="" class = "logout-nav">
+                        <button type="submit" class="btn" name = "logout">Logout</button>
+                    </form>
+                    </ul>
+                </nav>
+            </header>
         <table>
             <tr>
                 <th>Online</th>

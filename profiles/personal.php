@@ -12,16 +12,14 @@
 <header>
     <nav>
         <ul>
-            <li><a href="dashboard.php"><img src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a></li>            
+            <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>            
             <li><a href="profile.php">Profile</a></li>
-            <li><a href="messages.php">Messages</a></li>
-            <li><input type="text" name="search" placeholder="Search"></li>
+            <li><a href="../messages.php">Messages</a></li>
             <li><a href="public.php">Public</a></li>
-            <li>
-                <form action="" class = "logout">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
-                </form>
-            </li>
+            <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
+            <form action="" class = "logout-nav">
+                <button type="submit" class="btn" name = "logout">Logout</button>
+            </form>
         </ul>
     </nav>
 </header>
@@ -73,8 +71,14 @@
 <hr>
 <!-- Footer -->
 <footer>
-    <p>Community Journal</p>
-    <p>Contact Us: communityjournal@support.com</p>
+  <ul>
+    <li>Phone: 717-555-5555</li>
+    <br>
+    <li>Email: CommunityJournal@gmail.com</li>
+    <br>
+    <li>Fax: 171-123-4567</li>
+    <br>
+  </ul>
 </footer>
 
 </html>
