@@ -221,7 +221,12 @@ footer {
   width: 33%;
 }
 
-.dash-body {
+.dash-body, .per-body {
   margin-left: 12.5%;
   margin-right: 12.5%;
+}
+
+.per-left, .per-right {
+  float: left;
+  width: 49.5%;
 }
