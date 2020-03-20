@@ -8,6 +8,7 @@
     <link rel="icon" href="../Pictures/logo.png">
     <link href="../css/main.scss" rel="stylesheet" type="text/css">
 </head>
+<body>
 <header>
     <nav>
         <ul>
@@ -24,15 +25,14 @@
     </nav>
     <hr>
 </header>
-
-<body>
-    <article>
+<section class = "dash-body">
+    <article class = "dash-left">
         <ul>
             <li>recent list 1</li>
             <li>recent list 2</li>
         </ul>
     </article>
-    <section name="blog feed">
+    <section class = "dash-middle" name="blog feed">
         <article name="blog1">
             <!-- <img src="yourphotos/#" name="picture" alt="blog_pic"> -->
             <p>Blog Title</p>
@@ -50,21 +50,17 @@
         </article>
 
     </section>
-    <article name="search">
+    <article  class = "dash-right" name="search">
         <form action="dashboard.php">
             <input type="text" name="search" placeholder="Filter/Search">
             <button type="submit">Search</button>
         </form>
     </article>
-    <article name="comment_box">
-        <p>comments</p>
-
-    </article>
+</section>
 
 
 
 </body>
-<hr>
 <!-- Footer -->
 <footer class = 'login-footer'>  <ul>
     <li>Phone: 717-555-5555</li>

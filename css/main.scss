@@ -215,3 +215,13 @@ footer ul li {
 footer {
   background-color: #990011FF;
 }
+
+.dash-left, .dash-middle, .dash-right {
+  float: left;
+  width: 33%;
+}
+
+.dash-body {
+  margin-left: 12.5%;
+  margin-right: 12.5%;
+}
