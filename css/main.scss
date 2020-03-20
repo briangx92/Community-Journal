@@ -1,3 +1,8 @@
+body {
+  min-height: 100%;
+  padding-bottom:120px;
+}
+
 body, html {
   background-color:#FCF6F5FF;
 }
@@ -142,25 +147,6 @@ button {
   width: 75%;
 }
 
-.login-footer {
-  background-color: #990011FF;
-  margin-top: 100px;
-  bottom: 0;
-  position: absolute;
-  width: 99%;
-}
-
-footer ul li {
-  color: #FCF6F5FF;
-  list-style: none;
-  text-align: right;
-  margin-right: 50px;
-}
-
-footer {
-  background-color: #990011FF;
-}
-
 header nav ul a {
   float: left;
 }
@@ -207,4 +193,25 @@ li a:hover:not(.on) {
 .img-link {
   height: 100px;
   width: 100px;
+}
+
+.login-footer {
+  background-color: #990011FF;
+  bottom: 0;
+  position: fixed;
+  width: 99%; 
+  height: 120px;
+;}
+
+footer ul li {
+  color: #FCF6F5FF;
+  list-style: none;
+  padding-top: 50px;
+  padding-right: 50px;
+  font-size: 20px;
+  float: right; 
+}
+
+footer {
+  background-color: #990011FF;
 }

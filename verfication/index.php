@@ -50,12 +50,9 @@ require '../include/login.php';
 
 <footer class = 'login-footer'>
   <ul>
-    <li>Phone: 717-555-5555</li>
-    <br>
+    <li>Phone: 717-555-5555 </li>
     <li>Email: CommunityJournal@gmail.com</li>
-    <br>
     <li>Fax: 171-123-4567</li>
-    <br>
   </ul>
 </footer>
 
