@@ -20,7 +20,7 @@ CREATE TABLE users
 
 CREATE TABLE friends
 (
-    user_id bigserial,
+    user_id serial,
     username varchar(255),
     online boolean,
     friend_request boolean,
@@ -30,23 +30,23 @@ CREATE TABLE friends
 
 CREATE TABLE messages
 (
-    message_id bigserial PRIMARY KEY,
-    sender_id bigserial,
-    group_id bigserial,
+    message_id serial PRIMARY KEY,
+    sender_id serial,
+    group_id serial,
     content varchar(255)
 );
 
 CREATE TABLE group
 (
-    group_id bigserial FOREIGN KEY (group_id) REFERENCES messages(group_id)
+    group_id serial FOREIGN KEY (group_id) REFERENCES messages(group_id)
 );
 
 
 CREATE TABLE junction_table
 (
-    user_id bigserial,
-    group_id bigserial,
-    message_id bigserial,
+    user_id serial,
+    group_id serial,
+    message_id serial,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (group_id) REFERENCES messages(group_id),
     FOREIGN KEY (message_id) REFERENCES messages(message_id)
@@ -57,13 +57,13 @@ CREATE TABLE blogfeed
     title varchar(255),
     blogpic LONGBLOB,
     Dates timestamp,
-    blog_id bigserial PRIMARY KEY,
+    blog_id serial PRIMARY KEY,
     commment varchar(255)
 );
 
 CREATE TABLE personal
 (
-  personal_id bigserial PRIMARY KEY,
+  personal_id serial PRIMARY KEY,
   saved_drafts varchar(255),
   list varchar(255),
 );

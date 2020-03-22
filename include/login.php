@@ -3,11 +3,14 @@ $email_err = $password_err = "";
 
 
 
+
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    session_start();
+    session_destroy();
     // Check if username is empty
     if (empty(trim(@$_POST["email"]))) {
+
         $email_err = "Please enter username.";
     } else {
         $email = trim($_POST["email"]);
@@ -50,9 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $user_id;
-                            // maybe?
-                            // $_SESSION['approved'] = $approved;
-                            header("location: http://localhost/Community-Journal/profiles/dashboard.php");
+                            if ($_SESSION["loggedin" == false]) {
+                                header("location: http://localhost/Community-Journal/verification/index.php");
+                                session_destroy();
+                            } else {
+                                header("location: http://localhost/Community-Journal/profiles/dashboard.php");
+                            }
                         } else {
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
@@ -60,9 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 } else {
                     // Display an error message if username doesn't exist
+                    $_SESSION["loggedin"] = false;
                     $username_err = "No account found with that email.";
                 }
             } else {
+                $_SESSION["loggedin"] = false;
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
