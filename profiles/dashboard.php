@@ -1,7 +1,17 @@
+<?php
+include '../db/db.php';
+require '../include/login.php';
+session_start();
+print_r($_SESSION);
+if ($_SESSION["loggedin"] == false) {
+    header("location: http://localhost/Community-Journal/verification/index.php");
+    session_destroy();
+}
+?>
 <html>
 
 <head>
-    <title></title>
+    <title>Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style.css" rel="stylesheet" type="text/css">
@@ -20,9 +30,8 @@
             <li><input type="text" name="search" placeholder="Search"></li>
             <li><a href="../profiles/profile.php">Profile</a></li>
             <li>
-                <form action="dashboard.php" class="logout">
-                    <button type="submit" class="btn" name="logout">Logout</button>
-                </form>
+                <input type="button"
+                    onclick="location.href='http://localhost/Community-Journal/verification/index.php';" value="Logout">
             </li>
         </ul>
     </nav>
