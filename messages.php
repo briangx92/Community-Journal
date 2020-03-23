@@ -11,8 +11,7 @@
 </head>
 
 <body>
-
-    <h1>Public Page</h1>
+    <h1>Messaging Page</h1>
 
     <div class="logo">
         <img src="../Pictures/logo.png"
@@ -20,8 +19,8 @@
     </div>
 
     <ul>
+        <li><a href="../profiles/public.php">Public</a></li>
         <li><a href="../profiles/personal.php">Personal</a></li>
-        <li><a href="../messages.php">Messages</a></li>
         <li><input type="text" name="search" placeholder="Search"></li>
         <li><a href="../profiles/profile.php">Profile</a></li>
         <li>
@@ -31,16 +30,60 @@
         </li>
     </ul>
 
-    <h2>Create a Post</h2>
+    <table>
+        <tr>
+            <th>Online</th>
+            <th>Friends</th>
+        </tr>
+        <tr>
+            <td>Brian</td>
+        </tr>
+        <tr>
+            <td>Dom</td>
+        </tr>
+        <tr>
+            <td>So on...</td>
+        </tr>
+    </table>
 
-    <input type="text" placeholder="Title">
-    <input type="blob" placeholder="Picture">
-    <button>Attach</button>
-    <textarea name="This is your Post Area" cols="200" rows="30"></textarea>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
-    <input type="text" name="searchblogs" placeholder="Search Blogs">
+    <h2>Messages</h2>
 
-    <input type="submit" value="Post">
+    <form action="">
+        <input type="text" placeholder="Type a Message">
+        <input type="submit" value=Send>
+    </form>
+
+
+    <table>
+        <tr>
+            <th>Inbox</th>
+        </tr>
+        <tr>
+            <td>Brian</td>
+            <td><img src="" alt=""></td>
+            <td><textarea name="" id="" cols="10" rows="3"></textarea></td>
+        </tr>
+        <tr>
+            <td>Dom</td>
+            <td><img src="" alt=""></td>
+            <td><textarea name="" id="" cols="10" rows="3"></textarea></td>
+        </tr>
+        <tr>
+            <td>So on...</td>
+            <td><img src="" alt=""></td>
+            <td><textarea name="" id="" cols="10" rows="3"></textarea></td>
+        </tr>
+    </table>
+
 
     <footer>
         <ul>

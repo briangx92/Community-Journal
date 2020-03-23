@@ -5,33 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style.css" rel="stylesheet">
-    <link rel="icon" href="Pictures/logo.png" >
+    <link rel="icon" href="../Pictures/logo.png">
     <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
-    <header>
-        <!-- Header Nav -->
-        <nav>
-            <ul>
-                <li><a href="dashboard.php"><img src="Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a></li>
-                <li><a href="messages.php">Messages</a></li>
-                <li><a href="personal.php">Personal</a></li>
-                <li><input type="text" name="search" placeholder="Search"></li>
-                <li><a href="public.php">Public</a></li>
-                <li>
-                    <form action="" class = "logout">
-                        <button type="submit" class="btn" name = "logout">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <hr>
+<header>
+    <!-- Header Nav -->
+    <nav>
+        <ul>
+            <li><a href="../profiles/dashboard.php"><img src="../Pictures/logo.png"
+                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+            </li>
+            <li><a href="../messages.php">Messages</a></li>
+            <li><a href="../profiles/personal.php">Personal</a></li>
+            <li><input type="text" name="search" placeholder="Search"></li>
+            <li><a href="../profiles/public.php">Public</a></li>
+            <li>
+                <form action="dashboard.php" class="logout">
+                    <button type="submit" class="btn" name="logout">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+<hr>
 
 <body>
     <section>
         <!-- Profile pic -->
         <article>
-            <img src="Pictures/logo.png" alt="profilepic" name="profilepic" id="profilepic">
+            <img src="../yourphotos/profilepic.jpg" alt="profilepic" name="profilepic" id="profilepic">
         </article>
         <article>
             <p>Name</p>
