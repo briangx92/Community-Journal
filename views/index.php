@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/style.scss">
+	<link rel="stylesheet" type="text/css" href="../css/main.scss">
 </head>
 <body>
 
@@ -47,15 +47,11 @@
 
 
 
-<footer>
-    <ul>
-        <li>Phone: 717-555-5555</li>
-        <br>
-        <li>Email: CommunityJournal@gmail.com</li>
-        <br>
-        <li>Fax: 171-123-4567</li>
-        <br>
-    </ul>
+<footer class = 'login-footer'>  <ul>
+    <li>Phone: 717-555-5555</li>
+    <li>Email: CommunityJournal@gmail.com</li>
+    <li>Fax: 171-123-4567</li>
+  </ul>
 </footer>
 
 </body>
