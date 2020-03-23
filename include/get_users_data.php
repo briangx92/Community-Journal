@@ -21,7 +21,7 @@ $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 
 		</div>
 		<div class='chat-left-detail'>
-			<p><a href='../verification/messages.php?user_name=$user_name'>$user_name</a></p>";
+			<p><a href='../views/messages.php?user_name=$user_name'>$user_name</a></p>";
 			if($login == 'Online'){
 			echo "<span><i class='fa fa-circle' aria-hidden='true'></i> Online</span>";
 			}else{

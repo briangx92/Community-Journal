@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 session_start();
-include("find_friends_function.php");
+include("../include/find_friends_function.php");
 
 ?>
 <html>
@@ -20,6 +20,10 @@ include("find_friends_function.php");
 
   <!-- Brand/logo -->
   <a class="navbar-brand" href="#">
+    <div class="">
+        <img src="/Applications/XAMPP/xamppfiles/htdocs/Community-Journal/Pictures/logo.png" alt="">
+    </div>
+
     <?php
       $user = $_SESSION['email'];
       $get_user = "SELECT * from users where email='$user'";
@@ -27,7 +31,7 @@ include("find_friends_function.php");
       $row=mysqli_fetch_array($run_user);
 
       $user_name = $row['username'];
-      echo"<a class='navbar-brand' href='../home.php?user_name=$user_name'>MyChat</a>";
+      echo"<a class='navbar-brand' href='messages.php?user_name=$user_name'>MyChat</a>";
     ?>
   </a>
   <!-- Links -->
