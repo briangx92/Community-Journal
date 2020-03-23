@@ -12,11 +12,11 @@ $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 		global $conn;
 
 		if(isset($_GET['search_btn'])){
-		$search_query = htmlentities($_GET['search_query']);
-		$get_user = "SELECT * from users where username like '%$search_query%' or country like '%$search_query%'";
+			$search_query = htmlentities($_GET['search_query']);
+			$get_user = "SELECT * from users where username like '%$search_query%' or country like '%$search_query%'";
 		}
 		else{
-		$get_user = "SELECT * from users ORDER BY country, username DESC LIMIT 15";
+			$get_user = "SELECT * from users ORDER BY country, username DESC LIMIT 15";
 		}
 
 		$run_user = mysqli_query($conn,$get_user);
@@ -41,7 +41,7 @@ $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 			";
 
 		if(isset($_POST['add'])){
-			echo "<script>window.open('../verification/messages.php?user_name=$user_name','_self')</script>";
+			echo "<script>window.open('../views/messages.php?user_name=$user_name','_self')</script>";
 		}
 	}
 

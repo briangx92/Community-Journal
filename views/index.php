@@ -30,11 +30,11 @@
 		</div>
 		<div class="form-group">
 			<label>Email</label>
-        	<input type="text" class="form-control" placeholder="someone@site.com" name="email" autocomplete="off" required="required">
+        	<input type="text" class="form-control" placeholder="someone@site.com" name="email" autocomplete="off" required>
         </div>
         <div class="form-group">
 			<label>Password</label>
-            <input type="password" class="form-control" placeholder="Password" name="pass" autocomplete="off" required="required">
+            <input type="password" class="form-control" placeholder="Password" name="pass" autocomplete="off" required>
         </div>
         <div class="small">Forgot password? <a href="forgot_pass.php">Click Here</a></div><br>
 		<div class="form-group">
