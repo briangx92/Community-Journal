@@ -65,9 +65,9 @@ else{ ?>
 						$run_messages = mysqli_query($conn,$total_messages);
 						$total = mysqli_num_rows($run_messages);
 					?>
+
 					<div class="col-md-12 right-header">
 						<div class="right-header-img">
-
 						</div>
 						<div class="right-header-detail">
 							<form method="post">
@@ -135,10 +135,9 @@ else{ ?>
 						?>
 						</ul>
 						<?php
-
 						}
-
 						?>
+
 					</div>
 				</div>
 				<div class="row">
