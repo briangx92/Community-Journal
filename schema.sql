@@ -14,7 +14,8 @@ CREATE TABLE users
     country varchar(100),
     profile_pic LONGBLOB,
     headline varchar(75),
-    bio varchar(200)
+    bio varchar(200),
+    gender varchar(250),
 );
 
 
