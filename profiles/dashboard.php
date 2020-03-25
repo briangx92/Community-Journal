@@ -4,7 +4,7 @@ require '../include/login.php';
 session_start();
 print_r($_SESSION);
 if ($_SESSION["loggedin"] == false) {
-    header("location: http://localhost/Community-Journal/verification/index.php");
+    header("location: http://localhost/Community-Journal/views/index.php");
     session_destroy();
 }
 ?>
@@ -21,8 +21,7 @@ if ($_SESSION["loggedin"] == false) {
 <header>
     <nav>
         <ul>
-            <li><a href="../profiles/dashboard.php"><img src="../Pictures/logo.png"
-                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+            <li><a href="../profiles/dashboard.php"><img src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
             </li>
             <li><a href="../messages.php">Messages</a></li>
             <li><a href="../profiles/personal.php">Personal</a></li>
@@ -30,8 +29,7 @@ if ($_SESSION["loggedin"] == false) {
             <li><input type="text" name="search" placeholder="Search"></li>
             <li><a href="../profiles/profile.php">Profile</a></li>
             <li>
-                <input type="button"
-                    onclick="location.href='http://localhost/Community-Journal/verification/index.php';" value="Logout">
+                <input type="button" onclick="location.href='http://localhost/Community-Journal/views/index.php';" value="Logout">
             </li>
         </ul>
     </nav>
