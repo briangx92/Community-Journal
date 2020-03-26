@@ -4,8 +4,9 @@ CREATE TABLE blogfeed (
   title varchar(255) DEFAULT NULL,
   blogpic longblob,
   Dates timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  blog_id bigint(20) UNSIGNED NOT NULL,
-  commment varchar(255) DEFAULT NULL
+  blog_id serial,
+  commment varchar(255) DEFAULT NULL,
+  content text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE friends (
@@ -110,9 +111,6 @@ ALTER TABLE users
 ALTER TABLE users_chat
   ADD PRIMARY KEY (msg_id);
 
-
-ALTER TABLE blogfeed
-  MODIFY blog_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE friends
   MODIFY user_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;

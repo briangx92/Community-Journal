@@ -1,12 +1,9 @@
 <?php
 include '../db/db.php';
 require '../include/login.php';
-session_start();
-print_r($_SESSION);
-if ($_SESSION["loggedin"] == false) {
-    header("location: http://localhost/Community-Journal/views/index.php");
-    session_destroy();
-}
+
+$email = $_SESSION['email'];
+echo $email;
 ?>
 <html>
 
@@ -21,7 +18,8 @@ if ($_SESSION["loggedin"] == false) {
 <header>
     <nav>
         <ul>
-            <li><a href="../profiles/dashboard.php"><img src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+            <li><a href="../profiles/dashboard.php"><img src="../Pictures/logo.png"
+                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
             </li>
             <li><a href="../messages.php">Messages</a></li>
             <li><a href="../profiles/personal.php">Personal</a></li>
@@ -29,7 +27,8 @@ if ($_SESSION["loggedin"] == false) {
             <li><input type="text" name="search" placeholder="Search"></li>
             <li><a href="../profiles/profile.php">Profile</a></li>
             <li>
-                <input type="button" onclick="location.href='http://localhost/Community-Journal/views/index.php';" value="Logout">
+                <input type="button" onclick="location.href='http://localhost/Community-Journal/views/index.php';"
+                    value="Logout">
             </li>
         </ul>
     </nav>
@@ -43,22 +42,58 @@ if ($_SESSION["loggedin"] == false) {
             <li>recent list 2</li>
         </ul>
     </article>
+    <form action="dashboard.php" method="POST">
+        <label for="blogtitle">Blog Title:</label>
+        <input type="text" name="blogtitle">
+        <p></p>
+        <!-- insert bloggers name based from their userid -->
+        <input type="text" name="bloggername">
+        <p name="date">Date</p>
+        <label for="img">Select image</label>
+        <input type="file" name="img" id="img" accept="image/*">
+        <input type="text" name="blogcontent">
+        <button type="submit" name="blog_submit" onclick="location.href='dashboard.php'">Post</button>
+    </form>
+
     <section name="blog feed">
+        <!-- First blog feed should be recent post from logged in user -->
         <article name="blog1">
-            <!-- <img src="yourphotos/#" name="picture" alt="blog_pic"> -->
-            <p>Blog Title</p>
-            <p>Blogger Name</p>
-            <p>Date</p>
-            <p>blog stuff here</p>
+            <?php
+            $email = $_SESSION['email'];
+            $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.commment, b.content, u.Fname, u.Lname FROM blogfeed AS b LEFT JOIN users AS u ON b.blog_id = u.user_id WHERE u.email = '" . $email . "';";
+
+            $run_query = mysqli_query($conn, $blog_query);
+            $row = mysqli_num_rows($run_query);
+
+            if ($row > 0) {
+                while ($tables = mysqli_fetch_assoc($run_query)) {
+                    echo '<p>' . $tables['title'] . '</p>';
+                    echo '<p>' . $tables['Fname'] . ' ' . $tables['Lname'] . '</p>';
+                    echo '<p>' . $tables['Dates'] . '</p>';
+                    echo '<p>' . $tables['content'] . '</p>';
+                    // echo '<img src="' . $tables['blogpic'] . '">';
+                }
+            }
+
+
+            // Grab all these from blog_feed and user_id.
+            // Might have to create a join table to grab all these
+
+
+            ?>
+
         </article>
         <hr>
-        <article name="blog2">
-            <!-- <img src="yourphotos/#" name="picture" alt="blog_pic"> -->
+        <!-- All other blogs come from friends latest 2 post sorted by date from recent to oldest -->
+        <?php
+        echo "<article name='blog2'>
             <p>Blog Title</p>
             <p>Blogger Name</p>
             <p>Date</p>
             <p>blog stuff here</p>
-        </article>
+            <img src='yourphotos/#' alt='blog picture' name='make the name be userid+increment by 1'>
+        </article>"
+        ?>
 
     </section>
     <article name="search">
