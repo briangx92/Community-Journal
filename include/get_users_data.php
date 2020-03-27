@@ -5,7 +5,7 @@ $dbPassword = "";
 $dbName = "community-journal";
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-	$user = "select * from users";
+	$user = "SELECT * FROM users";
 
 	$run_user = mysqli_query($conn,$user);
 
