@@ -1,7 +1,44 @@
 DROP TABLE IF EXISTS users, friends, messages, group, junction_table, blogfeed, personal;
 
-CREATE DATABASE community_journal;
+CREATE DATABASE community-journal;
 
+CREATE TABLE `users` (
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `Fname` varchar(50) DEFAULT NULL,
+  `Lname` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `profile_pic` longblob DEFAULT NULL,
+  `headline` varchar(75) DEFAULT NULL,
+  `bio` varchar(200) DEFAULT NULL,
+  `gender` varchar(250) DEFAULT NULL,
+  `log_in` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `users_chat` (
+  `msg_id` int(11) NOT NULL,
+  `sender_username` varchar(255) NOT NULL,
+  `reciever_username` varchar(255) NOT NULL,
+  `msg_content` varchar(255) NOT NULL,
+  `msg_status` text NOT NULL,
+  `msg_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `users_chat`
+--
+ALTER TABLE `users_chat`
+  ADD PRIMARY KEY (`msg_id`);
+
+<<<<<<< HEAD
 CREATE TABLE users
 (
     user_id serial PRIMARY KEY,
@@ -17,7 +54,19 @@ CREATE TABLE users
     bio varchar(200),
     gender varchar(250),
 );
+=======
+>>>>>>> merge-messages
 
+  ALTER TABLE `users`
+    MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+  --
+  -- AUTO_INCREMENT for table `users_chat`
+  --
+  ALTER TABLE `users_chat`
+    MODIFY `msg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+
+    
 
 CREATE TABLE friends
 (
@@ -28,14 +77,6 @@ CREATE TABLE friends
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-
-CREATE TABLE messages
-(
-    message_id serial PRIMARY KEY,
-    sender_id serial,
-    group_id serial,
-    content varchar(255)
-);
 
 CREATE TABLE group
 (
