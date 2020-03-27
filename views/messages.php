@@ -9,6 +9,13 @@ if(!isset($_SESSION['email'])){
 	header("location: index.php");
 
 }
+
+if(isset($_POST['logout'])) {
+	$update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+    session_destroy();
+	header("location: ../");
+}
+
 else{ ?>
 
 <html>
@@ -82,17 +89,8 @@ else{ ?>
 							<form method="post">
 								<p><?php echo"$username";?></p>
 								<span><?php echo $total; ?> messages</span>
-								<button name="logout" class="btn btn-danger">Logout</button>
+								<button type = "submit" name="logout" class="btn btn-danger">Logout</button>
 							</form>
-
-							<?php
-								if(isset($_POST['logout'])){
-									$update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username='$user_name'");
-									session_destroy();
-									header("location:logout.php");
-									exit();
-								}
-							?>
 						</div>
 					</div>
 				</div>

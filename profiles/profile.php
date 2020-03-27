@@ -5,29 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style.css" rel="stylesheet">
-    <link rel="icon" href="../Pictures/logo.png">
-    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="../Pictures/logo.png" >
+    <link href="../css/main.scss" rel="stylesheet" type="text/css">
 </head>
-<header>
-    <!-- Header Nav -->
-    <nav>
-        <ul>
-            <li><a href="../profiles/dashboard.php"><img src="../Pictures/logo.png"
-                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-            </li>
-            <li><a href="../messages.php">Messages</a></li>
-            <li><a href="../profiles/personal.php">Personal</a></li>
-            <li><input type="text" name="search" placeholder="Search"></li>
-            <li><a href="../profiles/public.php">Public</a></li>
-            <li>
-                <form action="dashboard.php" class="logout">
-                    <button type="submit" class="btn" name="logout">Logout</button>
+    <header>
+        <!-- Header Nav -->
+        <nav>
+            <ul>
+                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                <li><a href="../messages.php">Messages</a></li>
+                <li><a href="personal.php">Personal</a></li>
+                <li><a href="public.php">Public</a></li>
+                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
+                <form  action="" class = "logout-nav">
+                    <button type="submit" class="btn" name = "logout">Logout</button>
                 </form>
-            </li>
-        </ul>
-    </nav>
-</header>
-<hr>
+            </ul>
+        </nav>
+    </header>
+    <hr>
 
 <body>
     <section>
@@ -71,9 +67,11 @@
 </body>
 <hr>
 <!-- Footer -->
-<footer>
-    <p>Community Journal</p>
-    <p>Contact Us: communityjournal@support.com</p>
+<footer class = 'login-footer'>  <ul>
+    <li>Phone: 717-555-5555</li>
+    <li>Email: CommunityJournal@gmail.com</li>
+    <li>Fax: 171-123-4567</li>
+  </ul>
 </footer>
 
 </html>

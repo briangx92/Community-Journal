@@ -5,9 +5,10 @@ require '../include/sign-up.php';
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="../css/style.scss">
+    <link href="../css/main.scss" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
-    <title></title>
+    <link rel="icon" href="../Pictures/logo.png">
+    <title>Register</title>
   </head>
   <body>
 
@@ -29,7 +30,7 @@ require '../include/sign-up.php';
               </div>
 
               <div class="gender-select">
-                <select class="form-control" name="user-gender" required>
+                <select class = "reg" class="form-control" name="user-gender" required>
                   <option disabled="">Select your Gender</option>
                   <option>Male</option>
                   <option>Female</option>

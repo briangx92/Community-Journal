@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include("../db/db.php");
+include("db/db.php");
 
 	if(isset($_POST['sign_in'])){
 
@@ -25,9 +25,10 @@ include("../db/db.php");
   	$run_user = mysqli_query($conn,$get_user);
   	$row = mysqli_fetch_array($run_user);
 
-  	$user_name = $row['username'];
+	$user_name = $row['username'];
+	$_SESSION['user_name'] = $user_name;
 
-  	echo "<script>window.open('messages.php?user_name=$user_name','_self')</script>";
+  	echo "<script>window.open('views/messages.php?user_name=$user_name','_self')</script>";
 
 	}
 	else {
