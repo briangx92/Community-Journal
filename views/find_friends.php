@@ -3,7 +3,14 @@
 session_start();
 include("../include/find_friends_function.php");
 
-?>
+
+if(!isset($_SESSION['user_email'])){
+
+  header("location: index.php");
+
+}
+else { ?>
+
 <html>
 <head>
   <title>Find Friends</title>
@@ -18,6 +25,8 @@ include("../include/find_friends_function.php");
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
+
+
   <!-- Brand/logo -->
   <a class="navbar-brand" href="#">
     <div class="">
@@ -26,7 +35,7 @@ include("../include/find_friends_function.php");
 
     <?php
       $user = $_SESSION['email'];
-      $get_user = "SELECT * from users where email='$user'";
+      $get_user = "SELECT * FROM users WHERE email='$user'";
       $run_user = mysqli_query($conn,$get_user);
       $row=mysqli_fetch_array($run_user);
 
@@ -34,6 +43,8 @@ include("../include/find_friends_function.php");
       echo"<a class='navbar-brand' href='messages.php?user_name=$user_name'>MyChat</a>";
     ?>
   </a>
+
+
   <!-- Links -->
   <ul class="navbar-nav">
     <li><a style="color: white; text-decoration: none;font-size: 20px;" href="../account_settings.php">Settings</a></li>
@@ -43,14 +54,17 @@ include("../include/find_friends_function.php");
     <div class="col-sm-4">
     </div>
     <div class="col-sm-4">
-    <form class="search_form" action="">
+    <FROM class="search_FROM" action="">
       <input type="text" placeholder="Search Friends" autocomplete="off" name="search_query" required>
       <button class="btn" type="submit" name="search_btn">Search</button>
-    </form>
+    </FROM>
     </div>
     <div class="col-sm-4">
     </div>
-</div><br><br>
+</div>
+<br>
+<br>
 <?php search_user();?>
 </body>
-</html>
+</html
+<?php } ?>

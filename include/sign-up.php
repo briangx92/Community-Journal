@@ -88,8 +88,9 @@ if (isset(($_POST['sub']))) {
 
 
             if(mysqli_stmt_execute($stmt)){
-                echo '<script type="text/javascript">alert("hello!");</script>';
-                header("location:http://localhost/Community-Journal/signup-success.html");
+              echo"<script>alert('Successfully Created')</script>";
+              header("location:http://localhost/Community-Journal/");
+
             } else{
                 echo "Something went wrong. Please try again later.";
             }

@@ -42,7 +42,7 @@
 		</div>
 		<?php include("include/login.php"); ?>
     </form>
-	<div class="text-center small" style='color:#67428B;'>Don't have an account? <a href="register.php">Create one</a></div>
+	<div class="text-center small" style='color:#67428B;'>Don't have an account? <a href="views/register.php">Create one</a></div>
 </div>
 
 
