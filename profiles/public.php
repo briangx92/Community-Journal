@@ -1,3 +1,14 @@
+<?php
+
+session_start();
+
+    if(isset($_POST['logout'])) {
+        $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+        session_destroy();
+        header("location: ../views");
+    }
+?>
+
 <html>
 
 <head>
@@ -18,7 +29,7 @@
                     <li><a href="../messages.php">Messages</a></li>
                     <li><a href="profile.php">Profile</a></li>
                     <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
-                    <form action="" class = "logout-nav">
+                    <form method='post' class = "logout-nav">
                         <button type="submit" class="btn" name = "logout">Logout</button>
                     </form>
                 </ul>
