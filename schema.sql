@@ -38,24 +38,6 @@ ALTER TABLE `users`
 ALTER TABLE `users_chat`
   ADD PRIMARY KEY (`msg_id`);
 
-<<<<<<< HEAD
-CREATE TABLE users
-(
-    user_id serial PRIMARY KEY,
-    Fname varchar(50),
-    Lname varchar(50),
-    email varchar(50),
-    phone varchar(50),
-    username varchar(50),
-    password varchar(50),
-    country varchar(100),
-    profile_pic LONGBLOB,
-    headline varchar(75),
-    bio varchar(200),
-    gender varchar(250),
-);
-=======
->>>>>>> merge-messages
 
   ALTER TABLE `users`
     MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
@@ -66,7 +48,7 @@ CREATE TABLE users
   ALTER TABLE `users_chat`
     MODIFY `msg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
-    
+
 
 CREATE TABLE friends
 (
