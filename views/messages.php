@@ -13,7 +13,7 @@ if(!isset($_SESSION['email'])){
 if(isset($_POST['logout'])) {
 	$update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
     session_destroy();
-	header("location: ../views");
+	header("location: ../");
 }
 
 else{ ?>

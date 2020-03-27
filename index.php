@@ -9,13 +9,13 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/main.scss">
+	<link rel="stylesheet" type="text/css" href="css/main.scss">
 </head>
 <body>
 
 
 <div class="header">
-    <img src="../Pictures/logo.png" alt="This is the logo of the company.">
+    <img src="Pictures/logo.png" alt="This is the logo of the company.">
     <h1 id="h1-index"> Community Journal</h1>
 </div>
 
@@ -40,7 +40,7 @@
 		<div class="form-group">
 			<button type="submit" class="btn btn-primary btn-block btn-lg" name="sign_in">Sign in</button>
 		</div>
-		<?php include("../include/login.php"); ?>
+		<?php include("include/login.php"); ?>
     </form>
 	<div class="text-center small" style='color:#67428B;'>Don't have an account? <a href="register.php">Create one</a></div>
 </div>
