@@ -2,8 +2,12 @@
 include '../db/db.php';
 require '../include/login.php';
 
+// Curent Logged in user 
+// Visible for testing purposes
 $email = $_SESSION['email'];
+$_GLOBALS['email'] = $email;
 echo $email;
+
 ?>
 <html>
 
@@ -11,9 +15,7 @@ echo $email;
     <title>Dashboard</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="style.css" rel="stylesheet" type="text/css">
     <link rel="icon" href="../Pictures/logo.png">
-    <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 <header>
     <nav>
@@ -37,63 +39,57 @@ echo $email;
 
 <body>
     <article>
+        <!-- Most Recent List -->
+        <label>Most Recent List</label>
         <ul>
-            <li>recent list 1</li>
-            <li>recent list 2</li>
-        </ul>
-    </article>
-    <form action="dashboard.php" method="POST">
-        <label for="blogtitle">Blog Title:</label>
-        <input type="text" name="blogtitle">
-        <p></p>
-        <!-- insert bloggers name based from their userid -->
-        <input type="text" name="bloggername">
-        <p name="date">Date</p>
-        <label for="img">Select image</label>
-        <input type="file" name="img" id="img" accept="image/*">
-        <input type="text" name="blogcontent">
-        <button type="submit" name="blog_submit" onclick="location.href='dashboard.php'">Post</button>
-    </form>
-
-    <section name="blog feed">
-        <!-- First blog feed should be recent post from logged in user -->
-        <article name="blog1">
             <?php
-            $email = $_SESSION['email'];
-            $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.commment, b.content, u.Fname, u.Lname FROM blogfeed AS b LEFT JOIN users AS u ON b.blog_id = u.user_id WHERE u.email = '" . $email . "';";
 
-            $run_query = mysqli_query($conn, $blog_query);
-            $row = mysqli_num_rows($run_query);
+            $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}';";
 
-            if ($row > 0) {
-                while ($tables = mysqli_fetch_assoc($run_query)) {
-                    echo '<p>' . $tables['title'] . '</p>';
-                    echo '<p>' . $tables['Fname'] . ' ' . $tables['Lname'] . '</p>';
-                    echo '<p>' . $tables['Dates'] . '</p>';
-                    echo '<p>' . $tables['content'] . '</p>';
-                    // echo '<img src="' . $tables['blogpic'] . '">';
-                }
+            $result = mysqli_query($conn, $list_query);
+            $result_check = mysqli_num_rows($result);
+
+            foreach ($result as $row) {
+                echo "<li>{$row['content']}</li>";
             }
 
 
-            // Grab all these from blog_feed and user_id.
-            // Might have to create a join table to grab all these
+
 
 
             ?>
+        </ul>
+    </article>
 
-        </article>
-        <hr>
-        <!-- All other blogs come from friends latest 2 post sorted by date from recent to oldest -->
-        <?php
-        echo "<article name='blog2'>
-            <p>Blog Title</p>
-            <p>Blogger Name</p>
-            <p>Date</p>
-            <p>blog stuff here</p>
-            <img src='yourphotos/#' alt='blog picture' name='make the name be userid+increment by 1'>
-        </article>"
-        ?>
+
+    <section name="blog feed">
+        <!-- First blog feed should be recent post from logged in user -->
+        <article name="blog">
+            <label>Blog Feed</label>
+            <ul>
+                <?php
+                $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
+
+                $result = mysqli_query($conn, $blog_query);
+                $result_check = mysqli_num_rows($result);
+
+                foreach ($result as $row) {
+                    echo "<li><b>{$row['fullname']}</b></li>
+                    <!--<li><img src='#'></li>-->
+                    <li><b><i>{$row['title']}</i></b></li>
+                    <li>{$row['Dates']}</li>
+                    <li>{$row['content']}</li>
+                    </ul>
+                    ";
+                }
+
+                ?>
+
+            </ul>
+
+
+
+
 
     </section>
     <article name="search">
@@ -103,7 +99,6 @@ echo $email;
         </form>
     </article>
     <article name="comment_box">
-        <p>comments</p>
 
     </article>
 
