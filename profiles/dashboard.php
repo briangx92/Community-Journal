@@ -87,30 +87,137 @@ echo $email;
 
             </ul>
 
-
-
-
-
     </section>
     <article name="search">
-        <form action="dashboard.php">
-            <fieldset>
-                <input type="text" name="search" placeholder="Search">
-                <label>Filter: </label>
-                <select>
-                    <option value="1">Name</option>
-                    <option value="2">Title</option>
-                    <option value="3">Content</option>
-                </select>
-                <br>
-                <button type="submit" name="search">Search</button>
 
-            </fieldset>
+
+        <form action="dashboard.php" method="post">
+
+            <!-- // Which buildings do you want access to?<br /> -->
+            <input type="checkbox" name="filter[]" value="A">Name<br>
+            <input type="checkbox" name="filter[]" value="B">Title<br>
+            <input type="checkbox" name="filter[]" value="C">Content<br>
+            <input type="checkbox" name="filter[]" value="D">None<br>
+            <input type="text" name="search_text">
+
+            <input type="submit" name="search">
 
         </form>
 
+
+        <?php
+
+        $submit = isset($_POST['search']);
+        @$search_text = $_POST['search_text'];
+
+
+        function IsChecked($chkname, $value, $submit, $search_text)
+        {
+            $submit = isset($_POST['search']);
+            @$search_text = $_POST['search_text'];
+
+            if (!empty($_POST[$chkname])) {
+                foreach ($_POST[$chkname] as $chkval) {
+                    if ($chkval == $value) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        if (IsChecked('filter', 'A', $submit, $search_text)) {
+
+            if ($submit) {
+
+                $filter_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner WHERE blog_owner LIKE '%{$search_text}%'";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<table name='blog_owner'>";
+                        echo "<tr>";
+                        echo "<th>Name</th>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>{$row['blog_owner']}</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                    }
+                }
+            }
+        }
+        if (IsChecked('filter', 'B', $submit, $search_text)) {
+
+            if ($submit) {
+                $filter_query = "SELECT * FROM user_blog WHERE title LIKE '%{$search_text}';";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<table name='title'>";
+                        echo "<tr>";
+                        echo "<th>Title</th>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>{$row['title']}</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                    }
+                }
+            }
+        }
+        if (IsChecked('filter', 'C', $submit, $search_text)) {
+
+            if ($submit) {
+                $filter_query = "SELECT * FROM user_blog WHERE content LIKE '%{$search_text}%';";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<table name='content'>";
+                        echo "<tr>";
+                        echo "<th>Content</th>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>{$row['content']}</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                    }
+                }
+            }
+        }
+        if (IsChecked('filter', 'D', $submit, $search_text)) {
+
+            if ($submit) {
+                $filter_query = "SELECT * FROM user_blog;";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<table name='none'>";
+                        echo "<tr>";
+                        echo "<th>Name</th>";
+                        echo "<th>Title</th>";
+                        echo "<th>Content</th>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>{$row['blog_owner']}</td>";
+                        echo "<td>{$row['title']}</td>";
+                        echo "<td>{$row['content']}</td>";
+                        echo "</tr>";
+                        echo "</table>";
+                    }
+                }
+            }
+        }
+
+        ?>
+
+        <table>
+
+        </table>
+
+
     </article>
     <article name="comment_box">
+
 
     </article>
 
