@@ -58,7 +58,8 @@ CREATE TABLE comment_box (
 );
 
 CREATE TABLE recent_list (
-  list_owner varchar(255) REFERENCES users(email),
+  list_id serial PRIMARY KEY,
+  list_owner varchar REFERENCES users(email),
   content text
 );
 

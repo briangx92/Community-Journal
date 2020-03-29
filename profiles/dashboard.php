@@ -94,9 +94,21 @@ echo $email;
     </section>
     <article name="search">
         <form action="dashboard.php">
-            <input type="text" name="search" placeholder="Filter/Search">
-            <button type="submit">Search</button>
+            <fieldset>
+                <input type="text" name="search" placeholder="Search">
+                <label>Filter: </label>
+                <select>
+                    <option value="1">Name</option>
+                    <option value="2">Title</option>
+                    <option value="3">Content</option>
+                </select>
+                <br>
+                <button type="submit" name="search">Search</button>
+
+            </fieldset>
+
         </form>
+
     </article>
     <article name="comment_box">
 
