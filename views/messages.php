@@ -89,6 +89,7 @@ if (isset($_POST['logout'])) {
 							?>
                         <ul>
                             <?php
+														if ($_SERVER["REQUEST_METHOD"] == "GET") {
 										if ($user_name == $sender_username and $username == $reciever_username) {
 											echo "
 									<li>
@@ -108,6 +109,27 @@ if (isset($_POST['logout'])) {
 									</li>
 								";
 										}
+									} elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+										if ($user_name == $sender_username and $username == $reciever_username) {
+											echo "
+									<li>
+										<div class='rightside-right-chat'>
+											<span> $user_name <small>$msg_date</small> </span><br><br>
+											<p>$msg_content</p>
+										</div>
+									</li>
+								";
+										} else if ($user_name == $reciever_username and $username == $sender_username) {
+											echo "
+									<li>
+										<div class='rightside-left-chat'>
+											<span> $username <small>$msg_date</small> </span><br><br>
+											<p>$msg_content</p>
+										</div>
+									</li>
+								";
+										}
+									}
 										?>
                         </ul>
                         <?php

@@ -2,7 +2,7 @@
 include '../db/db.php';
 require '../include/login.php';
 
-// Curent Logged in user 
+// Curent Logged in user
 // Visible for testing purposes
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
@@ -25,7 +25,7 @@ echo $email;
             <ul>
                 <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
                         alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-                <li><a href="../messages.php">Messages</a></li>
+                <li id="messages">Messages</a></li>
                 <li><a href="../profiles/personal.php">Personal</a></li>
                 <li><a href="../profiles/public.php">Public</a></li>
                 <li><input type="text" name="search" placeholder="Search"></li>
@@ -228,6 +228,17 @@ echo $email;
                 </tr>
             </table>
         </article>
+
+        
+        <?php
+        echo "<script>
+        document.getElementById('messages').addEventListener('click', function() {
+          window.open('../views/messages.php?user_name=$user_name','_self')
+        });
+        </script>";
+         ?>
+
+
     </body>
     <!-- Footer -->
     <footer class='login-footer'>
