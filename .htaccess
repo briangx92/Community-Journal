@@ -1,1 +1,4 @@
 Options All -Indexes
+
+ErrorDocument 403 http://localhost/Community-Journal/error/403.html
+ErrorDocument 404 http://localhost/Community-Journal/error/404.html
