@@ -219,7 +219,7 @@ echo $email;
             <?php
 
             $submit_comment = isset($_POST['submit_comment']);
-            $comment_area = $_POST['comment'];
+            // $comment_area = $_POST['comment'];
 
             ?>
             <table>
