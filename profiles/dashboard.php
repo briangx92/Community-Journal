@@ -44,7 +44,7 @@ echo $email;
         <ul>
             <?php
 
-            $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}';";
+            $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
 
             $result = mysqli_query($conn, $list_query);
             $result_check = mysqli_num_rows($result);
@@ -53,18 +53,14 @@ echo $email;
                 echo "<li>{$row['content']}</li>";
             }
 
-
-
-
-
             ?>
         </ul>
     </article>
 
 
     <section name="blog feed">
-        <!-- First blog feed should be recent post from logged in user -->
         <article name="blog">
+
             <label>Blog Feed</label>
             <ul>
                 <?php
@@ -86,6 +82,7 @@ echo $email;
                 ?>
 
             </ul>
+        </article>
 
     </section>
     <article name="search">
@@ -93,12 +90,11 @@ echo $email;
 
         <form action="dashboard.php" method="post">
 
-            <!-- // Which buildings do you want access to?<br /> -->
             <input type="checkbox" name="filter[]" value="A">Name<br>
             <input type="checkbox" name="filter[]" value="B">Title<br>
             <input type="checkbox" name="filter[]" value="C">Content<br>
             <input type="checkbox" name="filter[]" value="D">None<br>
-            <input type="text" name="search_text">
+            <input type="text" name="search_text" placeholder="Search here...">
 
             <input type="submit" name="search">
 
@@ -146,6 +142,7 @@ echo $email;
                 }
             }
         }
+
         if (IsChecked('filter', 'B', $submit, $search_text)) {
 
             if ($submit) {
@@ -210,19 +207,25 @@ echo $email;
 
         ?>
 
-        <table>
-
-        </table>
-
-
     </article>
     <article name="comment_box">
+        <form action="dashboard.php" id="comment_form">
+            <input type="submit" name="submit_comment">
+        </form>
+        <textarea name="comment" form="comment_form">Enter comment...</textarea>
 
+        <?php
 
+        $submit_comment = isset($_POST['submit_comment']);
+        $comment_area = $_POST['comment'];
+
+        ?>
+        <table>
+            <tr>
+
+            </tr>
+        </table>
     </article>
-
-
-
 </body>
 <hr>
 <!-- Footer -->
