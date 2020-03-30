@@ -12,7 +12,7 @@ require '../include/sign-up.php';
   </head>
   <body>
 
-    <a href="index.php" class="backarrow"> ⇚</a>
+    <a href="../" class="backarrow"> ⇚</a>
     <div>
       <h1 id ="h1-reg">Register for Community Journal</h1>
 
