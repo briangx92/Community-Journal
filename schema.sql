@@ -1,6 +1,4 @@
-
-DROP TABLE IF EXISTS users, friends, messages, group, junction_table, blogfeed, personal;
-CREATE DATABASE community-journal;
+CREATE DATABASE `community-journal`;
 CREATE TABLE `users` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `Fname` varchar(50) DEFAULT NULL,
@@ -16,7 +14,6 @@ CREATE TABLE `users` (
   `gender` varchar(250) DEFAULT NULL,
   `log_in` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `users_chat` (
   `msg_id` int(11) NOT NULL,
   `sender_username` varchar(255) NOT NULL,
@@ -48,8 +45,23 @@ CREATE TABLE user_blog (
   Dates timestamp,
   blog_id bigint UNSIGNED,
   commment varchar(255),
-  content text
+  content text 
 );
+
+CREATE TABLE friends (
+  user_id bigint(20),
+  username varchar(255),
+  online tinyint(1) DEFAULT NULL,
+  friend_request tinyint(1)
+);
+
+CREATE TABLE personal (
+  personal_id bigint(20) UNSIGNED UNIQUE,
+  saved_drafts varchar(255) DEFAULT NULL,
+  list varchar(255) DEFAULT NULL
+);
+
+
 
 CREATE TABLE users_chat (
   msg_id int(11) NOT NULL,
@@ -81,14 +93,40 @@ ALTER TABLE users
 ALTER TABLE user_blog
   ADD PRIMARY KEY (blog_id);
 
+ALTER TABLE friends
+  ADD PRIMARY KEY (user_id);
+
+ALTER TABLE personal
+  ADD PRIMARY KEY (personal_id);
 
 ALTER TABLE users_chat
   ADD PRIMARY KEY (msg_id);
 
 
+ALTER TABLE friends
+  MODIFY user_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE personal
+  MODIFY personal_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE users
   MODIFY user_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
+  
 ALTER TABLE user_blog
   MODIFY blog_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+INSERT INTO users_chat (msg_id, sender_username, receiver_username, msg_content, msg_status, msg_date) VALUES
+(1, 'tyler', 'fink', 'hello ', 'unread', '2020-03-20 20:02:30'),
+(2, 'tyler', 'fink', 'hello', 'unread', '2020-03-20 20:06:50'),
+(3, 'user_name', 'username', 'msg', 'unread', '2020-03-20 20:08:21'),
+(4, '', 'MrChief1', 'hey ', 'unread', '2020-03-20 20:09:13'),
+(5, '', 'MrChief1', 'hi ', 'unread', '2020-03-20 20:09:16'),
+(6, 'MrChief1', '', 'hi ', 'unread', '2020-03-20 20:10:04'),
+(7, 'MrChief1', '', 'hey', 'unread', '2020-03-20 20:10:19'),
+(8, 'MrChief1', '', 'hey', 'unread', '2020-03-20 20:16:52'),
+(10, 'tfink123', '', 'hey ', 'unread', '2020-03-20 20:25:00'),
+(11, 'tfink123', '', 'hey ', 'unread', '2020-03-20 20:27:34'),
+(17, 'Tfinkerwqerqew', '', 'Hello', 'unread', '2020-03-20 20:29:51'),
+(18, 'Tfinkerwqerqew', '', 'Hello', 'unread', '2020-03-20 20:32:13'),
+(19, 'Tfinkerwqerqew', '', 'hey', 'unread', '2020-03-20 20:33:01');
