@@ -30,7 +30,7 @@ if (isset($_POST["submit"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="../Pictures/logo.png">
-    <!-- <link href="../css/main.scss" rel="stylesheet" type="text/css"> -->
+    <link href="../css/main.scss" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Public Page</title>
@@ -55,35 +55,22 @@ if (isset($_POST["submit"])) {
 
 
     <div class="container" style="width:500px;">
-        <form method="post" enctype="multipart/form-data">
+
+        <br>
+        <label>Create a Post</label>
+        <form action="dashboard.php" method="post" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title...">
             <textarea placeholder="What's on your mind?" cols="40" rows="10" name="content"></textarea>
             <input type="file" name="image" id="image">
             <input type="submit" name="submit" id="submit" value="submit" class="btn btn-info">
         </form>
-        <br />
-        <h2>Create a Post</h2>
         <table>
-            <?php
-            $query = "SELECT * FROM user_blog ORDER BY blog_id DESC";
-            $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_array($result)) {
-                echo '<tr>';
-                echo "<p>{$row['title']}</p>";
-
-                echo "<p>{$row['content']}</p>";
-                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="200" width="200" class="img-thumnail">';
-                echo '</tr>';
-                echo '<hr>';
-            }
-
-
-            ?>
 
 
 
         </table>
     </div>
+
     <footer>
         <ul>
             <li>Phone: 717-555-5555</li>

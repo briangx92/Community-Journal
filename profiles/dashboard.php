@@ -42,17 +42,20 @@ echo $email;
     <body>
         <article>
             <!-- Most Recent List -->
-            <label>Most Recent List</label>
+
             <ul>
                 <?php
+
 
                 $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
 
                 $result = mysqli_query($conn, $list_query);
                 $result_check = mysqli_num_rows($result);
 
-                foreach ($result as $row) {
-                    echo "<li>{$row['content']}</li>";
+                if ($result_check > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<li>{$row['content']}</li>";
+                    }
                 }
 
                 ?>
@@ -72,14 +75,15 @@ echo $email;
                 $result_check = mysqli_num_rows($result);
 
                 foreach ($result as $row) {
-                    echo "<ul>";
-                    echo "<li><b>{$row['fullname']}</b></li>";
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="200" width="200" class="img-thumnail">';
-                    echo '<li><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="200" width="200" class="img-thumnail"></li>';
-                    echo "<li><b><i>{$row['title']}</i></b></li>";
-                    echo "<li>{$row['Dates']}</li>";
-                    echo "<li>{$row['content']}</li>";
-                    echo "</ul>";
+                    echo "<tr>";
+                    echo "<p><b>{$row['fullname']}</b></p>";
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail">';
+
+                    echo "<p><b><i>{$row['title']}</i></b></p>";
+                    echo "<p>{$row['Dates']}</p>";
+                    echo "<p>{$row['content']}</p>";
+                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150" class="img-thumnail"></p>';
+                    echo "</tr>";
                 }
 
                 ?>

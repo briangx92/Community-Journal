@@ -44,7 +44,6 @@ CREATE TABLE user_blog (
   blogpic longblob,
   Dates timestamp,
   blog_id bigint UNSIGNED,
-  commment varchar(255),
   content text 
 );
 
@@ -72,13 +71,6 @@ CREATE TABLE users_chat (
   msg_date timestamp
 );
 
-CREATE TABLE comment_box (
-  comment_id serial PRIMARY KEY,
-  comment_content text REFERENCES user_blog(content),
-  comment_blog bigint REFERENCES user_blog(blog_id),
-  comment_time TIMESTAMP,
-  comment_user text REFERENCES users(email)
-);
 
 CREATE TABLE recent_list (
   list_id serial PRIMARY KEY,
