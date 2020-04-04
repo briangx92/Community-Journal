@@ -3,18 +3,23 @@
 require('../include/login.php');
 include('../db/db.php');
 
+// Curent Logged in user
+$email = $_SESSION['email'];
+$_GLOBALS['email'] = $email;
+
+
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
     session_destroy();
     header("location: ../views");
 }
 
-if (isset($_POST["insert"])) {
+if (isset($_POST["submit"])) {
+    $content = $_POST['content'];
+    $title = $_POST['title'];
     $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-    $query = "INSERT INTO user_blog (blogpic) VALUES ('$file')";
-    if (mysqli_query($conn, $query)) {
-        echo '<script>alert("Image Inserted into Database")</script>';
-    }
+    $query = "INSERT INTO user_blog (blogpic, content, blog_owner, title) VALUES ('$file', '$content', '$email', '$title')";
+    mysqli_query($conn, $query);
 }
 ?>
 
@@ -25,7 +30,7 @@ if (isset($_POST["insert"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="../Pictures/logo.png">
-    <link href="../css/main.scss" rel="stylesheet" type="text/css">
+    <!-- <link href="../css/main.scss" rel="stylesheet" type="text/css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Public Page</title>
@@ -48,31 +53,35 @@ if (isset($_POST["insert"])) {
         </nav>
     </header>
 
-    <h2>Create a Post</h2>
 
-    <input type="text" placeholder="Title...">
-
-    <textarea placeholder="What's on your mind?" cols="40" rows="10"></textarea>
     <div class="container" style="width:500px;">
-        <br />
         <form method="post" enctype="multipart/form-data">
-            <input type="file" name="image" id="image" />
-            <br />
-            <input type="submit" name="insert" id="insert" value="Insert" class="btn btn-info" />
+            <input type="text" name="title" placeholder="Title...">
+            <textarea placeholder="What's on your mind?" cols="40" rows="10" name="content"></textarea>
+            <input type="file" name="image" id="image">
+            <input type="submit" name="submit" id="submit" value="submit" class="btn btn-info">
         </form>
-        <?php
-        $query = "SELECT * FROM user_blog ORDER BY blog_id DESC";
-        $result = mysqli_query($conn, $query);
-        while ($row = mysqli_fetch_array($result)) {
-            echo '  
-                          <tr>  
-                               <td>  
-                                    <img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="200" width="200" class="img-thumnail" />  
-                               </td>  
-                          </tr>  
-                     ';
-        }
-        ?>
+        <br />
+        <h2>Create a Post</h2>
+        <table>
+            <?php
+            $query = "SELECT * FROM user_blog ORDER BY blog_id DESC";
+            $result = mysqli_query($conn, $query);
+            while ($row = mysqli_fetch_array($result)) {
+                echo '<tr>';
+                echo "<p>{$row['title']}</p>";
+
+                echo "<p>{$row['content']}</p>";
+                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="200" width="200" class="img-thumnail">';
+                echo '</tr>';
+                echo '<hr>';
+            }
+
+
+            ?>
+
+
+
         </table>
     </div>
     <footer>
@@ -82,6 +91,11 @@ if (isset($_POST["insert"])) {
             <li>Fax: 171-123-4567</li>
         </ul>
     </footer>
+    <script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+    </script>
 </body>
 
 </html>

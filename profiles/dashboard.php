@@ -64,24 +64,25 @@ echo $email;
             <article name="blog">
 
                 <label>Blog Feed</label>
-                <ul>
-                    <?php
-                    $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
 
-                    $result = mysqli_query($conn, $blog_query);
-                    $result_check = mysqli_num_rows($result);
+                <?php
+                $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname, u.profile_pic FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
 
-                    foreach ($result as $row) {
-                        echo "<li><b>{$row['fullname']}</b></li>
-                    <!--<li><img src='#'></li>-->
-                    <li><b><i>{$row['title']}</i></b></li>
-                    <li>{$row['Dates']}</li>
-                    <li>{$row['content']}</li>
-                    </ul>
-                    ";
-                    }
+                $result = mysqli_query($conn, $blog_query);
+                $result_check = mysqli_num_rows($result);
 
-                    ?>
+                foreach ($result as $row) {
+                    echo "<ul>";
+                    echo "<li><b>{$row['fullname']}</b></li>";
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="200" width="200" class="img-thumnail">';
+                    echo '<li><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="200" width="200" class="img-thumnail"></li>';
+                    echo "<li><b><i>{$row['title']}</i></b></li>";
+                    echo "<li>{$row['Dates']}</li>";
+                    echo "<li>{$row['content']}</li>";
+                    echo "</ul>";
+                }
+
+                ?>
 
                 </ul>
             </article>
@@ -210,33 +211,16 @@ echo $email;
             ?>
 
         </article>
-        <article name="comment_box">
-            <form action="dashboard.php" id="comment_form">
-                <input type="submit" name="submit_comment">
-            </form>
-            <textarea name="comment" form="comment_form">Enter comment...</textarea>
 
-            <?php
-
-            $submit_comment = isset($_POST['submit_comment']);
-            // $comment_area = $_POST['comment'];
-
-            ?>
-            <table>
-                <tr>
-
-                </tr>
-            </table>
-        </article>
 
 
         <?php
-        echo "<script>
-        document.getElementById('messages').addEventListener('click', function() {
-          window.open('../views/messages.php?user_name=$user_name','_self')
-        });
-        </script>";
-         ?>
+        // echo "<script>
+        // document.getElementById('messages').addEventListener('click', function() {
+        //   window.open('../views/messages.php?user_name={$user_name}','_self')
+        // });
+        // </script>";
+        ?>
 
 
     </body>
