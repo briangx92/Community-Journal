@@ -77,12 +77,12 @@ echo $email;
                 foreach ($result as $row) {
                     echo "<tr>";
                     echo "<p><b>{$row['fullname']}</b></p>";
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail">';
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
 
                     echo "<p><b><i>{$row['title']}</i></b></p>";
                     echo "<p>{$row['Dates']}</p>";
                     echo "<p>{$row['content']}</p>";
-                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150" class="img-thumnail"></p>';
+                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
                     echo "</tr>";
                 }
 
@@ -100,7 +100,6 @@ echo $email;
                 <input type="checkbox" name="filter[]" value="A">Name<br>
                 <input type="checkbox" name="filter[]" value="B">Title<br>
                 <input type="checkbox" name="filter[]" value="C">Content<br>
-                <input type="checkbox" name="filter[]" value="D">None<br>
                 <input type="text" name="search_text" placeholder="Search here...">
 
                 <input type="submit" name="search">
@@ -140,7 +139,7 @@ echo $email;
                             echo "<table name='blog_owner'>";
                             echo "<tr>";
                             echo "<th>Name</th>";
-                            echo "</tr>";
+                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
                             echo "<tr>";
                             echo "<td>{$row['blog_owner']}</td>";
                             echo "</tr>";
@@ -153,12 +152,13 @@ echo $email;
             if (IsChecked('filter', 'B', $submit, $search_text)) {
 
                 if ($submit) {
-                    $filter_query = "SELECT * FROM user_blog WHERE title LIKE '%{$search_text}';";
+                    $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE title LIKE '%{$search_text}%';";
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<table name='title'>";
                             echo "<tr>";
+                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
                             echo "<th>Title</th>";
                             echo "</tr>";
                             echo "<tr>";
@@ -172,38 +172,17 @@ echo $email;
             if (IsChecked('filter', 'C', $submit, $search_text)) {
 
                 if ($submit) {
-                    $filter_query = "SELECT * FROM user_blog WHERE content LIKE '%{$search_text}%';";
+                    $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE content LIKE '%{$search_text}%';";
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<table name='content'>";
                             echo "<tr>";
+                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
+                            echo "<br>";
                             echo "<th>Content</th>";
                             echo "</tr>";
                             echo "<tr>";
-                            echo "<td>{$row['content']}</td>";
-                            echo "</tr>";
-                            echo "</table>";
-                        }
-                    }
-                }
-            }
-            if (IsChecked('filter', 'D', $submit, $search_text)) {
-
-                if ($submit) {
-                    $filter_query = "SELECT * FROM user_blog;";
-                    $result = mysqli_query($conn, $filter_query);
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<table name='none'>";
-                            echo "<tr>";
-                            echo "<th>Name</th>";
-                            echo "<th>Title</th>";
-                            echo "<th>Content</th>";
-                            echo "</tr>";
-                            echo "<tr>";
-                            echo "<td>{$row['blog_owner']}</td>";
-                            echo "<td>{$row['title']}</td>";
                             echo "<td>{$row['content']}</td>";
                             echo "</tr>";
                             echo "</table>";
