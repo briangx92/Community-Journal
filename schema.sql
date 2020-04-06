@@ -92,3 +92,7 @@ ALTER TABLE users
 
 ALTER TABLE user_blog
   MODIFY blog_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE users
+  ADD image_text text;
