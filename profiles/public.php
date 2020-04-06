@@ -42,7 +42,6 @@ if (isset($_POST["submit"])) {
             <ul>
                 <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
                         alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-                <li><a href="personal.php">Personal</a></li>
                 <li><a href="../messages.php">Messages</a></li>
                 <li><a href="profile.php">Profile</a></li>
                 <li><input class='search-nav' type="text" name="search" placeholder="Search"></li>

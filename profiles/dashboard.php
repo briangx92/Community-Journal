@@ -26,7 +26,6 @@ echo $email;
                 <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
                         alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li id="messages"><a>Messages</a></a></li>
-                <li><a href="../profiles/personal.php">Personal</a></li>
                 <li><a href="../profiles/public.php">Public</a></li>
                 <li><input type="text" name="search" placeholder="Search"></li>
                 <li><a href="../profiles/profile.php">Profile</a></li>
