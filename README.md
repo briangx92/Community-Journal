@@ -8,12 +8,11 @@ Most social media is cluttered with stuff most people don't want to read about o
 
 You will have many features that are very much needed in this application
 
-1. Friendships with other users
-2. Having your own profile
-3. Drafting of blogs and of checklists for the users personally ideas
-4. And so much more to come
+1. Having your own profile
+2. Drafting of blogs and of checklists for the users personally ideas
+3. And so much more to come
 
 Just wait and see what will be coming next and in a couple months this will be well on its way of being a real social media site for many to use.
 
 From,
-Brian, Tyler and Zach
+Brian and Zach
