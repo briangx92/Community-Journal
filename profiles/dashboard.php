@@ -26,7 +26,6 @@ echo $email;
                 <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
                         alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li id="messages"><a>Messages</a></a></li>
-                <li><a href="../profiles/personal.php">Personal</a></li>
                 <li><a href="../profiles/public.php">Public</a></li>
                 <li><input type="text" name="search" placeholder="Search"></li>
                 <li><a href="../profiles/profile.php">Profile</a></li>
@@ -42,17 +41,20 @@ echo $email;
     <body>
         <article>
             <!-- Most Recent List -->
-            <label>Most Recent List</label>
+
             <ul>
                 <?php
+
 
                 $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
 
                 $result = mysqli_query($conn, $list_query);
                 $result_check = mysqli_num_rows($result);
 
-                foreach ($result as $row) {
-                    echo "<li>{$row['content']}</li>";
+                if ($result_check > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<li>{$row['content']}</li>";
+                    }
                 }
 
                 ?>
@@ -64,24 +66,26 @@ echo $email;
             <article name="blog">
 
                 <label>Blog Feed</label>
-                <ul>
-                    <?php
-                    $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
 
-                    $result = mysqli_query($conn, $blog_query);
-                    $result_check = mysqli_num_rows($result);
+                <?php
+                $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname, u.profile_pic FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
 
-                    foreach ($result as $row) {
-                        echo "<li><b>{$row['fullname']}</b></li>
-                    <!--<li><img src='#'></li>-->
-                    <li><b><i>{$row['title']}</i></b></li>
-                    <li>{$row['Dates']}</li>
-                    <li>{$row['content']}</li>
-                    </ul>
-                    ";
-                    }
+                $result = mysqli_query($conn, $blog_query);
+                $result_check = mysqli_num_rows($result);
 
-                    ?>
+                foreach ($result as $row) {
+                    echo "<tr>";
+                    echo "<p><b>{$row['fullname']}</b></p>";
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+
+                    echo "<p><b><i>{$row['title']}</i></b></p>";
+                    echo "<p>{$row['Dates']}</p>";
+                    echo "<p>{$row['content']}</p>";
+                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
+                    echo "</tr>";
+                }
+
+                ?>
 
                 </ul>
             </article>
@@ -95,7 +99,6 @@ echo $email;
                 <input type="checkbox" name="filter[]" value="A">Name<br>
                 <input type="checkbox" name="filter[]" value="B">Title<br>
                 <input type="checkbox" name="filter[]" value="C">Content<br>
-                <input type="checkbox" name="filter[]" value="D">None<br>
                 <input type="text" name="search_text" placeholder="Search here...">
 
                 <input type="submit" name="search">
@@ -135,7 +138,7 @@ echo $email;
                             echo "<table name='blog_owner'>";
                             echo "<tr>";
                             echo "<th>Name</th>";
-                            echo "</tr>";
+                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
                             echo "<tr>";
                             echo "<td>{$row['blog_owner']}</td>";
                             echo "</tr>";
@@ -148,12 +151,13 @@ echo $email;
             if (IsChecked('filter', 'B', $submit, $search_text)) {
 
                 if ($submit) {
-                    $filter_query = "SELECT * FROM user_blog WHERE title LIKE '%{$search_text}';";
+                    $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE title LIKE '%{$search_text}%';";
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<table name='title'>";
                             echo "<tr>";
+                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
                             echo "<th>Title</th>";
                             echo "</tr>";
                             echo "<tr>";
@@ -167,38 +171,17 @@ echo $email;
             if (IsChecked('filter', 'C', $submit, $search_text)) {
 
                 if ($submit) {
-                    $filter_query = "SELECT * FROM user_blog WHERE content LIKE '%{$search_text}%';";
+                    $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE content LIKE '%{$search_text}%';";
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<table name='content'>";
                             echo "<tr>";
+                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
+                            echo "<br>";
                             echo "<th>Content</th>";
                             echo "</tr>";
                             echo "<tr>";
-                            echo "<td>{$row['content']}</td>";
-                            echo "</tr>";
-                            echo "</table>";
-                        }
-                    }
-                }
-            }
-            if (IsChecked('filter', 'D', $submit, $search_text)) {
-
-                if ($submit) {
-                    $filter_query = "SELECT * FROM user_blog;";
-                    $result = mysqli_query($conn, $filter_query);
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<table name='none'>";
-                            echo "<tr>";
-                            echo "<th>Name</th>";
-                            echo "<th>Title</th>";
-                            echo "<th>Content</th>";
-                            echo "</tr>";
-                            echo "<tr>";
-                            echo "<td>{$row['blog_owner']}</td>";
-                            echo "<td>{$row['title']}</td>";
                             echo "<td>{$row['content']}</td>";
                             echo "</tr>";
                             echo "</table>";
@@ -210,33 +193,16 @@ echo $email;
             ?>
 
         </article>
-        <article name="comment_box">
-            <form action="dashboard.php" id="comment_form">
-                <input type="submit" name="submit_comment">
-            </form>
-            <textarea name="comment" form="comment_form">Enter comment...</textarea>
 
-            <?php
-
-            $submit_comment = isset($_POST['submit_comment']);
-            // $comment_area = $_POST['comment'];
-
-            ?>
-            <table>
-                <tr>
-
-                </tr>
-            </table>
-        </article>
 
 
         <?php
-        echo "<script>
-        document.getElementById('messages').addEventListener('click', function() {
-          window.open('../views/messages.php?user_name=$user_name','_self')
-        });
-        </script>";
-         ?>
+        // echo "<script>
+        // document.getElementById('messages').addEventListener('click', function() {
+        //   window.open('../views/messages.php?user_name={$user_name}','_self')
+        // });
+        // </script>";
+        ?>
 
 
     </body>

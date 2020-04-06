@@ -1,6 +1,4 @@
-
-DROP TABLE IF EXISTS users, friends, messages, group, junction_table, blogfeed, personal;
-CREATE DATABASE community-journal;
+CREATE DATABASE `community-journal`;
 CREATE TABLE `users` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `Fname` varchar(50) DEFAULT NULL,
@@ -16,7 +14,6 @@ CREATE TABLE `users` (
   `gender` varchar(250) DEFAULT NULL,
   `log_in` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `users_chat` (
   `msg_id` int(11) NOT NULL,
   `sender_username` varchar(255) NOT NULL,
@@ -47,8 +44,7 @@ CREATE TABLE user_blog (
   blogpic longblob,
   Dates timestamp,
   blog_id bigint UNSIGNED,
-  commment varchar(255),
-  content text
+  content text 
 );
 
 CREATE TABLE users_chat (
@@ -60,13 +56,6 @@ CREATE TABLE users_chat (
   msg_date timestamp
 );
 
-CREATE TABLE comment_box (
-  comment_id serial PRIMARY KEY,
-  comment_content text REFERENCES user_blog(content),
-  comment_blog bigint REFERENCES user_blog(blog_id),
-  comment_time TIMESTAMP,
-  comment_user text REFERENCES users(email)
-);
 
 CREATE TABLE recent_list (
   list_id serial PRIMARY KEY,
@@ -85,10 +74,24 @@ ALTER TABLE user_blog
 ALTER TABLE users_chat
   ADD PRIMARY KEY (msg_id);
 
-
-
 ALTER TABLE users
   MODIFY user_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
+  
 ALTER TABLE user_blog
   MODIFY blog_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+INSERT INTO users_chat (msg_id, sender_username, receiver_username, msg_content, msg_status, msg_date) VALUES
+(1, 'tyler', 'fink', 'hello ', 'unread', '2020-03-20 20:02:30'),
+(2, 'tyler', 'fink', 'hello', 'unread', '2020-03-20 20:06:50'),
+(3, 'user_name', 'username', 'msg', 'unread', '2020-03-20 20:08:21'),
+(4, '', 'MrChief1', 'hey ', 'unread', '2020-03-20 20:09:13'),
+(5, '', 'MrChief1', 'hi ', 'unread', '2020-03-20 20:09:16'),
+(6, 'MrChief1', '', 'hi ', 'unread', '2020-03-20 20:10:04'),
+(7, 'MrChief1', '', 'hey', 'unread', '2020-03-20 20:10:19'),
+(8, 'MrChief1', '', 'hey', 'unread', '2020-03-20 20:16:52'),
+(10, 'tfink123', '', 'hey ', 'unread', '2020-03-20 20:25:00'),
+(11, 'tfink123', '', 'hey ', 'unread', '2020-03-20 20:27:34'),
+(17, 'Tfinkerwqerqew', '', 'Hello', 'unread', '2020-03-20 20:29:51'),
+(18, 'Tfinkerwqerqew', '', 'Hello', 'unread', '2020-03-20 20:32:13'),
+(19, 'Tfinkerwqerqew', '', 'hey', 'unread', '2020-03-20 20:33:01');

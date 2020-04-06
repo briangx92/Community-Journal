@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include("db/db.php");
+include("../db/db.php");
 
 	if(isset($_POST['sign_in'])){
 
@@ -38,6 +38,3 @@ include("db/db.php");
 	</div>
 	";}
 	}
-
-
-?>
