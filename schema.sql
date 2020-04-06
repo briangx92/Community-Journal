@@ -81,6 +81,10 @@ ALTER TABLE user_blog
   MODIFY blog_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 
+
+ALTER TABLE users
+  ADD image_text text;
+
 INSERT INTO users_chat (msg_id, sender_username, receiver_username, msg_content, msg_status, msg_date) VALUES
 (1, 'tyler', 'fink', 'hello ', 'unread', '2020-03-20 20:02:30'),
 (2, 'tyler', 'fink', 'hello', 'unread', '2020-03-20 20:06:50'),
@@ -95,3 +99,4 @@ INSERT INTO users_chat (msg_id, sender_username, receiver_username, msg_content,
 (17, 'Tfinkerwqerqew', '', 'Hello', 'unread', '2020-03-20 20:29:51'),
 (18, 'Tfinkerwqerqew', '', 'Hello', 'unread', '2020-03-20 20:32:13'),
 (19, 'Tfinkerwqerqew', '', 'hey', 'unread', '2020-03-20 20:33:01');
+

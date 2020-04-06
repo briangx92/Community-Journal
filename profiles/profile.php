@@ -1,3 +1,24 @@
+<?php
+    include '../db/db.php';
+    require '../include/login.php';
+    var_dump($_SESSION);
+
+    if (isset($_POST['logout'])) {
+        $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+        session_destroy();
+        header("location: ../");
+    }
+
+    if (isset($_POST["upload"])) {
+        $image = $_FILES['image'];
+        $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+        $query = "UPDATE users SET profile_pic = '$file' WHERE username= '" . $_SESSION['user_name'] . "'";
+        mysqli_query($conn, $query);
+    }
+
+    
+?>
+
 <html>
 
 <head>
@@ -13,11 +34,11 @@
         <nav>
             <ul>
                 <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-                <li><a href="../messages.php">Messages</a></li>
+                <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="personal.php">Personal</a></li>
                 <li><a href="public.php">Public</a></li>
                 <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
-                <form  action="" class = "logout-nav">
+                <form method="post" class = "logout-nav">
                     <button type="submit" class="btn" name = "logout">Logout</button>
                 </form>
             </ul>
@@ -29,13 +50,35 @@
     <section>
         <!-- Profile pic -->
         <article>
-            <img src="../yourphotos/profilepic.jpg" alt="profilepic" name="profilepic" id="profilepic">
-        </article>
-        <article>
-            <p>Name</p>
-            <p>Country</p>
-            <p>Username</p>
-            <p>HeadLine</p>
+
+        <br />
+        <?php
+        $query = "SELECT profile_pic FROM users WHERE username= '" . $_SESSION['user_name'] . "'";
+        $result = mysqli_query($conn, $query);
+        while($row=mysqli_fetch_row($result)){
+            // echo($row[0]);
+            echo '<img src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="200" width="200" class="img-thumnail" />';
+        }
+
+        ?>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="image" id="image">
+            <input type="submit" name="upload" id="submit" value="Upload" class="btn btn-info">
+        </form>
+    
+            <?php
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '" . $_SESSION['user_name'] . "'"); 
+            $result = mysqli_query($conn, $name);
+            if($result) {
+                while($row = mysqli_fetch_row($result)) {
+                    echo "<p>$row[0]</p>";
+                    echo "<p>$row[1]</p>";
+                    echo "<p>$row[2]</p>";
+                    echo "<p>$row[3]</p>";
+                }
+            }
+
+            ?>
         </article>
         <article>
             <label for="friendrequests">Friend Requests</label>
@@ -48,14 +91,6 @@
         </article>
     </section>
     <section>
-        <article>
-            <!-- User can add html code here -->
-            <!-- Might need refinement later -->
-            <div contenteditable="true">
-                This text can be edited by the user.
-            </div>
-        </article>
-
         <article>
             <h1>Personal Blogs</h1>
             <ul>
