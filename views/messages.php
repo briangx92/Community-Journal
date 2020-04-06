@@ -24,13 +24,6 @@ if (isset($_POST['logout'])) {
     <div class="container main-section">
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-12 left-sidebar">
-                <!-- search for friens/users to chat  -->
-                <div class="input-group searchbox">
-                    <div class="input-group-btn">
-                        <center><a href="find_friends.php"><button class="btn btn-default search-icon"
-                                    name="search_user" type="submit">Add new user</button></a></center>
-                    </div>
-                </div>
                 <!-- list on the left side -->
                 <div class="left-chat">
                     <ul>
@@ -89,9 +82,9 @@ if (isset($_POST['logout'])) {
 							?>
                         <ul>
                             <?php
-														if ($_SERVER["REQUEST_METHOD"] == "GET") {
-										if ($user_name == $sender_username and $username == $reciever_username) {
-											echo "
+										if ($_SERVER["REQUEST_METHOD"] == "GET") {
+											if ($user_name == $sender_username and $username == $reciever_username) {
+												echo "
 									<li>
 										<div class='rightside-right-chat'>
 											<span> $user_name <small>$msg_date</small> </span><br><br>
@@ -99,8 +92,8 @@ if (isset($_POST['logout'])) {
 										</div>
 									</li>
 								";
-										} else if ($user_name == $reciever_username and $username == $sender_username) {
-											echo "
+											} else if ($user_name == $reciever_username and $username == $sender_username) {
+												echo "
 									<li>
 										<div class='rightside-left-chat'>
 											<span> $username <small>$msg_date</small> </span><br><br>
@@ -108,10 +101,10 @@ if (isset($_POST['logout'])) {
 										</div>
 									</li>
 								";
-										}
-									} elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-										if ($user_name == $sender_username and $username == $reciever_username) {
-											echo "
+											}
+										} elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+											if ($user_name == $sender_username and $username == $reciever_username) {
+												echo "
 									<li>
 										<div class='rightside-right-chat'>
 											<span> $user_name <small>$msg_date</small> </span><br><br>
@@ -119,8 +112,8 @@ if (isset($_POST['logout'])) {
 										</div>
 									</li>
 								";
-										} else if ($user_name == $reciever_username and $username == $sender_username) {
-											echo "
+											} else if ($user_name == $reciever_username and $username == $sender_username) {
+												echo "
 									<li>
 										<div class='rightside-left-chat'>
 											<span> $username <small>$msg_date</small> </span><br><br>
@@ -128,8 +121,8 @@ if (isset($_POST['logout'])) {
 										</div>
 									</li>
 								";
+											}
 										}
-									}
 										?>
                         </ul>
                         <?php

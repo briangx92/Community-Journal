@@ -47,21 +47,6 @@ CREATE TABLE user_blog (
   content text 
 );
 
-CREATE TABLE friends (
-  user_id bigint(20),
-  username varchar(255),
-  online tinyint(1) DEFAULT NULL,
-  friend_request tinyint(1)
-);
-
-CREATE TABLE personal (
-  personal_id bigint(20) UNSIGNED UNIQUE,
-  saved_drafts varchar(255) DEFAULT NULL,
-  list varchar(255) DEFAULT NULL
-);
-
-
-
 CREATE TABLE users_chat (
   msg_id int(11) NOT NULL,
   sender_username varchar(255) NOT NULL,
@@ -85,21 +70,9 @@ ALTER TABLE users
 ALTER TABLE user_blog
   ADD PRIMARY KEY (blog_id);
 
-ALTER TABLE friends
-  ADD PRIMARY KEY (user_id);
-
-ALTER TABLE personal
-  ADD PRIMARY KEY (personal_id);
 
 ALTER TABLE users_chat
   ADD PRIMARY KEY (msg_id);
-
-
-ALTER TABLE friends
-  MODIFY user_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE personal
-  MODIFY personal_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE users
   MODIFY user_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
