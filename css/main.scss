@@ -248,3 +248,44 @@ footer {
   text-decoration: none;
   color: #990011FF;
 }
+
+.profile-sec {
+  background-color: pink;
+  display: inline;
+}
+
+.profile-pic {
+  float: left;
+}
+
+.profile-form {
+  float: left;
+  width: 25%;
+}
+
+.btn-info {
+  width: 35%;
+  background-color: #990011FF;
+  color: #FCF6F5FF;
+  cursor: pointer;
+}
+
+#image {
+  color: #990011FF;;
+}
+
+.work {
+  float: left;
+}
+
+.work2 {
+  clear: both;
+  padding-top: 25px;
+}
+
+.work p, .work2 p {
+  font-size: 25px;
+  border: 3px #990011FF solid;
+  margin: 30px;
+  padding: 10px;
+}
