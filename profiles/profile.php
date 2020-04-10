@@ -19,7 +19,7 @@
         }
     }
 
-    
+
 ?>
 
 <html>
@@ -57,11 +57,16 @@
                                 $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
                                 if (mysqli_num_rows($search)==0) {
                                     $pieces = explode(" ", $search_res);
-                                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';"); 
+                                    if ($pieces[1] = !null);
+                                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';"); 
+                                    if (mysqli_num_rows($search)==0) {
+                                        echo('<h2>There Are No Results</h2>');
+                                    }
                                 }
                             }
                         }
                         if (mysqli_num_rows($search)>0) {
+                            $counter = 0;
                             while($row=mysqli_fetch_row($search)){
                                 echo ('<section class = search-navbar>');
                                 if (empty($row[0])) {
@@ -71,8 +76,9 @@
                                 }
                                 echo ("<li class = left>$row[1]</li>");
                                 echo ("<li class = left>$row[2] </li>");
-                                echo ("<li><a  class = search-user href = 'profile.php'>$row[3]</a></li>");
+                                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
                                 echo ('</section>');
+                                $counter += 1;
                             }
                         }
                         
@@ -105,11 +111,13 @@
         <?php
             $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE ");
             $result = mysqli_query($conn, $name);
-        echo "
-        <form class = 'profile-form' method='post' enctype='multipart/form-data'>
-            <input type='file' name='image' id='image'>
-            <input type='submit' name='upload' id='submit' value='Upload' class='btn btn-info'>
-        </form>"
+            if (isset($_SESSION['user_name'])){
+                echo "
+                <form class = 'profile-form' method='post' enctype='multipart/form-data'>
+                    <input type='file' name='image' id='image'>
+                    <input type='submit' name='upload' id='submit' value='Upload' class='btn btn-info'>
+                </form>";
+            }
         ?>
             <?php
             $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '" . $_SESSION['user_name'] . "'"); 
