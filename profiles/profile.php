@@ -39,10 +39,45 @@
                 <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="public.php">Public</a></li>
-                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
                 <form method="post" class = "logout-nav">
                     <button type="submit" class="btn" name = "logout">Logout</button>
                 </form>
+                <form method="post">
+                    <li><input class ='search-nav' type="text" name="search_val" placeholder="Search"></li>
+                    <button type="submit" class="search-nav searchbtn" name = "search">Search</button>
+                </form>
+                <?php
+
+                    if (isset($_POST['search'])) {
+                        $search_res = $_POST['search_val'];
+                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
+                        if (mysqli_num_rows($search)==0) {
+                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
+                            if (mysqli_num_rows($search)==0) {
+                                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
+                                if (mysqli_num_rows($search)==0) {
+                                    $pieces = explode(" ", $search_res);
+                                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';"); 
+                                }
+                            }
+                        }
+                        if (mysqli_num_rows($search)>0) {
+                            while($row=mysqli_fetch_row($search)){
+                                echo ('<section class = search-navbar>');
+                                if (empty($row[0])) {
+                                    echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/logo.png" />';
+                                } else {
+                                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                                }
+                                echo ("<li class = left>$row[1]</li>");
+                                echo ("<li class = left>$row[2] </li>");
+                                echo ("<li><a  class = search-user href = 'profile.php'>$row[3]</a></li>");
+                                echo ('</section>');
+                            }
+                        }
+                        
+                    }
+                ?>
             </ul>
         </nav>
     </header>
@@ -66,11 +101,16 @@
         }
 
         ?>
-        <form class = "profile-form" method="post" enctype="multipart/form-data">
-            <input type="file" name="image" id="image">
-            <input type="submit" name="upload" id="submit" value="Upload" class="btn btn-info">
-        </form>
-    
+
+        <?php
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE ");
+            $result = mysqli_query($conn, $name);
+        echo "
+        <form class = 'profile-form' method='post' enctype='multipart/form-data'>
+            <input type='file' name='image' id='image'>
+            <input type='submit' name='upload' id='submit' value='Upload' class='btn btn-info'>
+        </form>"
+        ?>
             <?php
             $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '" . $_SESSION['user_name'] . "'"); 
             $result = mysqli_query($conn, $name);
