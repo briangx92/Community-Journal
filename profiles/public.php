@@ -11,7 +11,7 @@ $_GLOBALS['email'] = $email;
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
     session_destroy();
-    header("location: ../views");
+    header("location: ../");
 }
 
 if (isset($_POST["submit"])) {
@@ -37,16 +37,16 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-    <header>
+<header>
+        <!-- Header Nav -->
         <nav>
             <ul>
-                <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
-                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-                <li><a href="../messages.php">Messages</a></li>
+                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><input class='search-nav' type="text" name="search" placeholder="Search"></li>
-                <form method='post' class="logout-nav">
-                    <button type="submit" class="btn" name="logout">Logout</button>
+                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
+                <form method="post" class = "logout-nav">
+                    <button type="submit" class="btn" name = "logout">Logout</button>
                 </form>
             </ul>
         </nav>
@@ -70,7 +70,7 @@ if (isset($_POST["submit"])) {
         </table>
     </div>
 
-    <footer>
+    <footer class='login-footer'>
         <ul>
             <li>Phone: 717-555-5555</li>
             <li>Email: CommunityJournal@gmail.com</li>

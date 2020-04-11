@@ -178,10 +178,9 @@ li a:hover:not(.on) {
 }
 
 .search-nav {
-  padding: 15px;
+  // padding: 15px;
   margin-top: 0px;
-  margin: 30px;
-  border-right:3px solid black;
+  margin: 15px;
   background-color: white;
 }
 
@@ -247,4 +246,63 @@ footer {
   display: block;
   text-decoration: none;
   color: #990011FF;
+}
+
+.profile-sec {
+  background-color: pink;
+  display: inline;
+}
+
+.profile-pic {
+  float: left;
+}
+
+.profile-form {
+  float: left;
+  width: 25%;
+}
+
+.btn-info {
+  width: 35%;
+  background-color: #990011FF;
+  color: #FCF6F5FF;
+  cursor: pointer;
+}
+
+#image {
+  color: #990011FF;
+}
+
+.work {
+  float: left;
+}
+
+.work2 {
+  clear: both;
+  padding-top: 25px;
+}
+
+.work p, .work2 p {
+  font-size: 25px;
+  border: 3px #990011FF solid;
+  margin: 30px;
+  padding: 10px;
+}
+
+.left {
+  padding: 2px;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.search-user {
+  border: 1px solid black;
+  padding: 2;
+  margin: 0;
+  margin-top: 9px;
+  margin-right: 30px;
+}
+
+.searchbtn {
+  background-color: #990011FF;
 }
