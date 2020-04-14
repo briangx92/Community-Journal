@@ -1,9 +1,8 @@
 <?php
 include '../db/db.php';
 require '../include/login.php';
+include '../include/friend_request.php';
 
-// Curent Logged in user
-// Visible for testing purposes
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
@@ -25,17 +24,18 @@ if (isset($_POST['logout'])) {
 </head>
 
 <body>
-<header>
+    <header>
         <!-- Header Nav -->
         <nav>
             <ul>
-                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
+                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="public.php">Public</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
-                <form method="post" class = "logout-nav">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
+                <li><input class='search-nav' type="text" name="search" placeholder="Search"></li>
+                <form method="post" class="logout-nav">
+                    <button type="submit" class="btn" name="logout">Logout</button>
                 </form>
             </ul>
         </nav>
@@ -64,6 +64,12 @@ if (isset($_POST['logout'])) {
             </ul>
         </article>
 
+        <label for="friendrequests">Friend Requests</label>
+        <select id="friendrequests">
+            <option>friend 1</option>
+            <option>friend 2</option>
+
+        </select>
 
         <section name="blog feed">
             <article name="blog">
