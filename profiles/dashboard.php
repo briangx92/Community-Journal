@@ -3,7 +3,7 @@ include '../db/db.php';
 require '../include/login.php';
 include '../include/friend_request.php';
 
-$email = $_SESSION['email'];
+@$email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
 if (isset($_POST['logout'])) {
@@ -44,8 +44,8 @@ if (isset($_POST['logout'])) {
     <body>
         <article>
             <!-- Most Recent List -->
-
-            <ul>
+            <label>List</label>
+            <table>
                 <?php
 
 
@@ -56,21 +56,23 @@ if (isset($_POST['logout'])) {
 
                 if ($result_check > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<li>{$row['content']}</li>";
+                        echo "<table>";
+                        echo "<p><b>{$row['content']}</b></p>";
+                        echo "</table>";
                     }
                 }
 
                 ?>
-            </ul>
+                <hr>
         </article>
 
         <label for="friendrequests">Friend Requests</label>
-        <select id="friendrequests">
+        <select id="friendrequests" size="3">
             <option>friend 1</option>
             <option>friend 2</option>
 
         </select>
-
+        <hr>
         <section name="blog feed">
             <article name="blog">
 

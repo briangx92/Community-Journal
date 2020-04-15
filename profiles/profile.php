@@ -1,14 +1,12 @@
 <?php
 include '../db/db.php';
 require '../include/login.php';
-include '../include/friend_request.php';
-
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
 
 $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . "/" . $email;
-echo $host;
+
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
     session_destroy();
@@ -106,8 +104,7 @@ if (isset($_POST["upload"])) {
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_row($result)) {
                 if (empty($row[0])) {
-                    echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/logo.png" />';
-                    echo '<label for="Image">Stock Image for Profile Picture</label>';
+                    echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/null.png" />';
                 } else {
                     echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="200" width="200" class="img-thumnail" />';
                 }
@@ -147,14 +144,15 @@ if (isset($_POST["upload"])) {
             ?>
         </article>
         <article>
-            <select>
-                <?php
-                $friend_list = "SELECT * FROM friends WHERE receiver = $email AND status = '1';";
-                $result = mysqli_query($conn, $friend_list);
+            <?php
+            $friend_list = "SELECT * FROM friends WHERE receiver = $email AND status = '1';";
+            $result = mysqli_query($conn, $friend_list);
 
 
 
-                ?>
+
+
+            ?>
             </select>
 
 
@@ -163,10 +161,25 @@ if (isset($_POST["upload"])) {
     <section>
         <article>
             <h1>Personal Blogs</h1>
-            <ul>
-                <li>blog 1</li>
-                <li>blog 2</li>
-            </ul>
+            <?php
+            $blog_query = "SELECT * FROM user_blog b JOIN users u ON b.blog_owner = u.email WHERE b.blog_owner = '{$email}'; ";
+            $result = mysqli_query($conn, $blog_query);
+            foreach ($result as $row) {
+                echo "<tr>";
+                echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+
+                echo "<p><b><i>{$row['title']}</i></b></p>";
+                echo "<p>{$row['Dates']}</p>";
+                echo "<p>{$row['content']}</p>";
+                echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
+                echo "</tr>";
+            }
+
+
+            ?>
+
+
         </article>
     </section>
 </body>

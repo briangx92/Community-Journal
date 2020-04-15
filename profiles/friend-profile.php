@@ -1,6 +1,23 @@
 <?php
 include '../db/db.php';
 require '../include/login.php';
+// URL stuff that i could possibly use later on
+// preg_match("/php/", "{$_SERVER['REQUEST_URI']}", $matches);
+// $last_word = $matches[0];
+// echo $last_word;
+function shapeSpace_add_var($url, $key, $value)
+{
+
+    $url = preg_replace('/(.*)(?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
+    $url = substr($url, 0, -1);
+
+    if (strpos($url, '?') === false) {
+        return ($url . '?' . $key . '=' . $value);
+    } else {
+        return ($url . '&' . $key . '=' . $value);
+    }
+}
+
 
 $friend_email = $_SESSION['user_name'];
 $_GLOBALS['user_name'] = $friend_email;
@@ -17,7 +34,7 @@ if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
 }
 
 @$friend = $_GET['friend'];
-
+echo $host;
 ?>
 
 <html>
@@ -51,11 +68,12 @@ if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
 
     <section>
 
-        <!-- Profile pic -->
+
         <article class="profile-sec">
 
 
             <?php
+            // Profile Picture
             $query = "SELECT profile_pic FROM users WHERE username= '$friend'";
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_row($result)) {
@@ -95,11 +113,16 @@ if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
                     echo "</section>";
                 }
             }
+            ?>
+            <form action="" method="post">
 
+            </form>
+            <?php
             // STATUS FRIEND VALUE: 3 = pending
-            if ($friend_email != $email) {
-                echo '<button type="submit" name="friend_request_submit" value="3">Add Friend</button>';
-                $friend_request_query = "INSERT INTO friends (sender, receiver, status) VALUES ('{$friend_email}', '{$email}', 3)";
+            if (@$friend_email != @$email) {
+
+
+                @$friend_request_query = "INSERT INTO friends (sender, receiver, status) VALUES ('{$friend_email}', '{$email}', 3)";
                 $add_friend = isset($_POST['friend_request_submit']);
 
 
@@ -107,9 +130,7 @@ if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
                     mysqli_query($conn, $friend_request_query);
                 }
             }
-
-
-
+            include '../include/friend_request.php';
 
             ?>
 
