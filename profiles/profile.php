@@ -4,11 +4,12 @@ require '../include/login.php';
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
+echo $email;
 
 $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . "/" . $email;
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
     session_destroy();
     header("location: ../");
 }
@@ -19,7 +20,7 @@ if (isset($_POST["upload"])) {
         echo ('');
     } else {
         $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-        $query = "UPDATE users SET profile_pic = '$file' WHERE username= '" . $_SESSION['user_name'] . "'";
+        $query = "UPDATE users SET profile_pic = '$file' WHERE username= '" . $_SESSION['email'] . "'";
         mysqli_query($conn, $query);
     }
 }
@@ -100,11 +101,11 @@ if (isset($_POST["upload"])) {
         <article class="profile-sec">
 
             <?php
-            $query = "SELECT profile_pic FROM users WHERE username= '" . $_SESSION['user_name'] . "'";
+            $query = "SELECT profile_pic FROM users WHERE username= '" . $_SESSION['email'] . "'";
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_row($result)) {
                 if (empty($row[0])) {
-                    echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/null.png" />';
+                    echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/null.png"/>';
                 } else {
                     echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="200" width="200" class="img-thumnail" />';
                 }
@@ -113,18 +114,21 @@ if (isset($_POST["upload"])) {
             ?>
 
             <?php
-            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE ");
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE '{$_SESSION['email']}'");
             $result = mysqli_query($conn, $name);
-            if (isset($_SESSION['user_name'])) {
+
+            if (isset($_SESSION['email'])) {
                 echo "
                 <form class = 'profile-form' method='post' enctype='multipart/form-data'>
                     <input type='file' name='image' id='image'>
                     <input type='submit' name='upload' id='submit' value='Upload' class='btn btn-info'>
                 </form>";
             }
+
+
             ?>
             <?php
-            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '" . $_SESSION['user_name'] . "'");
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '" . $_SESSION['email'] . "'");
             $result = mysqli_query($conn, $name);
             if ($result) {
                 while ($row = mysqli_fetch_row($result)) {
@@ -144,9 +148,19 @@ if (isset($_POST["upload"])) {
             ?>
         </article>
         <article>
+            <h1>Friends list</h1>
             <?php
-            $friend_list = "SELECT * FROM friends WHERE receiver = $email AND status = '1';";
+            $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$email}' AND status = '1';";
             $result = mysqli_query($conn, $friend_list);
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+
+                    echo "<a href='friend-profile.php?{$row['receiver']}'>{$row['Fname']} {$row['Lname']}</a>";
+
+
+                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="200" width="200" class="img-thumnail" />';
+                }
+            }
 
 
 
@@ -175,8 +189,6 @@ if (isset($_POST["upload"])) {
                 echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
                 echo "</tr>";
             }
-
-
             ?>
 
 

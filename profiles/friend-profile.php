@@ -5,36 +5,24 @@ require '../include/login.php';
 // preg_match("/php/", "{$_SERVER['REQUEST_URI']}", $matches);
 // $last_word = $matches[0];
 // echo $last_word;
-function shapeSpace_add_var($url, $key, $value)
-{
-
-    $url = preg_replace('/(.*)(?|&)' . $key . '=[^&]+?(&)(.*)/i', '$1$2$4', $url . '&');
-    $url = substr($url, 0, -1);
-
-    if (strpos($url, '?') === false) {
-        return ($url . '?' . $key . '=' . $value);
-    } else {
-        return ($url . '&' . $key . '=' . $value);
-    }
-}
 
 
-$friend_email = $_SESSION['user_name'];
-$_GLOBALS['user_name'] = $friend_email;
+
+$friend_email = $_SESSION['email'];
+$_GLOBALS['email'] = $friend_email;
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
     session_destroy();
     header("location: ../");
 }
 
 $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
-    $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username='row[3]'");
+    $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username='users.username'");
     mysqli_query($conn, $name);
 }
-
-@$friend = $_GET['friend'];
-echo $host;
+$friend = $_SERVER['QUERY_STRING'];
+print_r($_SERVER['QUERY_STRING']);
 ?>
 
 <html>
@@ -74,63 +62,36 @@ echo $host;
 
             <?php
             // Profile Picture
-            $query = "SELECT profile_pic FROM users WHERE username= '$friend'";
+            $friend = $_SERVER['QUERY_STRING'];
+            $query = "SELECT * FROM users WHERE email = '{$friend}'";
             $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_row($result)) {
-                if (empty($row[0])) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                if (empty($row['profile_pic'])) {
                     echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/logo.png" />';
                 } else {
-                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="200" width="200" class="img-thumnail" />';
+                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="200" width="200" />';
                 }
             }
 
-            ?>
-            <?php
 
 
-            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '$friend'");
+            $name = "SELECT * FROM users WHERE email = '{$friend}'";
             $result = mysqli_query($conn, $name);
             if ($result) {
-                while ($row = mysqli_fetch_row($result)) {
+                while ($row = mysqli_fetch_assoc($result)) {
                     echo "<section class = work>";
-                    echo "<p>Name: $row[0]</p>";
-                    echo "<p>Country: $row[1]</p>";
+                    echo "<p>Name: {$row['Fname']} {$row['Lname']}</p>";
+                    echo "<p>Country: {$row['country']}</p>";
                     echo "</section>";
                     echo "<section class = work>";
-                    echo "<p>Username: $row[2]</p>";
-                    echo "<article>";
-                    echo " <label for='friendrequests'>Friend Requests</label>";
-                    echo "<select id='friendrequests'>";
-
-                    echo "<option value='friend1'>friend 1</option>";
-                    echo "<option value='friend2'>friend 2</option>";
-
-                    echo "</select>";
-                    echo "</article>";
+                    echo "<p>Username: {$row['username']}</p>";
                     echo "</section>";
                     echo "<section class = work2>";
-                    echo "<p>Headline: $row[3]</p>";
+                    echo "<p>Headline: {$row['headline']}</p>";
                     echo "</section>";
                 }
             }
-            ?>
-            <form action="" method="post">
 
-            </form>
-            <?php
-            // STATUS FRIEND VALUE: 3 = pending
-            if (@$friend_email != @$email) {
-
-
-                @$friend_request_query = "INSERT INTO friends (sender, receiver, status) VALUES ('{$friend_email}', '{$email}', 3)";
-                $add_friend = isset($_POST['friend_request_submit']);
-
-
-                if ($add_friend) {
-                    mysqli_query($conn, $friend_request_query);
-                }
-            }
-            include '../include/friend_request.php';
 
             ?>
 

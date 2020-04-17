@@ -1,10 +1,10 @@
 <?php
 include '../db/db.php';
 require '../include/login.php';
-include '../include/friend_request.php';
 
-@$email = $_SESSION['email'];
+$email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
+echo $email;
 
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
@@ -33,7 +33,12 @@ if (isset($_POST['logout'])) {
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="public.php">Public</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><input class='search-nav' type="text" name="search" placeholder="Search"></li>
+                <li>
+                    <form method="post">
+                <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
+                <button type="submit" class="search-nav searchbtn" name="search">Search</button>
+                </form>
+                </li>
                 <form method="post" class="logout-nav">
                     <button type="submit" class="btn" name="logout">Logout</button>
                 </form>
@@ -66,12 +71,14 @@ if (isset($_POST['logout'])) {
                 <hr>
         </article>
 
-        <label for="friendrequests">Friend Requests</label>
+        <!-- <label for="friendrequests">Friend Requests</label>
+
+
         <select id="friendrequests" size="3">
             <option>friend 1</option>
             <option>friend 2</option>
 
-        </select>
+        </select> -->
         <hr>
         <section name="blog feed">
             <article name="blog">

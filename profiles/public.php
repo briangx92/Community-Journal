@@ -3,10 +3,7 @@
 require('../include/login.php');
 include('../db/db.php');
 
-// Curent Logged in user
-$email = $_SESSION['user_name'];
-$_GLOBALS['user_name'] = $email;
-echo $email;
+
 
 
 if (isset($_POST['logout'])) {

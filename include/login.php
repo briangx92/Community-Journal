@@ -32,7 +32,7 @@ if (isset($_POST['sign_in'])) {
 		$row = mysqli_fetch_array($run_user);
 
 		$user_name = $row['username'];
-		$_SESSION['user_name'] = $user_name;
+		$_SESSION['username'] = $user_name;
 
 		echo "<script>window.open('profiles/dashboard.php?user_name={$user_name}','_self')</script>";
 	} else {
