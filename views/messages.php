@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 session_start();
-print_r($_SESSION);
 include("../db/db.php");
 if (!isset($_SESSION['email'])) {
 	header("location: index.php");
@@ -20,24 +19,11 @@ if (isset($_POST['logout'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<!-- <header>
-        Header Nav
-        <nav>
-            <ul>
-                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-                <li><a href="../views/messages.php">Messages</a></li>
-                <li><a href="public.php">Public</a></li>
-                <li><a href="profile.php">Profile</a></li>
-                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
-                <form method="post" class = "logout-nav">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
-                </form>
-            </ul>
-        </nav>
-    </header> -->
-
 <body>
     <div class="container main-section">
+            <ul>
+                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+            </ul>
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-12 left-sidebar">
                 <!-- list on the left side -->
@@ -57,7 +43,6 @@ if (isset($_POST['logout'])) {
 						$row = mysqli_fetch_array($run_user);
 						$user_id = $row['user_id'];
 						$user_name = $row['username'];
-						echo ( "Logged in: " . $user_name);
 						?>
                     <!-- getting the user data on which user click -->
                     <?php
@@ -71,7 +56,6 @@ if (isset($_POST['logout'])) {
 							$total_messages = "SELECT * FROM users_chat WHERE (sender_username='$user_name' AND reciever_username='$username') OR (reciever_username='$user_name' AND sender_username='$username')";
 							$run_messages = mysqli_query($conn, $total_messages);
 							$total = mysqli_num_rows($run_messages);
-							echo ( "Other User: " . $username);
 						}
 						?>
                     <div class="col-md-12 right-header">
@@ -102,65 +86,45 @@ if (isset($_POST['logout'])) {
                 </div>
                 <div class="row">
                     <div id="scrolling_to_bottom" class="col-md-12 right-header-contentChat">
+					<ul>
+
                         <?php
 							if ($_SERVER["REQUEST_METHOD"] == "GET") {
 								$update_msg = mysqli_query($conn, "UPDATE users_chat SET msg_status='read' WHERE sender_username='$_SESSION[user_name]' AND reciever_username='$user_name'");
 								if (!empty($username)) {
-									$sel_msg = "SELECT * FROM users_chat WHERE (sender_username='$_SESSION[user_name]' AND reciever_username='$username') OR (reciever_username='_SESSION[user_name]' AND sender_username='$user_name') ORDER by 1 ASC";
+									$sel_msg = "SELECT * FROM users_chat WHERE (sender_username='$_SESSION[user_name]' AND reciever_username='$username') OR (reciever_username='$_SESSION[user_name]' AND sender_username='$username') ORDER by msg_date ASC";
 									$run_msg = mysqli_query($conn, $sel_msg);
+									$pre = '';
 									while ($row = mysqli_fetch_array($run_msg)) {
 										$sender_username = $row['sender_username'];
 										$reciever_username = $row['reciever_username'];
 										$msg_content = $row['msg_content'];
 										$msg_status = $row['msg_status'];
 										$msg_date = $row['msg_date'];
-									}
-								}
-							}
-							
-							?>
-                        <ul>
-                            <?php
-								if ($_SERVER["REQUEST_METHOD"] == "GET") {
-									if (!empty($sender_username)) {
-										if ($user_name == $sender_username and $username == $reciever_username) {
+
+										if ($row['sender_username'] == $username) {
 											echo "
 												<li>
 													<div class='rightside-right-chat'>
-														<span> $user_name <small>$msg_date</small> </span><br><br>
+														<span> $username <small>$msg_date</small> </span><br><br>
 														<p>$msg_content</p>
 													</div>
 												</li>
 											";
+										} else {
+											echo "
+											<li>
+												<div class='rightside-left-chat'>
+													<span> $user_name <small>$msg_date</small> </span><br><br>
+													<p>$msg_content</p>
+												</div>
+											</li>
+											";
+											$row['msg_date'] == $pre;
 										}
 									}
 								}
-								if (!empty($username)) {
-									$new_msg = "SELECT * FROM users_chat WHERE reciever_username='$_SESSION[user_name]' AND sender_username='$username' ORDER by 1 ASC";
-									$please_msg = mysqli_query($conn, $new_msg);
-									while ($row2 = mysqli_fetch_array($please_msg)) {
-										$sender_username2 = $row2['sender_username'];
-										$reciever_username2 = $row2['reciever_username'];
-										$msg_content2 = $row2['msg_content'];
-										$msg_status2 = $row2['msg_status'];
-										$msg_date2 = $row2['msg_date'];
-									}
-									if (!empty($sender_username2) and !empty($reciever_username2) and !empty($msg_content2) and !empty($msg_status2) and !empty($msg_date2)) {
-										echo "
-										<li>
-											<div class='rightside-left-chat'>
-												<span> $username <small>$msg_date2</small> </span><br><br>
-												<p>$msg_content2</p>
-											</div>
-										</li>
-										";
-									}
-								}			
-						
-					?>
-                        
-                        <?php
-						
+							}
 							
 							?>
 							</ul>

@@ -1,5 +1,37 @@
+body, html {
+  background-color: #FCF6F5FF;
+}
+body, p, input, select, textarea, button {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.2px;
+  font-size: 16px;
+}
+.img-link {
+  height: 100px;
+  width: 100px;
+}
+.search-nav {
+  margin-top: 0px;
+  margin: 15px;
+  background-color: white;
+}
+.logout-nav {
+  float: right;
+  width: 100px;
+}
+.logout-nav .btn {
+  background-color: #990011FF;
+  color:#FCF6F5FF ;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 .main-section{
-  border: 1px solid #000;
   width: 100%;
 }
 .left-sidebar{
