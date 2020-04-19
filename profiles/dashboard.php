@@ -34,7 +34,7 @@ if (isset($_POST['logout'])) {
                 <li><a href="public.php">Public</a></li>
                 <li><a href="profile.php">Profile</a></li>
                 <li>
-                    <form method="post">
+                    <form>
                 <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
                 <button type="submit" class="search-nav searchbtn" name="search">Search</button>
                 </form>
@@ -49,36 +49,49 @@ if (isset($_POST['logout'])) {
     <body>
         <article>
             <!-- Most Recent List -->
-            <label>List</label>
-            <table>
+            <!-- <label for="list">List</label>
+            <table name='list'> -->
+            <?php
+
+
+            // $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
+
+            // $result = mysqli_query($conn, $list_query);
+            // $result_check = mysqli_num_rows($result);
+
+            // if ($result_check > 0) {
+            //     while ($row = mysqli_fetch_assoc($result)) {
+            //         echo "<table>";
+            //         echo "<p><b>{$row['content']}</b></p>";
+            //         echo "</table>";
+            //     }
+            // }
+
+            // 
+            ?>
+            <!-- <hr> -->
+        </article>
+
+
+
+        <form action="dashboard.php" method="post">
+            <label for="friendrequests">Friend Requests</label>
+
+            <select id="friendrequests">
                 <?php
-
-
-                $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
-
-                $result = mysqli_query($conn, $list_query);
-                $result_check = mysqli_num_rows($result);
-
-                if ($result_check > 0) {
+                $fr_list = "SELECT DISTINCT * FROM friends f JOIN users u ON u.email = f.receiver WHERE f.status = 3 AND u.email <> '{$email}' ";
+                $result = mysqli_query($conn, $fr_list);
+                if ($result > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<table>";
-                        echo "<p><b>{$row['content']}</b></p>";
-                        echo "</table>";
+                        echo "<option value='{$row['user_id']}'>" . '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">' . "{$row['Fname']} {$row['Lname']} </option>";
                     }
                 }
 
                 ?>
-                <hr>
-        </article>
-
-        <!-- <label for="friendrequests">Friend Requests</label>
+            </select>
 
 
-        <select id="friendrequests" size="3">
-            <option>friend 1</option>
-            <option>friend 2</option>
-
-        </select> -->
+        </form>
         <hr>
         <section name="blog feed">
             <article name="blog">
@@ -86,26 +99,27 @@ if (isset($_POST['logout'])) {
                 <label>Blog Feed</label>
 
                 <?php
-                $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname, u.profile_pic FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
+                $blog_query = "SELECT * FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
 
                 $result = mysqli_query($conn, $blog_query);
                 $result_check = mysqli_num_rows($result);
 
                 foreach ($result as $row) {
                     echo "<tr>";
-                    echo "<p><b>{$row['fullname']}</b></p>";
+                    echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
                     echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
 
                     echo "<p><b><i>{$row['title']}</i></b></p>";
-                    echo "<p>{$row['Dates']}</p>";
+                    echo "<p>{$row['dates']}</p>";
                     echo "<p>{$row['content']}</p>";
-                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
+
+                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
                     echo "</tr>";
                 }
 
                 ?>
 
-                </ul>
+
             </article>
 
         </section>

@@ -8,8 +8,6 @@ require '../include/login.php';
 
 
 
-$friend_email = $_SESSION['email'];
-$_GLOBALS['email'] = $friend_email;
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
     session_destroy();
@@ -23,6 +21,7 @@ if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
 }
 $friend = $_SERVER['QUERY_STRING'];
 print_r($_SERVER['QUERY_STRING']);
+
 ?>
 
 <html>
@@ -91,9 +90,52 @@ print_r($_SERVER['QUERY_STRING']);
                     echo "</section>";
                 }
             }
+            ?>
 
+            <?php
+            // STATUS CODE 3 = PENDING REQUEST
+            $logged_user = $_SESSION['email'];
+            $friend_request = isset($_POST['3']);
+
+            if ($friend_request) {
+                $query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('{$friend}','{$logged_user}', 3);";
+                mysqli_query($conn, $query_request);
+                $disable = "disabled";
+            }
 
             ?>
+            <form action="friend-profile.php" method="post">
+                <input type="submit" value="3" name="3" <?php $disable ?>>
+            </form>
+
+
+
+            <label>Blog Feed</label>
+
+            <?php
+            $blog_query = "SELECT b.title, b.blog_pic, b.dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname, u.profile_pic FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$friend}';";
+
+            $result = mysqli_query($conn, $blog_query);
+            $result_check = mysqli_fetch_assoc($result);
+
+            foreach ($result as $row) {
+                echo "<table>";
+                echo "<p><b>{$row['fullname']}</b></p>";
+                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+
+                echo "<p><b><i>{$row['title']}</i></b></p>";
+                echo "<p>{$row['dates']}</p>";
+                echo "<p>{$row['content']}</p>";
+                echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                echo "</table>";
+            }
+
+            ?>
+
+
+        </article>
+
+    </section>
 
 </body>
 <hr>

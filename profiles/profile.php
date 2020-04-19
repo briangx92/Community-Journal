@@ -148,7 +148,7 @@ if (isset($_POST["upload"])) {
             ?>
         </article>
         <article>
-            <h1>Friends list</h1>
+            <h1>Friends list:</h1>
             <?php
             $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$email}' AND status = '1';";
             $result = mysqli_query($conn, $friend_list);
@@ -156,22 +156,20 @@ if (isset($_POST["upload"])) {
                 while ($row = mysqli_fetch_assoc($result)) {
 
                     echo "<a href='friend-profile.php?{$row['receiver']}'>{$row['Fname']} {$row['Lname']}</a>";
-
-
-                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="200" width="200" class="img-thumnail" />';
+                    echo "<br>";
+                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail" />';
+                    echo "<br>";
                 }
             }
-
-
-
-
 
             ?>
             </select>
 
-
         </article>
     </section>
+
+
+    <br>
     <section>
         <article>
             <h1>Personal Blogs</h1>
@@ -184,9 +182,9 @@ if (isset($_POST["upload"])) {
                 echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
 
                 echo "<p><b><i>{$row['title']}</i></b></p>";
-                echo "<p>{$row['Dates']}</p>";
+                echo "<p>{$row['dates']}</p>";
                 echo "<p>{$row['content']}</p>";
-                echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
+                echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
                 echo "</tr>";
             }
             ?>

@@ -41,8 +41,8 @@ ALTER TABLE `users_chat`
 
 CREATE TABLE user_blog (
   title varchar(255),
-  blogpic longblob,
-  Dates timestamp,
+  blog_pic longblob,
+  dates timestamp,
   blog_id bigint UNSIGNED,
   content text 
 );
