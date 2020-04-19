@@ -98,14 +98,14 @@ print_r($_SERVER['QUERY_STRING']);
             $friend_request = isset($_POST['3']);
 
             if ($friend_request) {
-                $query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('{$friend}','{$logged_user}', 3);";
+                $query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('{$friend}','{$logged_user}', '3');";
                 mysqli_query($conn, $query_request);
-                $disable = "disabled";
+                $hidden = "hidden";
             }
 
             ?>
             <form action="friend-profile.php" method="post">
-                <input type="submit" value="3" name="3" <?php $disable ?>>
+                <input type="submit" name="3" <?php ?>>
             </form>
 
 

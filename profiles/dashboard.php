@@ -49,27 +49,27 @@ if (isset($_POST['logout'])) {
     <body>
         <article>
             <!-- Most Recent List -->
-            <!-- <label for="list">List</label>
-            <table name='list'> -->
-            <?php
+            <label for="list">List</label>
+            <table name='list'>
+                <?php
 
 
-            // $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
+                $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
 
-            // $result = mysqli_query($conn, $list_query);
-            // $result_check = mysqli_num_rows($result);
+                $result = mysqli_query($conn, $list_query);
+                $result_check = mysqli_num_rows($result);
 
-            // if ($result_check > 0) {
-            //     while ($row = mysqli_fetch_assoc($result)) {
-            //         echo "<table>";
-            //         echo "<p><b>{$row['content']}</b></p>";
-            //         echo "</table>";
-            //     }
-            // }
+                if ($result_check > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<table>";
+                        echo "<p><b>{$row['content']}</b></p>";
+                        echo "</table>";
+                    }
+                }
 
-            // 
-            ?>
-            <!-- <hr> -->
+
+                ?>
+                <hr>
         </article>
 
 
