@@ -138,6 +138,7 @@ if (isset($_POST['logout'])) {
                             <input autocomplete="off" type="text" name="msg_content"
                                 placeholder="Write your message...">
                             <button class="btn" name="submit"><i class="fa fa-telegram" aria-hidden="true"></i></button>
+							<?php $_SESSION['one'] = $username;?>
                         </form>
                     </div>
                 </div>
@@ -163,6 +164,7 @@ if (isset($_POST['logout'])) {
 			} else {
 				$insert = "INSERT INTO `users_chat` (`sender_username`, `reciever_username`, `msg_content`, `msg_status`, `msg_date`) VALUES ('$user_name', '$username', '$msg', 'unread', current_timestamp());";
 				$run_insert = mysqli_query($conn, $insert);
+				header("Location: http://localhost/Community-Journal/views/messages.php?user_name={$_SESSION['one']}");
 			}
 		}
 		?>
