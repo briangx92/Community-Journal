@@ -184,7 +184,7 @@ if (isset($_POST["upload"])) {
                 echo "<p><b><i>{$row['title']}</i></b></p>";
                 echo "<p>{$row['dates']}</p>";
                 echo "<p>{$row['content']}</p>";
-                echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                echo '<p>' . '<img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
                 echo "</tr>";
             }
             ?>

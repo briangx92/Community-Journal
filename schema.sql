@@ -63,6 +63,12 @@ CREATE TABLE recent_list (
   content text
 );
 
+CREATE TABLE friends (
+  id serial PRIMARY KEY,
+  sender text REFERENCES users(email),
+  receiver text REFERENCES users(email),
+  status SMALLINT
+);
 
 ALTER TABLE users
   ADD PRIMARY KEY (user_id);

@@ -105,7 +105,7 @@ print_r($_SERVER['QUERY_STRING']);
 
             ?>
             <form action="friend-profile.php" method="post">
-                <input type="submit" name="3" <?php ?>>
+                <input type="submit" name="3" value="Add Friend">
             </form>
 
 
