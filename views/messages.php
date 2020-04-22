@@ -6,7 +6,7 @@ if (!isset($_SESSION['email'])) {
 	header("location: index.php");
 }
 if (isset($_POST['logout'])) {
-	$update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE email= '" . $_SESSION['email'] . "'");
 	session_destroy();
 	header("location: ../");
 } else { ?>
@@ -22,7 +22,7 @@ if (isset($_POST['logout'])) {
 <body>
     <div class="container main-section">
             <ul>
-                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                <a href="../profiles/dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
             </ul>
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-12 left-sidebar">
@@ -63,11 +63,12 @@ if (isset($_POST['logout'])) {
                             <form method="post">
 								<p><?php 
 								if (empty($get_username)) {
-									echo ("$_SESSION[user_name]");
+									echo ("$_SESSION[username]");
 								} else {
 									echo ($get_username);
 								}
 								?></p>
+								<button type="submit" name="logout" class="btn btn-danger">Logout</button>
 								<span><?php  
 									if (!empty($total)){
 										if ($total == 1){
@@ -79,7 +80,6 @@ if (isset($_POST['logout'])) {
 										}
 									}
 								 ?> </span>
-                                <button type="submit" name="logout" class="btn btn-danger">Logout</button>
                             </form>
                         </div>
                     </div>
@@ -88,11 +88,11 @@ if (isset($_POST['logout'])) {
                     <div id="scrolling_to_bottom" class="col-md-12 right-header-contentChat">
 					<ul>
 
-                        <?php
+						<?php
 							if ($_SERVER["REQUEST_METHOD"] == "GET") {
-								$update_msg = mysqli_query($conn, "UPDATE users_chat SET msg_status='read' WHERE sender_username='$_SESSION[user_name]' AND reciever_username='$user_name'");
+								$update_msg = mysqli_query($conn, "UPDATE users_chat SET msg_status='read' WHERE sender_username='$_SESSION[username]' AND reciever_username='$username'");
 								if (!empty($username)) {
-									$sel_msg = "SELECT * FROM users_chat WHERE (sender_username='$_SESSION[user_name]' AND reciever_username='$username') OR (reciever_username='$_SESSION[user_name]' AND sender_username='$username') ORDER by msg_date ASC";
+									$sel_msg = "SELECT * FROM users_chat WHERE (sender_username='$_SESSION[username]' AND reciever_username='$username') OR (reciever_username='$_SESSION[username]' AND sender_username='$username') ORDER by msg_date ASC";
 									$run_msg = mysqli_query($conn, $sel_msg);
 									$pre = '';
 									while ($row = mysqli_fetch_array($run_msg)) {
@@ -137,8 +137,7 @@ if (isset($_POST['logout'])) {
                         <form method="post">
                             <input autocomplete="off" type="text" name="msg_content"
                                 placeholder="Write your message...">
-                            <button class="btn" name="submit"><i class="fa fa-telegram" aria-hidden="true"></i></button>
-							<?php $_SESSION['one'] = $username;?>
+							<button class="btn" name="submit"><i class="fa fa-telegram" aria-hidden="true"></i></button>
                         </form>
                     </div>
                 </div>
@@ -164,7 +163,7 @@ if (isset($_POST['logout'])) {
 			} else {
 				$insert = "INSERT INTO `users_chat` (`sender_username`, `reciever_username`, `msg_content`, `msg_status`, `msg_date`) VALUES ('$user_name', '$username', '$msg', 'unread', current_timestamp());";
 				$run_insert = mysqli_query($conn, $insert);
-				header("Location: http://localhost/Community-Journal/views/messages.php?user_name={$_SESSION['one']}");
+				header("Location: http://localhost/Community-Journal/views/messages.php?user_name=$username");
 			}
 		}
 		?>
