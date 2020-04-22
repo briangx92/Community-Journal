@@ -1,9 +1,7 @@
 <?php
-
 require('../include/login.php');
 include('../db/db.php');
 
-// Curent Logged in user
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
@@ -14,13 +12,7 @@ if (isset($_POST['logout'])) {
     header("location: ../");
 }
 
-if (isset($_POST["submit"])) {
-    $content = $_POST['content'];
-    $title = $_POST['title'];
-    $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-    $query = "INSERT INTO user_blog (blogpic, content, blog_owner, title) VALUES ('$file', '$content', '$email', '$title')";
-    mysqli_query($conn, $query);
-}
+
 ?>
 
 <html>
@@ -37,16 +29,17 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
-<header>
+    <header>
         <!-- Header Nav -->
         <nav>
             <ul>
-                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
+                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
-                <form method="post" class = "logout-nav">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
+                <li><input class='search-nav' type="text" name="search" placeholder="Search"></li>
+                <form method="post" class="logout-nav">
+                    <button type="submit" class="btn" name="logout">Logout</button>
                 </form>
             </ul>
         </nav>
@@ -57,17 +50,30 @@ if (isset($_POST["submit"])) {
 
         <br>
         <label>Create a Post</label>
-        <form action="dashboard.php" method="post" enctype="multipart/form-data">
+        <form action="public.php" method="post">
             <input type="text" name="title" placeholder="Title...">
             <textarea placeholder="What's on your mind?" cols="40" rows="10" name="content"></textarea>
             <input type="file" name="image" id="image">
-            <input type="submit" name="submit" id="submit" value="submit" class="btn btn-info">
+            <input type="submit" name="submit" class="btn btn-info">
+
         </form>
         <table>
 
 
 
         </table>
+        <?php
+
+        if ($_POST['submit']) {
+
+            $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+            $content = $_POST['content'];
+            $title = $_POST['title'];
+            $query = "INSERT INTO user_blog (blog_pic, content, blog_owner, title) VALUES ('{$file}', '{$content}', '{$email}', '{$title}')";
+            mysqli_query($conn, $query);
+        }
+
+        ?>
     </div>
 
     <footer class='login-footer'>

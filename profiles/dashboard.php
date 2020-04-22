@@ -2,10 +2,10 @@
 include '../db/db.php';
 require '../include/login.php';
 
-// Curent Logged in user
-// Visible for testing purposes
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
+// Visible for testing purposes
+echo $email;
 
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
@@ -25,18 +25,25 @@ if (isset($_POST['logout'])) {
 </head>
 
 <body>
-<header>
+    <header>
         <!-- Header Nav -->
         <nav>
             <ul>
-                <a href="dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+                <a href="dashboard.php"><img class="img-link" src="../Pictures/logo.png"
+                        alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="public.php">Public</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><input class ='search-nav' type="text" name="search" placeholder="Search"></li>
-                <form method="post" class = "logout-nav">
-                    <button type="submit" class="btn" name = "logout">Logout</button>
+                <li>
+                    <form>
+                <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
+                <button type="submit" class="search-nav searchbtn" name="search">Search</button>
                 </form>
+                </li>
+                <form method="post" class="logout-nav">
+                    <button type="submit" class="btn" name="logout">Logout</button>
+                </form>
+
             </ul>
         </nav>
     </header>
@@ -44,53 +51,126 @@ if (isset($_POST['logout'])) {
     <body>
         <article>
             <!-- Most Recent List -->
-
-            <ul>
+            <label for="list">List</label>
+            <table name='list'>
                 <?php
-
 
                 $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
 
                 $result = mysqli_query($conn, $list_query);
-                $result_check = mysqli_num_rows($result);
 
-                if ($result_check > 0) {
+                if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<li>{$row['content']}</li>";
+                        echo "<table>";
+                        echo "<p><b>{$row['content']}</b></p>";
+                        echo "</table>";
                     }
                 }
 
+
                 ?>
-            </ul>
+                <hr>
         </article>
+        <form action="dashboard.php" method="post">
+            <?php
+            // Friend lists pending
+            $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE f.receiver = '{$email}' AND status = '3';";
+            $result = mysqli_query($conn, $query);
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $sender = $row['sender'];
+                    // Fetching friends profile picture to display next to name
+                    $friend_info = "SELECT * FROM users WHERE email = '{$sender}'";
+                    $result2 = mysqli_query($conn, $friend_info);
+                    $row2 = mysqli_fetch_assoc($result2);
+                    echo "<input type='radio' name='radio' value='{$sender}'>{$row2['Fname']} {$row2['Lname']}" . '<img src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50"">';
+                }
+            }
+
+            ?>
+
+            <input type="submit" name="accept" value="Accept">
+            <input type="submit" name="reject" value="Reject">
+        </form>
+        <?php
+        // STATUS 1 = ACCEPT
+        if (isset($_POST['accept'])) {
+            if (isset($_POST['radio'])) {
+                $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE u.email = '{$email}';";
+                $result = mysqli_query($conn, $query);
+                if ($result) {
+
+                    $add_friend = "UPDATE friends SET status = 1 WHERE receiver = '{$email}' AND sender = '{$sender}';";
+                    mysqli_query($conn, $add_friend);
+                }
+            }
+        }
+        // STATUS 2 = REJECT
+        // After rejection the request becomes deleted from the DB
+        if (isset($_POST['reject'])) {
+            if (isset($_POST['radio'])) {
+                $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE u.email = '{$email}';";
+                $result = mysqli_query($conn, $query);
+                if ($result) {
+
+                    $reject_friend = "UPDATE friends SET status = 2 WHERE receiver = '{$email}' AND sender = '{$sender}';";
+                    mysqli_query($conn, $reject_friend);
+                    $delete_request = "DELETE FROM friends WHERE receiver = '{$email}' AND sender = '{$sender}';";
+                }
+            }
+        }
+        ?>
 
 
-        <section name="blog feed">
+
+
+        <hr>
+        <section name=" blog feed">
             <article name="blog">
 
                 <label>Blog Feed</label>
 
                 <?php
-                $blog_query = "SELECT b.title, b.blogpic, b.Dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname, u.profile_pic FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}';";
+                $blog_query = "SELECT * FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}' LIMIT '2';";
 
                 $result = mysqli_query($conn, $blog_query);
-                $result_check = mysqli_num_rows($result);
+
+                if ($result) {
+                    foreach ($result as $row) {
+                        echo "<tr>";
+                        echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                        echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+
+                        echo "<p><b><i>{$row['title']}</i></b></p>";
+                        echo "<p>{$row['dates']}</p>";
+                        echo "<p>{$row['content']}</p>";
+
+                        echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                        echo "</tr>";
+                    }
+                }
+                ?>
+                <?php
+                $friend_blog_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner JOIN friends f ON b.blog_owner = f.sender WHERE status = 1;";
+
+                $result = mysqli_query($conn, $friend_blog_query);
 
                 foreach ($result as $row) {
                     echo "<tr>";
-                    echo "<p><b>{$row['fullname']}</b></p>";
+                    echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
                     echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
 
                     echo "<p><b><i>{$row['title']}</i></b></p>";
-                    echo "<p>{$row['Dates']}</p>";
+                    echo "<p>{$row['dates']}</p>";
                     echo "<p>{$row['content']}</p>";
-                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blogpic']) . '" height="150" width="150"></p>';
+
+                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
                     echo "</tr>";
                 }
 
                 ?>
 
-                </ul>
+
             </article>
 
         </section>
