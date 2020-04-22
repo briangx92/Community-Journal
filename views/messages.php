@@ -90,7 +90,9 @@ if (isset($_POST['logout'])) {
 
 						<?php
 							if ($_SERVER["REQUEST_METHOD"] == "GET") {
-								$update_msg = mysqli_query($conn, "UPDATE users_chat SET msg_status='read' WHERE sender_username='$_SESSION[username]' AND reciever_username='$username'");
+								if (!empty($username)) {
+									$update_msg = mysqli_query($conn, "UPDATE users_chat SET msg_status='read' WHERE sender_username='$_SESSION[username]' AND reciever_username='$username'");
+								}
 								if (!empty($username)) {
 									$sel_msg = "SELECT * FROM users_chat WHERE (sender_username='$_SESSION[username]' AND reciever_username='$username') OR (reciever_username='$_SESSION[username]' AND sender_username='$username') ORDER by msg_date ASC";
 									$run_msg = mysqli_query($conn, $sel_msg);
