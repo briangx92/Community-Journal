@@ -4,8 +4,6 @@ require '../include/login.php';
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
-echo $email;
-
 $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . "/" . $email;
 
 if (isset($_POST['logout'])) {
@@ -27,7 +25,7 @@ if (isset($_POST["upload"])) {
 
     if (isset($_POST['submit9'])) {
         $headline_set = $_POST['headline_set'];
-        $headline = "UPDATE users SET headline = '$headline_set' WHERE username= '" . $_SESSION['user_name'] . "'";
+        $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $_SESSION['email'] . "'";
         $results = mysqli_query($conn, $headline);
     }
 
@@ -106,7 +104,7 @@ if (isset($_POST["upload"])) {
         <article class="profile-sec">
 
             <?php
-            $query = "SELECT profile_pic FROM users WHERE username= '" . $_SESSION['email'] . "'";
+            $query = "SELECT profile_pic FROM users WHERE email= '" . $_SESSION['email'] . "'";
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_row($result)) {
                 if (empty($row[0])) {
@@ -119,10 +117,10 @@ if (isset($_POST["upload"])) {
             ?>
 
             <?php
-            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE '{$_SESSION['email']}'");
+            $name = "SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE email= '{$email}'";
             $result = mysqli_query($conn, $name);
 
-            if (isset($_SESSION['email'])) {
+            if ($result) {
                 echo "
                 <form class = 'profile-form' method='post' enctype='multipart/form-data'>
                     <input type='file' name='image' id='image'>
@@ -133,7 +131,7 @@ if (isset($_POST["upload"])) {
 
             ?>
             <?php
-            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '" . $_SESSION['email'] . "'");
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE email= '{$email}'");
             $result = mysqli_query($conn, $name);
             if ($result) {
                 while ($row = mysqli_fetch_row($result)) {
@@ -186,17 +184,20 @@ if (isset($_POST["upload"])) {
             <?php
             $blog_query = "SELECT * FROM user_blog b JOIN users u ON b.blog_owner = u.email WHERE b.blog_owner = '{$email}'; ";
             $result = mysqli_query($conn, $blog_query);
-            foreach ($result as $row) {
-                echo "<tr>";
-                echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-
-                echo "<p><b><i>{$row['title']}</i></b></p>";
-                echo "<p>{$row['dates']}</p>";
-                echo "<p>{$row['content']}</p>";
-                echo '<p>' . '<img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
-                echo "</tr>";
+            if (!empty($result)) {
+                foreach ($result as $row) {
+                    echo "<tr>";
+                    echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+    
+                    echo "<p><b><i>{$row['title']}</i></b></p>";
+                    echo "<p>{$row['dates']}</p>";
+                    echo "<p>{$row['content']}</p>";
+                    echo '<p>' . '<img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                    echo "</tr>";
+                }
             }
+            
             ?>
 
 
