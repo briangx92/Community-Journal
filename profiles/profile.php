@@ -7,7 +7,7 @@ $_GLOBALS['email'] = $email;
 $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . "/" . $email;
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE email= '" . $_SESSION['email'] . "'");
     session_destroy();
     header("location: ../");
 }
@@ -18,7 +18,7 @@ if (isset($_POST["upload"])) {
         echo ('');
     } else {
         $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
-        $query = "UPDATE users SET profile_pic = '$file' WHERE username= '" . $_SESSION['email'] . "'";
+        $query = "UPDATE users SET profile_pic = '$file' WHERE email= '" . $_SESSION['email'] . "'";
         mysqli_query($conn, $query);
     }
 }
