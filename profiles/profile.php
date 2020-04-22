@@ -19,6 +19,11 @@
         }
     }
 
+    if (isset($_POST['submit9'])) {
+        $headline_set = $_POST['headline_set'];
+        $headline = "UPDATE users SET headline = '$headline_set' WHERE username= '" . $_SESSION['user_name'] . "'";
+        $results = mysqli_query($conn, $headline);
+    }
 
 ?>
 
@@ -138,6 +143,11 @@
             }
 
             ?>
+            <form method="post">
+                <input class ='search-nav' type="text" name="headline_set" placeholder="Headline">
+                <button type="submit" class="search-nav searchbtn" name = "submit9">Submit</button>
+            </form>
+
         </article>
         <article>
             <label for="friendrequests">Friend Requests</label>
