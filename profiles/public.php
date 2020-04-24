@@ -37,11 +37,52 @@ if (isset($_POST['logout'])) {
                         alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><input class='search-nav' type="text" name="search" placeholder="Search"></li>
                 <form method="post" class="logout-nav">
                     <button type="submit" class="btn" name="logout">Logout</button>
                 </form>
+                <form method="post">
+                <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
+                <button type="submit" class="search-nav searchbtn" name="search">Search</button>
+            </form>
+            <?php
+
+            if (isset($_POST['search'])) {
+                $search_res = $_POST['search_val'];
+                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
+                if (mysqli_num_rows($search) == 0) {
+                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
+                    if (mysqli_num_rows($search) == 0) {
+                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
+                        if (mysqli_num_rows($search) == 0) {
+                            $pieces = explode(" ", $search_res);
+                            if ($pieces[1] = !null);
+                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                            if (mysqli_num_rows($search) == 0) {
+                                echo ('<h2>There Are No Results</h2>');
+                            }
+                        }
+                    }
+                }
+                if (mysqli_num_rows($search) > 0) {
+                    $counter = 0;
+                    while ($row = mysqli_fetch_row($search)) {
+                        echo ('<section class = search-navbar>');
+                        if (empty($row[0])) {
+                            echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
+                        } else {
+                            echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                        }
+                        echo ("<li class = left>$row[1]</li>");
+                        echo ("<li class = left>$row[2] </li>");
+                        echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                        echo ('</section>');
+                        $counter += 1;
+                    }
+                }
+            }
+            ?>
             </ul>
+            <hr>
         </nav>
     </header>
 
@@ -50,7 +91,7 @@ if (isset($_POST['logout'])) {
 
         <br>
         <label>Create a Post</label>
-        <form action="public.php" method="post">
+        <form method="post">
             <input type="text" name="title" placeholder="Title...">
             <textarea placeholder="What's on your mind?" cols="40" rows="10" name="content"></textarea>
             <input type="file" name="image" id="image">
@@ -64,13 +105,16 @@ if (isset($_POST['logout'])) {
         </table>
         <?php
 
-        if ($_POST['submit']) {
-
+        if (isset($_POST['submit'])) {
             $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
             $content = $_POST['content'];
             $title = $_POST['title'];
-            $query = "INSERT INTO user_blog (blog_pic, content, blog_owner, title) VALUES ('{$file}', '{$content}', '{$email}', '{$title}')";
-            mysqli_query($conn, $query);
+            if (!empty($content) && !empty($title)) {
+                $query = "INSERT INTO user_blog (blog_pic, content, blog_owner, title) VALUES ('{$file}', '{$content}', '{$email}', '{$title}')";
+                mysqli_query($conn, $query);
+            } else {
+                echo "<h2>You were missing parts?<h2>";
+            }
         }
 
         ?>

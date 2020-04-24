@@ -80,7 +80,7 @@ if (isset($_POST["upload"])) {
                     while ($row = mysqli_fetch_row($search)) {
                         echo ('<section class = search-navbar>');
                         if (empty($row[0])) {
-                            echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/logo.png" />';
+                            echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
                         } else {
                             echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
                         }
