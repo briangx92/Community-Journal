@@ -91,9 +91,9 @@ if (isset($_POST['logout'])) {
 
         <br>
         <label>Create a Post</label>
-        <form method="post">
+        <form method="post" enctype='multipart/form-data'>
             <input type="text" name="title" placeholder="Title...">
-            <textarea placeholder="What's on your mind?" cols="40" rows="10" name="content"></textarea>
+            <textarea placeholder="Content of the Blog" cols="40" rows="10" name="content"></textarea>
             <input type="file" name="image" id="image">
             <input type="submit" name="submit" class="btn btn-info">
 
@@ -106,14 +106,34 @@ if (isset($_POST['logout'])) {
         <?php
 
         if (isset($_POST['submit'])) {
-            $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+            $image = $_FILES['image'];
+            if (empty($_FILES["image"]["tmp_name"])) {
+                echo ('');
+            }
+            if (!empty($_FILES["image"]["tmp_name"])) {
+                $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+            }
             $content = $_POST['content'];
             $title = $_POST['title'];
             if (!empty($content) && !empty($title)) {
-                $query = "INSERT INTO user_blog (blog_pic, content, blog_owner, title) VALUES ('{$file}', '{$content}', '{$email}', '{$title}')";
-                mysqli_query($conn, $query);
+                if (!empty($file)) {
+                    $query = "INSERT INTO user_blog (blog_pic, content, blog_owner, title) VALUES ('{$file}', '{$content}', '{$email}', '{$title}')";
+                    mysqli_query($conn, $query);
+                }
+                else {
+                    $query = "INSERT INTO user_blog (content, blog_owner, title) VALUES ('{$content}', '{$email}', '{$title}')";
+                    mysqli_query($conn, $query);
+                }
             } else {
-                echo "<h2>You were missing parts?<h2>";
+                if (empty($content) && empty($title)) {
+                    echo "<h2>Please enter the Title and the Content?<h2>";
+                }
+                else if (empty($content)) {
+                    echo "<h2>Please enter the Content?<h2>";
+                }
+                else {
+                    echo "<h2>Please enter the Title?<h2>";
+                }
             }
         }
 
