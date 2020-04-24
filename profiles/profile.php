@@ -25,8 +25,10 @@ if (isset($_POST["upload"])) {
 
     if (isset($_POST['submit9'])) {
         $headline_set = $_POST['headline_set'];
-        $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $_SESSION['email'] . "'";
-        $results = mysqli_query($conn, $headline);
+        if (!empty($headline_set)) {
+            $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $_SESSION['email'] . "'";
+            $results = mysqli_query($conn, $headline);
+        }
     }
 
 ?>
