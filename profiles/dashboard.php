@@ -40,9 +40,25 @@ if (isset($_POST['logout'])) {
                 <button type="submit" class="search-nav searchbtn" name="search">Search</button>
                 </form>
                 </li>
+                <li>
+                    <!-- Notifications -->
+                    <?php
+                    // Getting the 'unread' data from users chat and displaying the count
+                    // Maybe get the messages only from friends?
+                    // Displaying 'all unread' data from the DB unless otherwise
+                    $query = "SELECT COUNT(msg_status) AS count FROM users_chat WHERE reciever_username = '{$email}' AND msg_status = 'unread'";
+                    $result = mysqli_query($conn, $query);
+                    if ($result) {
+                        $something = mysqli_fetch_row($result);
+                        echo "Unread messages: {$something[0]}";
+                    }
+                    ?>
+                </li>
                 <form method="post" class="logout-nav">
                     <button type="submit" class="btn" name="logout">Logout</button>
                 </form>
+
+
 
             </ul>
         </nav>
@@ -50,6 +66,7 @@ if (isset($_POST['logout'])) {
 
     <body>
         <article>
+
             <!-- Most Recent List -->
             <label for="list">List</label>
             <table name='list'>
