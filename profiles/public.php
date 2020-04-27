@@ -87,14 +87,14 @@ if (isset($_POST['logout'])) {
     </header>
 
 
-    <div class="container" style="width:500px;">
+    <div class="container">
 
         <br>
-        <label>Create a Post</label>
+        <h2>Create a Post</h2>
         <form method="post" enctype='multipart/form-data'>
-            <input type="text" name="title" placeholder="Title...">
-            <textarea placeholder="Content of the Blog" cols="40" rows="10" name="content"></textarea>
-            <input type="file" name="image" id="image">
+            <input class = "pub-title" type="text" name="title" placeholder="Title...">
+            <textarea class = "pub-content" placeholder="Content of the Blog" cols="40" rows="10" name="content"></textarea>
+            <input class = "img-up" type="file" name="image" id="image">
             <input type="submit" name="submit" class="btn btn-info">
 
         </form>
