@@ -5,7 +5,7 @@ $dbPassword = "";
 $dbName = "community-journal";
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-	$user = "SELECT * FROM users WHERE username!='$_SESSION[user_name]'";
+	$user = "SELECT * FROM users WHERE username!='$_SESSION[username]'";
 
 	$run_user = mysqli_query($conn,$user);
 
