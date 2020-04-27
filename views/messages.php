@@ -15,15 +15,18 @@ if (isset($_POST['logout'])) {
 <head>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/home.css">
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
     <div class="container main-section">
-            <ul>
-                <a href="../profiles/dashboard.php"><img class = "img-link" src="../Pictures/logo.png" alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
-            </ul>
+        <ul>
+            <a href="../profiles/dashboard.php"><img class="img-link" src="../Pictures/logo.png"
+                    alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
+        </ul>
+
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-12 left-sidebar">
                 <!-- list on the left side -->
@@ -61,6 +64,7 @@ if (isset($_POST['logout'])) {
                     <div class="col-md-12 right-header">
                         <div class="right-header-detail">
                             <form method="post">
+
 								<p><?php 
 								if (empty($get_username)) {
 									echo ("$_SESSION[username]");
@@ -78,15 +82,18 @@ if (isset($_POST['logout'])) {
 											echo $total;
 											echo " messages";
 										}
-									}
-								 ?> </span>
+                    
+										?> 
+                              </span>
+                                <button type="submit" name="logout" class="btn btn-danger">Logout</button>
+
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div id="scrolling_to_bottom" class="col-md-12 right-header-contentChat">
-					<ul>
+                        <ul>
 
 						<?php
 							if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -104,8 +111,9 @@ if (isset($_POST['logout'])) {
 										$msg_status = $row['msg_status'];
 										$msg_date = $row['msg_date'];
 
-										if ($row['sender_username'] == $username) {
-											echo "
+
+											if ($row['sender_username'] == $username) {
+												echo "
 												<li>
 													<div class='rightside-right-chat'>
 														<span> $username <small>$msg_date</small> </span><br><br>
@@ -113,8 +121,8 @@ if (isset($_POST['logout'])) {
 													</div>
 												</li>
 											";
-										} else {
-											echo "
+											} else {
+												echo "
 											<li>
 												<div class='rightside-left-chat'>
 													<span> $user_name <small>$msg_date</small> </span><br><br>
@@ -122,14 +130,14 @@ if (isset($_POST['logout'])) {
 												</div>
 											</li>
 											";
-											$row['msg_date'] == $pre;
+												$row['msg_date'] == $pre;
+											}
 										}
 									}
 								}
-							}
-							
-							?>
-							</ul>
+
+								?>
+                        </ul>
                         <!-- Have to close the while loop after closing ul -->
                     </div>
                 </div>
@@ -139,7 +147,9 @@ if (isset($_POST['logout'])) {
                         <form method="post">
                             <input autocomplete="off" type="text" name="msg_content"
                                 placeholder="Write your message...">
-							<button class="btn" name="submit"><i class="fa fa-telegram" aria-hidden="true"></i></button>
+
+							                  <button class="btn" name="submit"><i class="fa fa-telegram" aria-hidden="true"></i></button>
+
                         </form>
                     </div>
                 </div>
