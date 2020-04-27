@@ -82,10 +82,10 @@ if (isset($_POST['logout'])) {
 											echo $total;
 											echo " messages";
 										}
+									}
                     
 										?> 
                               </span>
-                                <button type="submit" name="logout" class="btn btn-danger">Logout</button>
 
                             </form>
                         </div>
