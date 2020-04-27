@@ -9,7 +9,7 @@ require '../include/login.php';
 
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE email= '" . $_SESSION['email'] . "'");
     session_destroy();
     header("location: ../");
 }
@@ -20,8 +20,7 @@ if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
     mysqli_query($conn, $name);
 }
 $friend = $_SERVER['QUERY_STRING'];
-print_r($_SERVER['QUERY_STRING']);
-
+$friend_profile = $_GET['friend'];
 ?>
 
 <html>
@@ -61,20 +60,19 @@ print_r($_SERVER['QUERY_STRING']);
 
             <?php
             // Profile Picture
-            $friend = $_SERVER['QUERY_STRING'];
-            $query = "SELECT * FROM users WHERE email = '{$friend}'";
+            $query = "SELECT profile_pic FROM users WHERE username= '{$friend_profile}'";
             $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_assoc($result)) {
-                if (empty($row['profile_pic'])) {
-                    echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/logo.png" />';
+            while ($row = mysqli_fetch_row($result)) {
+                if (empty($row[0])) {
+                    echo '<img  class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="200" width="200" src = "../Pictures/null.png"/>';
                 } else {
-                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="200" width="200" />';
+                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="200" width="200" class="img-thumnail" />';
                 }
             }
 
 
 
-            $name = "SELECT * FROM users WHERE email = '{$friend}'";
+            $name = "SELECT * FROM users WHERE username = '{$friend_profile}'";
             $result = mysqli_query($conn, $name);
             if ($result) {
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -118,16 +116,18 @@ print_r($_SERVER['QUERY_STRING']);
             $result = mysqli_query($conn, $blog_query);
             $result_check = mysqli_fetch_assoc($result);
 
-            foreach ($result as $row) {
-                echo "<table>";
-                echo "<p><b>{$row['fullname']}</b></p>";
-                echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+            if (!empty($result)) {
+                foreach ($result as $row) {
+                    echo "<table>";
+                    echo "<p><b>{$row['fullname']}</b></p>";
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
 
-                echo "<p><b><i>{$row['title']}</i></b></p>";
-                echo "<p>{$row['dates']}</p>";
-                echo "<p>{$row['content']}</p>";
-                echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
-                echo "</table>";
+                    echo "<p><b><i>{$row['title']}</i></b></p>";
+                    echo "<p>{$row['dates']}</p>";
+                    echo "<p>{$row['content']}</p>";
+                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                    echo "</table>";
+                }
             }
 
             ?>
