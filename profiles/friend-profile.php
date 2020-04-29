@@ -4,8 +4,8 @@ require '../include/login.php';
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
+$friend = $_GET['friend'];
 @$host = $_SERVER['QUERY_STRING'];
-echo $host;
 
 
 
@@ -31,6 +31,13 @@ if (isset($_POST['submit9'])) {
     if (!empty($headline_set)) {
         $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $host . "'";
         $results = mysqli_query($conn, $headline);
+    }
+}
+
+if (isset($_POST['submit'])) {
+    if (!empty($friend)) {
+        @$query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('$friend','{$email}', '3');";
+        mysqli_query($conn, $query_request);
     }
 }
 
@@ -109,7 +116,7 @@ if (isset($_POST['submit9'])) {
         <article class="profile-sec">
 
             <?php
-            $query = "SELECT profile_pic FROM users WHERE email= '" . $host . "'";
+            $query = "SELECT profile_pic FROM users WHERE username= '$friend'";
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_row($result)) {
                 if (empty($row[0])) {
@@ -123,7 +130,7 @@ if (isset($_POST['submit9'])) {
 
 
             <?php
-            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE email= '{$host}'");
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username= '$friend'");
             $result = mysqli_query($conn, $name);
             if ($result) {
                 while ($row = mysqli_fetch_row($result)) {
@@ -145,37 +152,50 @@ if (isset($_POST['submit9'])) {
 
         </article>
         <article>
-
-            <form action="friend-profile.php" method="post">
-                <input type="submit" name="3" value="Add Friend" <?php $query = "SELECT * FROM users u JOIN friends f ON u.email = f.receiver WHERE u.email = '{$email}' AND f.receiver = {$host}';";
-                                                                    $result = mysqli_query($conn, $query);
-                                                                    if (empty($result)) {
-                                                                        echo "hidden";
-                                                                    } ?>>
-            </form>
+            
             <?php
-            // STATUS CODE 3 = PENDING REQUEST
-
-            if (isset($_POST['3'])) {
-                if (!empty($host)) {
-                    @$query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('{$host}','{$email}', '3');";
-                    mysqli_query($conn, $query_request);
+            $query = "SELECT status FROM friends WHERE sender = '{$email}' AND receiver = '{$friend}' ";
+            $result = mysqli_query($conn, $query);
+            if (mysqli_num_rows($result)==0) {
+                echo '
+                <form method="post">
+                    <input type="submit" name="submit" value="Add Friend" >
+                </form>
+                ';  
+            }
+            else {
+                while ($row = mysqli_fetch_row($result)) {
+                    $status = $row[0];
+                    if ($row[0] == 3) { 
+                        echo '<h2>Friend Request Sent</h2>';
+                    }
+                    else if ($row[0] == 2) {
+                        echo '<h2>Friend Request Denied</h2>';
+                    }
+                    else if ($row[0] == 1) {
+                        echo '<h2>You are Friends</h2>';
+                    }
                 }
             }
-
+            
+               
+             
             ?>
-            <h1>Friends list:</h1>
             <?php
-            $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$host}' AND status = '1';";
+            $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$friend}' AND status = '1';";
             $result = mysqli_query($conn, $friend_list);
-            if ($result) {
+            if (mysqli_num_rows($result)==0) {
+                echo '<h1>Friends list:</h1>';
+                echo 'They have no friends yet';
+            }
+            else {
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row['receiver'] != $email) {
+                        echo '<h1>Friends list:</h1>';
                         echo "<p>{$row['Fname']} {$row['Lname']}</p>";
                         echo "<br>";
                         echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail" />';
                         echo "<br>";
-                    } else {
                     }
                 }
             }
