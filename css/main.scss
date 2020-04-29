@@ -306,3 +306,62 @@ footer {
 .searchbtn {
   background-color: #990011FF;
 }
+
+.profile-feed {
+  text-align: center;
+  margin-left: 25%;
+  margin-right: 25%;
+  border: 3px solid #990011FF;
+  margin-top: 50px;
+}
+
+.feed-pic {
+  float: left;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.name {
+  float: left;
+  margin-top: 30px;
+  margin-left: 15px;
+  color: #990011FF;
+}
+
+.title {
+  clear: both;
+  font-size: 2rem;
+  color: #990011FF;
+}
+
+.blogpropic {
+  margin: 15px;
+  height: 50%;
+  width: 55%;
+}
+
+.content {
+  font-size: 1.5rem;
+  color: #787878;
+}
+
+.container {
+  border: solid 3px #990011FF;
+  text-align: center;
+}
+
+.pub-title {
+  background-color: white;
+  border: solid 3px #990011FF;
+  margin-bottom: 15px;
+  font-size: 25px;
+}
+
+.pub-content {
+  width: 100%;
+  font-size: 20px;
+}
+
+.img-up {
+  text-align: center;
+}

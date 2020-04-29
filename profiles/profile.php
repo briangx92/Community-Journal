@@ -189,15 +189,19 @@ if (isset($_POST['submit9'])) {
             $result = mysqli_query($conn, $blog_query);
             if (!empty($result)) {
                 foreach ($result as $row) {
+                    echo "<div class = 'profile-feed'>";
                     echo "<tr>";
-                    echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-
-                    echo "<p><b><i>{$row['title']}</i></b></p>";
-                    echo "<p>{$row['dates']}</p>";
-                    echo "<p>{$row['content']}</p>";
-                    echo '<p>' . '<img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                    echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                    echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+    
+                    echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+                    echo "<p class = 'date'>{$row['dates']}</p>";
+                    echo "<p class = 'content'>{$row['content']}</p>";
+                    if (!empty($row['blog_pic'])) {
+                        echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                    }
                     echo "</tr>";
+                    echo "</div>";
                 }
             }
 
