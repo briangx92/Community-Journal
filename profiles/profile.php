@@ -4,7 +4,8 @@ require '../include/login.php';
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
-$host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . "/" . $email;
+$host = $_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING'] . "/" . $email;
+
 
 if (isset($_POST['logout'])) {
     $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE email= '" . $_SESSION['email'] . "'");
@@ -23,13 +24,13 @@ if (isset($_POST["upload"])) {
     }
 }
 
-    if (isset($_POST['submit9'])) {
-        $headline_set = $_POST['headline_set'];
-        if (!empty($headline_set)) {
-            $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $_SESSION['email'] . "'";
-            $results = mysqli_query($conn, $headline);
-        }
+if (isset($_POST['submit9'])) {
+    $headline_set = $_POST['headline_set'];
+    if (!empty($headline_set)) {
+        $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $_SESSION['email'] . "'";
+        $results = mysqli_query($conn, $headline);
     }
+}
 
 ?>
 
@@ -152,8 +153,8 @@ if (isset($_POST["upload"])) {
 
             ?>
             <form method="post">
-                <input class ='search-nav' type="text" name="headline_set" placeholder="Headline">
-                <button type="submit" class="search-nav searchbtn" name = "submit9">Submit</button>
+                <input class='search-nav' type="text" name="headline_set" placeholder="Headline">
+                <button type="submit" class="search-nav searchbtn" name="submit9">Submit</button>
             </form>
 
         </article>
@@ -191,7 +192,7 @@ if (isset($_POST["upload"])) {
                     echo "<tr>";
                     echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
                     echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-    
+
                     echo "<p><b><i>{$row['title']}</i></b></p>";
                     echo "<p>{$row['dates']}</p>";
                     echo "<p>{$row['content']}</p>";
@@ -199,7 +200,7 @@ if (isset($_POST["upload"])) {
                     echo "</tr>";
                 }
             }
-            
+
             ?>
 
 
