@@ -1,10 +1,11 @@
 <?php
 include '../db/db.php';
 require '../include/login.php';
-// URL stuff that i could possibly use later on
-// preg_match("/php/", "{$_SERVER['REQUEST_URI']}", $matches);
-// $last_word = $matches[0];
-// echo $last_word;
+$email = $_SESSION['email'];
+$_GLOBALS['email'] = $email;
+
+@$host = $_SERVER['QUERY_STRING'];
+echo $host;
 
 
 
@@ -14,19 +15,31 @@ if (isset($_POST['logout'])) {
     header("location: ../");
 }
 
-$host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-if ($host == 'http://localhost/Community-Journal/profiles/friend-profile.php') {
-    $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE username='users.username'");
-    mysqli_query($conn, $name);
+if (isset($_POST["upload"])) {
+    $image = $_FILES['image'];
+    if (empty($_FILES["image"]["tmp_name"])) {
+        echo ('');
+    } else {
+        $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));
+        $query = "UPDATE users SET profile_pic = '$file' WHERE email= '" . $host . "'";
+        mysqli_query($conn, $query);
+    }
 }
-$friend = $_SERVER['QUERY_STRING'];
-$friend_profile = $_GET['friend'];
+
+if (isset($_POST['submit9'])) {
+    $headline_set = $_POST['headline_set'];
+    if (!empty($headline_set)) {
+        $headline = "UPDATE users SET headline = '$headline_set' WHERE email= '" . $host . "'";
+        $results = mysqli_query($conn, $headline);
+    }
+}
+
 ?>
 
 <html>
 
 <head>
-    <title>Friend Profile</title>
+    <title>Profile</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style.css" rel="stylesheet">
@@ -41,26 +54,62 @@ $friend_profile = $_GET['friend'];
                     alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
             <li><a href="../views/messages.php">Messages</a></li>
             <li><a href="public.php">Public</a></li>
-            <a href='profile.php' class='backarrow'> ⇚</a>
             <form method="post" class="logout-nav">
                 <button type="submit" class="btn" name="logout">Logout</button>
             </form>
+            <form method="post">
+                <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
+                <button type="submit" class="search-nav searchbtn" name="search">Search</button>
+            </form>
+            <?php
+
+            if (isset($_POST['search'])) {
+                $search_res = $_POST['search_val'];
+                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
+                if (mysqli_num_rows($search) == 0) {
+                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
+                    if (mysqli_num_rows($search) == 0) {
+                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
+                        if (mysqli_num_rows($search) == 0) {
+                            $pieces = explode(" ", $search_res);
+                            if ($pieces[1] = !null);
+                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                            if (mysqli_num_rows($search) == 0) {
+                                echo ('<h2>There Are No Results</h2>');
+                            }
+                        }
+                    }
+                }
+                if (mysqli_num_rows($search) > 0) {
+                    $counter = 0;
+                    while ($row = mysqli_fetch_row($search)) {
+                        echo ('<section class = search-navbar>');
+                        if (empty($row[0])) {
+                            echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
+                        } else {
+                            echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                        }
+                        echo ("<li class = left>$row[1]</li>");
+                        echo ("<li class = left>$row[2] </li>");
+                        echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                        echo ('</section>');
+                        $counter += 1;
+                    }
+                }
+            }
+            ?>
         </ul>
     </nav>
 </header>
 <hr>
 
 <body>
-
     <section>
-
-
+        <!-- Profile pic -->
         <article class="profile-sec">
 
-
             <?php
-            // Profile Picture
-            $query = "SELECT profile_pic FROM users WHERE username= '{$friend_profile}'";
+            $query = "SELECT profile_pic FROM users WHERE email= '" . $host . "'";
             $result = mysqli_query($conn, $query);
             while ($row = mysqli_fetch_row($result)) {
                 if (empty($row[0])) {
@@ -70,63 +119,24 @@ $friend_profile = $_GET['friend'];
                 }
             }
 
+            ?>
 
 
-            $name = "SELECT * FROM users WHERE username = '{$friend_profile}'";
+            <?php
+            $name = ("SELECT users.Fname, users.country, users.username, users.headline FROM users WHERE email= '{$host}'");
             $result = mysqli_query($conn, $name);
             if ($result) {
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($row = mysqli_fetch_row($result)) {
                     echo "<section class = work>";
-                    echo "<p>Name: {$row['Fname']} {$row['Lname']}</p>";
-                    echo "<p>Country: {$row['country']}</p>";
+                    echo "<p>Name: $row[0]</p>";
+                    echo "<p>Country: $row[1]</p>";
                     echo "</section>";
                     echo "<section class = work>";
-                    echo "<p>Username: {$row['username']}</p>";
+                    echo "<p>Username: $row[2]</p>";
                     echo "</section>";
                     echo "<section class = work2>";
-                    echo "<p>Headline: {$row['headline']}</p>";
+                    echo "<p>Headline: $row[3]</p>";
                     echo "</section>";
-                }
-            }
-            ?>
-
-            <?php
-            // STATUS CODE 3 = PENDING REQUEST
-            $logged_user = $_SESSION['email'];
-            $friend_request = isset($_POST['3']);
-
-            if ($friend_request) {
-                $query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('{$friend}','{$logged_user}', '3');";
-                mysqli_query($conn, $query_request);
-                $hidden = "hidden";
-            }
-
-            ?>
-            <form action="friend-profile.php" method="post">
-                <input type="submit" name="3" value="Add Friend">
-            </form>
-
-
-
-            <label>Blog Feed</label>
-
-            <?php
-            $blog_query = "SELECT b.title, b.blog_pic, b.dates, b.content, CONCAT(u.Fname, ' ', u.Lname) AS fullname, u.profile_pic FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$friend}';";
-
-            $result = mysqli_query($conn, $blog_query);
-            $result_check = mysqli_fetch_assoc($result);
-
-            if (!empty($result)) {
-                foreach ($result as $row) {
-                    echo "<table>";
-                    echo "<p><b>{$row['fullname']}</b></p>";
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-
-                    echo "<p><b><i>{$row['title']}</i></b></p>";
-                    echo "<p>{$row['dates']}</p>";
-                    echo "<p>{$row['content']}</p>";
-                    echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
-                    echo "</table>";
                 }
             }
 
@@ -134,9 +144,75 @@ $friend_profile = $_GET['friend'];
 
 
         </article>
+        <article>
 
+            <form action="friend-profile.php" method="post">
+                <input type="submit" name="3" value="Add Friend" <?php $query = "SELECT * FROM users u JOIN friends f ON u.email = f.receiver WHERE u.email = '{$email}' AND f.receiver = {$host}';";
+                                                                    $result = mysqli_query($conn, $query);
+                                                                    if (empty($result)) {
+                                                                        echo "hidden";
+                                                                    } ?>>
+            </form>
+            <?php
+            // STATUS CODE 3 = PENDING REQUEST
+
+            if (isset($_POST['3'])) {
+                if (!empty($host)) {
+                    @$query_request = "INSERT INTO friends (receiver, sender, status) VALUES ('{$host}','{$email}', '3');";
+                    mysqli_query($conn, $query_request);
+                }
+            }
+
+            ?>
+            <h1>Friends list:</h1>
+            <?php
+            $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$host}' AND status = '1';";
+            $result = mysqli_query($conn, $friend_list);
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if ($row['receiver'] != $email) {
+                        echo "<p>{$row['Fname']} {$row['Lname']}</p>";
+                        echo "<br>";
+                        echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail" />';
+                        echo "<br>";
+                    } else {
+                    }
+                }
+            }
+
+            ?>
+            </select>
+
+        </article>
     </section>
 
+
+    <br>
+    <section>
+        <article>
+            <h1>Personal Blogs</h1>
+            <?php
+            $blog_query = "SELECT * FROM user_blog b JOIN users u ON b.blog_owner = u.email WHERE b.blog_owner = '{$host}'; ";
+            $result = mysqli_query($conn, $blog_query);
+            if (!empty($result)) {
+                foreach ($result as $row) {
+                    echo "<tr>";
+                    echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+
+                    echo "<p><b><i>{$row['title']}</i></b></p>";
+                    echo "<p>{$row['dates']}</p>";
+                    echo "<p>{$row['content']}</p>";
+                    echo '<p>' . '<img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                    echo "</tr>";
+                }
+            }
+
+            ?>
+
+
+        </article>
+    </section>
 </body>
 <hr>
 <!-- Footer -->

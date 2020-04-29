@@ -6,7 +6,7 @@ $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
     session_destroy();
     header("location: ../");
 }
@@ -31,7 +31,7 @@ if (isset($_POST['logout'])) {
                         alt="This is the logo of the company and it also doubles as a home button to the dashboard."></a>
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="public.php">Public</a></li>
-                <li><a href="profile.php">Profile</a></li>            
+                <li><a href="profile.php">Profile</a></li>
                 <li>
                     <!-- Notifications -->
                     <?php
@@ -56,41 +56,43 @@ if (isset($_POST['logout'])) {
 
                 <?php
 
-            if (isset($_POST['search-bar'])) {
-                $search_res = $_POST['search_val'];
-                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
-                if (mysqli_num_rows($search) == 0) {
-                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
+                if (isset($_POST['search-bar'])) {
+                    $search_res = $_POST['search_val'];
+                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
+
                     if (mysqli_num_rows($search) == 0) {
-                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
+                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
                         if (mysqli_num_rows($search) == 0) {
-                            $pieces = explode(" ", $search_res);
-                            if ($pieces[1] = !null);
-                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
                             if (mysqli_num_rows($search) == 0) {
-                                echo ('<h2>There Are No Results</h2>');
+                                $pieces = explode(" ", $search_res);
+                                if ($pieces[1] = !null);
+                                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                                if (mysqli_num_rows($search) == 0) {
+                                    echo ('<h2>There Are No Results</h2>');
+                                }
                             }
                         }
                     }
-                }
-                if (mysqli_num_rows($search) > 0) {
-                    $counter = 0;
-                    while ($row = mysqli_fetch_row($search)) {
-                        echo ('<section class = search-navbar>');
-                        if (empty($row[0])) {
-                            echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
-                        } else {
-                            echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                    if (mysqli_num_rows($search) > 0) {
+                        $counter = 0;
+                        while ($row = mysqli_fetch_row($search)) {
+
+                            echo ('<section class = search-navbar>');
+                            if (empty($row[0])) {
+                                echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
+                            } else {
+                                echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                            }
+                            echo ("<li class = left>$row[1]</li>");
+                            echo ("<li class = left>$row[2] </li>");
+                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?'>$row[3]</a></li>");
+                            echo ('</section>');
+                            $counter += 1;
                         }
-                        echo ("<li class = left>$row[1]</li>");
-                        echo ("<li class = left>$row[2] </li>");
-                        echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
-                        echo ('</section>');
-                        $counter += 1;
                     }
                 }
-            }
-            ?>
+                ?>
 
 
 
@@ -139,9 +141,22 @@ if (isset($_POST['logout'])) {
             }
 
             ?>
+            <!-- ACCEPT OR DENY FRIENDS INPUT-->
+            <!-- MADE HIDDEN IF NO FRIEND REQUESTS AVAILABLE -->
+            <input type="submit" name="accept" value="Accept" <?php $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE f.receiver = '{$email}' AND status = '3';";
+                                                                $result = mysqli_query($conn, $query);
+                                                                $row = mysqli_fetch_assoc($result);
 
-            <input type="submit" name="accept" value="Accept">
-            <input type="submit" name="reject" value="Reject">
+                                                                if (empty($row)) {
+                                                                    echo "hidden";
+                                                                } ?>>
+            <input type="submit" name="reject" value="Reject" <?php $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE f.receiver = '{$email}' AND status = '3';";
+                                                                $result = mysqli_query($conn, $query);
+                                                                $row = mysqli_fetch_assoc($result);
+
+                                                                if (empty($row)) {
+                                                                    echo "hidden";
+                                                                } ?>>
         </form>
         <?php
         // STATUS 1 = ACCEPT
@@ -189,7 +204,7 @@ if (isset($_POST['logout'])) {
                 if (!empty($result)) {
                     foreach ($result as $row) {
                         echo "<tr>";
-                        echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                        echo "<a href='{<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
                         echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
 
                         echo "<p><b><i>{$row['title']}</i></b></p>";
@@ -333,11 +348,6 @@ if (isset($_POST['logout'])) {
 
 
         <?php
-        // echo "<script>
-        // document.getElementById('messages').addEventListener('click', function() {
-        //   window.open('../views/messages.php?user_name={$user_name}','_self')
-        // });
-        // </script>";
         ?>
 
 
