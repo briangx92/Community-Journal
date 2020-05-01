@@ -124,10 +124,9 @@ if (isset($_POST['logout'])) {
                 ?>
                 <hr>
         </article>
-        <form action="dashboard.php" method="post">
-            <?php
+        <?php
             // Friend lists pending
-            $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE f.receiver = '{$email}' AND status = '3';";
+            $query = "SELECT * FROM users u JOIN friends f ON u.username = receiver WHERE f.receiver = '" . $_SESSION['username'] . "' AND status = '3';";
             $result = mysqli_query($conn, $query);
             if ($result) {
                 while ($row = mysqli_fetch_assoc($result)) {
@@ -136,53 +135,33 @@ if (isset($_POST['logout'])) {
                     $friend_info = "SELECT * FROM users WHERE email = '{$sender}'";
                     $result2 = mysqli_query($conn, $friend_info);
                     $row2 = mysqli_fetch_assoc($result2);
-                    echo "<input type='radio' name='radio' value='{$sender}'>{$row2['Fname']} {$row2['Lname']}" . '<img src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50"">';
+                    echo "
+                    <form method='post' action =''>
+                        <input type='radio' name='radio' value='{$sender}'>
+                        {$row2['Fname']} {$row2['Lname']}" . '<img src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50">
+                        <input type="submit" name="accept" value="Accept">
+                        <input type="submit" name="reject" value="Reject">
+                    </form>';
                 }
             }
 
-            ?>
-            <!-- ACCEPT OR DENY FRIENDS INPUT-->
-            <!-- MADE HIDDEN IF NO FRIEND REQUESTS AVAILABLE -->
-            <input type="submit" name="accept" value="Accept" <?php $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE f.receiver = '{$email}' AND status = '3';";
-                                                                $result = mysqli_query($conn, $query);
-                                                                $row = mysqli_fetch_assoc($result);
-
-                                                                if (empty($row)) {
-                                                                    echo "hidden";
-                                                                } ?>>
-            <input type="submit" name="reject" value="Reject" <?php $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE f.receiver = '{$email}' AND status = '3';";
-                                                                $result = mysqli_query($conn, $query);
-                                                                $row = mysqli_fetch_assoc($result);
-
-                                                                if (empty($row)) {
-                                                                    echo "hidden";
-                                                                } ?>>
-        </form>
+        ?>
         <?php
         // STATUS 1 = ACCEPT
         if (isset($_POST['accept'])) {
             if (isset($_POST['radio'])) {
-                $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE u.email = '{$email}';";
-                $result = mysqli_query($conn, $query);
-                if ($result) {
-
-                    $add_friend = "UPDATE friends SET status = 1 WHERE receiver = '{$email}' AND sender = '{$sender}';";
-                    mysqli_query($conn, $add_friend);
-                }
+                $add_friend = "UPDATE friends SET status = 1 WHERE receiver = '" . $_SESSION['username'] . "' AND sender = '{$sender}';";
+                mysqli_query($conn, $add_friend);
+                echo '<script>window.location="http://localhost/Community-Journal/profiles/dashboard.php"</script>';    
             }
         }
         // STATUS 2 = REJECT
         // After rejection the request becomes deleted from the DB
         if (isset($_POST['reject'])) {
             if (isset($_POST['radio'])) {
-                $query = "SELECT * FROM users u JOIN friends f ON u.email = receiver WHERE u.email = '{$email}';";
-                $result = mysqli_query($conn, $query);
-                if ($result) {
-
-                    $reject_friend = "UPDATE friends SET status = 2 WHERE receiver = '{$email}' AND sender = '{$sender}';";
-                    mysqli_query($conn, $reject_friend);
-                    $delete_request = "DELETE FROM friends WHERE receiver = '{$email}' AND sender = '{$sender}';";
-                }
+                $reject_friend = "UPDATE friends SET status = 2 WHERE receiver = '" . $_SESSION['username'] . "' AND sender = '{$sender}';";
+                mysqli_query($conn, $reject_friend);
+                echo '<script>window.location="http://localhost/Community-Journal/profiles/dashboard.php"</script>';
             }
         }
         ?>
@@ -344,12 +323,6 @@ if (isset($_POST['logout'])) {
             ?>
 
         </article>
-
-
-
-        <?php
-        ?>
-
 
     </body>
     <!-- Footer -->
