@@ -42,7 +42,7 @@ if (isset($_POST['logout'])) {
                     $result = mysqli_query($conn, $query);
                     if ($result) {
                         $something = mysqli_fetch_row($result);
-                        echo "Unread messages: {$something[0]}";
+                        echo "<li>Unread messages: {$something[0]}</li>";
                     }
                     ?>
                 </li>
@@ -56,42 +56,40 @@ if (isset($_POST['logout'])) {
 
                 <?php
 
-                if (isset($_POST['search-bar'])) {
-                    $search_res = $_POST['search_val'];
-                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
-
-                    if (mysqli_num_rows($search) == 0) {
-                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
-                        if (mysqli_num_rows($search) == 0) {
-                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
-                            if (mysqli_num_rows($search) == 0) {
-                                $pieces = explode(" ", $search_res);
-                                if ($pieces[1] = !null);
-                                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
-                                if (mysqli_num_rows($search) == 0) {
-                                    echo ('<h2>There Are No Results</h2>');
-                                }
-                            }
-                        }
-                    }
-                    if (mysqli_num_rows($search) > 0) {
-                        $counter = 0;
-                        while ($row = mysqli_fetch_row($search)) {
-
-                            echo ('<section class = search-navbar>');
-                            if (empty($row[0])) {
-                                echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
-                            } else {
-                                echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
-                            }
-                            echo ("<li class = left>$row[1]</li>");
-                            echo ("<li class = left>$row[2] </li>");
-                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?'>$row[3]</a></li>");
-                            echo ('</section>');
-                            $counter += 1;
-                        }
-                    }
+if (isset($_POST['search_val'])) {
+    $search_res = $_POST['search_val'];
+    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
+    if (mysqli_num_rows($search) == 0) {
+        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
+        if (mysqli_num_rows($search) == 0) {
+            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
+            if (mysqli_num_rows($search) == 0) {
+                $pieces = explode(" ", $search_res);
+                if ($pieces[1] = !null);
+                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                if (mysqli_num_rows($search) == 0) {
+                    echo ('<h2>There Are No Results</h2>');
                 }
+            }
+        }
+    }
+    if (mysqli_num_rows($search) > 0) {
+        $counter = 0;
+        while ($row = mysqli_fetch_row($search)) {
+            echo ('<section class = search-navbar>');
+            if (empty($row[0])) {
+                echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
+            } else {
+                echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+            }
+            echo ("<li class = left>$row[1]</li>");
+            echo ("<li class = left>$row[2] </li>");
+            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+            echo ('</section>');
+            $counter += 1;
+        }
+    }
+}
                 ?>
 
 
@@ -104,7 +102,6 @@ if (isset($_POST['logout'])) {
         <article>
 
             <!-- Most Recent List -->
-            <label for="list">List</label>
             <table name='list'>
                 <?php
 
@@ -170,10 +167,10 @@ if (isset($_POST['logout'])) {
 
 
         <hr>
-        <section name=" blog feed">
-            <article name="blog">
+        <section>
+            <article>
 
-                <label>Blog Feed</label>
+                <h2>Blog Feed</h2>
 
                 <?php
                 $blog_query = "SELECT * FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}' LIMIT '2';";
@@ -182,16 +179,19 @@ if (isset($_POST['logout'])) {
 
                 if (!empty($result)) {
                     foreach ($result as $row) {
+                        echo "<div class = 'profile-feed'>";
                         echo "<tr>";
-                        echo "<a href='{<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                        echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-
-                        echo "<p><b><i>{$row['title']}</i></b></p>";
-                        echo "<p>{$row['dates']}</p>";
-                        echo "<p>{$row['content']}</p>";
-
-                        echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+        
+                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+                        echo "<p class = 'date'>{$row['dates']}</p>";
+                        echo "<p class = 'content'>{$row['content']}</p>";
+                        if (!empty($row['blog_pic'])) {
+                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                        }
                         echo "</tr>";
+                        echo "</div>";
                     }
                 }
                 ?>
@@ -199,19 +199,20 @@ if (isset($_POST['logout'])) {
                 $friend_blog_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner JOIN friends f ON b.blog_owner = f.sender WHERE status = 1;";
 
                 $result = mysqli_query($conn, $friend_blog_query);
-
                 if (!empty($result)) {
                     foreach ($result as $row) {
-                        echo "<tr>";
-                        echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                        echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                        echo "<div class = 'profile-feed'>";
+                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
 
-                        echo "<p><b><i>{$row['title']}</i></b></p>";
-                        echo "<p>{$row['dates']}</p>";
-                        echo "<p>{$row['content']}</p>";
-
-                        echo '<p><img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                        echo "<p class = 'date'>{$row['dates']}</p>";
+                        echo "<p class = 'content'>{$row['content']}</p>";
+                        if (!empty($row['blog_pic'])) {
+                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                        }
                         echo "</tr>";
+                        echo "</div>";
                     }
                 }
 
@@ -221,7 +222,7 @@ if (isset($_POST['logout'])) {
             </article>
 
         </section>
-        <article name="search">
+        <article class="search">
 
 
             <form action="dashboard.php" method="post">
@@ -234,7 +235,7 @@ if (isset($_POST['logout'])) {
                 <input type="submit" name="search">
 
             </form>
-
+        </article>
 
             <?php
 
@@ -265,14 +266,18 @@ if (isset($_POST['logout'])) {
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<table name='blog_owner'>";
-                            echo "<tr>";
-                            echo "<th>Name</th>";
-                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
-                            echo "<tr>";
-                            echo "<td>{$row['blog_owner']}</td>";
+                            echo "<div class = 'profile-feed'>";
+                            echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                            echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                            echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+
+                            echo "<p class = 'date'>{$row['dates']}</p>";
+                            echo "<p class = 'content'>{$row['content']}</p>";
+                            if (!empty($row['blog_pic'])) {
+                                echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                            }
                             echo "</tr>";
-                            echo "</table>";
+                            echo "</div>";
                         }
                     }
                 }
@@ -285,15 +290,18 @@ if (isset($_POST['logout'])) {
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<table name='title'>";
-                            echo "<tr>";
-                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
-                            echo "<th>Title</th>";
+                            echo "<div class = 'profile-feed'>";
+                            echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                            echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                            echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+
+                            echo "<p class = 'date'>{$row['dates']}</p>";
+                            echo "<p class = 'content'>{$row['content']}</p>";
+                            if (!empty($row['blog_pic'])) {
+                                echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                            }
                             echo "</tr>";
-                            echo "<tr>";
-                            echo "<td>{$row['title']}</td>";
-                            echo "</tr>";
-                            echo "</table>";
+                            echo "</div>";
                         }
                     }
                 }
@@ -305,16 +313,18 @@ if (isset($_POST['logout'])) {
                     $result = mysqli_query($conn, $filter_query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<table name='content'>";
-                            echo "<tr>";
-                            echo '<th><img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"></th>';
-                            echo "<br>";
-                            echo "<th>Content</th>";
+                            echo "<div class = 'profile-feed'>";
+                            echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                            echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                            echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+
+                            echo "<p class = 'date'>{$row['dates']}</p>";
+                            echo "<p class = 'content'>{$row['content']}</p>";
+                            if (!empty($row['blog_pic'])) {
+                                echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                            }
                             echo "</tr>";
-                            echo "<tr>";
-                            echo "<td>{$row['content']}</td>";
-                            echo "</tr>";
-                            echo "</table>";
+                            echo "</div>";
                         }
                     }
                 }
@@ -322,7 +332,6 @@ if (isset($_POST['logout'])) {
 
             ?>
 
-        </article>
 
     </body>
     <!-- Footer -->

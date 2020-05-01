@@ -183,7 +183,7 @@ if (isset($_POST['submit9'])) {
     <br>
     <section>
         <article>
-            <h1>Personal Blogs</h1>
+            <h2>Personal Blogs</h2>
             <?php
             $blog_query = "SELECT * FROM user_blog b JOIN users u ON b.blog_owner = u.email WHERE b.blog_owner = '{$email}'; ";
             $result = mysqli_query($conn, $blog_query);
