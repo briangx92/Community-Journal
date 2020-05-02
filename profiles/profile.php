@@ -6,11 +6,28 @@ $_GLOBALS['email'] = $email;
 
 $host = $_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING'] . "/" . $email;
 
+include '../include/cookies.php';
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE email= '" . $_SESSION['email'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
+    // Unset all of the session variables.
+    $_SESSION = array();
+
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params["path"],
+            $params["domain"],
+            $params["secure"],
+            $params["httponly"]
+        );
+    }
     session_destroy();
     header("location: ../");
+    include '../include/cookies.php';
 }
 
 if (isset($_POST["upload"])) {
@@ -193,7 +210,7 @@ if (isset($_POST['submit9'])) {
                     echo "<tr>";
                     echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
                     echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
-    
+
                     echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
                     echo "<p class = 'date'>{$row['dates']}</p>";
                     echo "<p class = 'content'>{$row['content']}</p>";

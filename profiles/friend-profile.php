@@ -7,12 +7,27 @@ $_GLOBALS['email'] = $email;
 $friend = $_GET['friend'];
 @$host = $_SERVER['QUERY_STRING'];
 
-
+include '../include/cookies.php';
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE email= '" . $_SESSION['email'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
+    // Unset all of the session variables.
+    $_SESSION = array();
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params["path"],
+            $params["domain"],
+            $params["secure"],
+            $params["httponly"]
+        );
+    }
     session_destroy();
     header("location: ../");
+    include '../include/cookies.php';
 }
 
 if (isset($_POST["upload"])) {
@@ -152,43 +167,39 @@ if (isset($_POST['submit'])) {
 
         </article>
         <article>
-            
+
             <?php
             $query = "SELECT status FROM friends WHERE sender = '{$email}' AND receiver = '{$friend}' ";
             $result = mysqli_query($conn, $query);
-            if (mysqli_num_rows($result)==0) {
+            if (mysqli_num_rows($result) == 0) {
                 echo '
                 <form method="post">
                     <input type="submit" name="submit" value="Add Friend" >
                 </form>
-                ';  
-            }
-            else {
+                ';
+            } else {
                 while ($row = mysqli_fetch_row($result)) {
                     $status = $row[0];
-                    if ($row[0] == 3) { 
+                    if ($row[0] == 3) {
                         echo '<h2>Friend Request Sent</h2>';
-                    }
-                    else if ($row[0] == 2) {
+                    } else if ($row[0] == 2) {
                         echo '<h2>Friend Request Denied</h2>';
-                    }
-                    else if ($row[0] == 1) {
+                    } else if ($row[0] == 1) {
                         echo '<h2>You are Friends</h2>';
                     }
                 }
             }
-            
-               
-             
+
+
+
             ?>
             <?php
             $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$friend}' AND status = '1';";
             $result = mysqli_query($conn, $friend_list);
-            if (mysqli_num_rows($result)==0) {
+            if (mysqli_num_rows($result) == 0) {
                 echo '<h1>Friends list:</h1>';
                 echo 'They have no friends yet';
-            }
-            else {
+            } else {
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row['receiver'] != $email) {
                         echo '<h1>Friends list:</h1>';

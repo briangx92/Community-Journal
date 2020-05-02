@@ -5,11 +5,28 @@ include('../db/db.php');
 $email = $_SESSION['email'];
 $_GLOBALS['email'] = $email;
 
+include '../include/cookies.php';
 
 if (isset($_POST['logout'])) {
-    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['user_name'] . "'");
+    $update_msg = mysqli_query($conn, "UPDATE users SET log_in='Offline' WHERE username= '" . $_SESSION['email'] . "'");
+    // Unset all of the session variables.
+    $_SESSION = array();
+
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params["path"],
+            $params["domain"],
+            $params["secure"],
+            $params["httponly"]
+        );
+    }
     session_destroy();
     header("location: ../");
+    include '../include/cookies.php';
 }
 
 
@@ -41,46 +58,46 @@ if (isset($_POST['logout'])) {
                     <button type="submit" class="btn" name="logout">Logout</button>
                 </form>
                 <form method="post">
-                <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
-                <button type="submit" class="search-nav searchbtn" name="search">Search</button>
-            </form>
-            <?php
+                    <li><input class='search-nav' type="text" name="search_val" placeholder="Search"></li>
+                    <button type="submit" class="search-nav searchbtn" name="search">Search</button>
+                </form>
+                <?php
 
-            if (isset($_POST['search'])) {
-                $search_res = $_POST['search_val'];
-                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
-                if (mysqli_num_rows($search) == 0) {
-                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
+                if (isset($_POST['search'])) {
+                    $search_res = $_POST['search_val'];
+                    $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE username = '$search_res';");
                     if (mysqli_num_rows($search) == 0) {
-                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
+                        $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$search_res';");
                         if (mysqli_num_rows($search) == 0) {
-                            $pieces = explode(" ", $search_res);
-                            if ($pieces[1] = !null);
-                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                            $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Lname = '$search_res';");
                             if (mysqli_num_rows($search) == 0) {
-                                echo ('<h2>There Are No Results</h2>');
+                                $pieces = explode(" ", $search_res);
+                                if ($pieces[1] = !null);
+                                $search = mysqli_query($conn, "SELECT profile_pic, Fname, Lname, username FROM users WHERE Fname = '$pieces[0]' AND Lname = '$pieces[1]';");
+                                if (mysqli_num_rows($search) == 0) {
+                                    echo ('<h2>There Are No Results</h2>');
+                                }
                             }
                         }
                     }
-                }
-                if (mysqli_num_rows($search) > 0) {
-                    $counter = 0;
-                    while ($row = mysqli_fetch_row($search)) {
-                        echo ('<section class = search-navbar>');
-                        if (empty($row[0])) {
-                            echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
-                        } else {
-                            echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                    if (mysqli_num_rows($search) > 0) {
+                        $counter = 0;
+                        while ($row = mysqli_fetch_row($search)) {
+                            echo ('<section class = search-navbar>');
+                            if (empty($row[0])) {
+                                echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
+                            } else {
+                                echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                            }
+                            echo ("<li class = left>$row[1]</li>");
+                            echo ("<li class = left>$row[2] </li>");
+                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                            echo ('</section>');
+                            $counter += 1;
                         }
-                        echo ("<li class = left>$row[1]</li>");
-                        echo ("<li class = left>$row[2] </li>");
-                        echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
-                        echo ('</section>');
-                        $counter += 1;
                     }
                 }
-            }
-            ?>
+                ?>
             </ul>
             <hr>
         </nav>
@@ -92,9 +109,10 @@ if (isset($_POST['logout'])) {
         <br>
         <h2>Create a Post</h2>
         <form method="post" enctype='multipart/form-data'>
-            <input class = "pub-title" type="text" name="title" placeholder="Title...">
-            <textarea class = "pub-content" placeholder="Content of the Blog" cols="40" rows="10" name="content"></textarea>
-            <input class = "img-up" type="file" name="image" id="image">
+            <input class="pub-title" type="text" name="title" placeholder="Title...">
+            <textarea class="pub-content" placeholder="Content of the Blog" cols="40" rows="10"
+                name="content"></textarea>
+            <input class="img-up" type="file" name="image" id="image">
             <input type="submit" name="submit" class="btn btn-info">
 
         </form>
@@ -119,19 +137,16 @@ if (isset($_POST['logout'])) {
                 if (!empty($file)) {
                     $query = "INSERT INTO user_blog (blog_pic, content, blog_owner, title) VALUES ('{$file}', '{$content}', '{$email}', '{$title}')";
                     mysqli_query($conn, $query);
-                }
-                else {
+                } else {
                     $query = "INSERT INTO user_blog (content, blog_owner, title) VALUES ('{$content}', '{$email}', '{$title}')";
                     mysqli_query($conn, $query);
                 }
             } else {
                 if (empty($content) && empty($title)) {
                     echo "<h2>Please enter the Title and the Content?<h2>";
-                }
-                else if (empty($content)) {
+                } else if (empty($content)) {
                     echo "<h2>Please enter the Content?<h2>";
-                }
-                else {
+                } else {
                     echo "<h2>Please enter the Title?<h2>";
                 }
             }
