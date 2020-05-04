@@ -49,7 +49,7 @@ if (isset($_POST['logout'])) {
                 <li><a href="../views/messages.php">Messages</a></li>
                 <li><a href="public.php">Public</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li>
+                <li class = 'unread'>
                     <!-- Notifications -->
                     <?php
                     // Getting the 'unread' data from users chat and displaying the count
@@ -59,7 +59,7 @@ if (isset($_POST['logout'])) {
                     $result = mysqli_query($conn, $query);
                     if ($result) {
                         $something = mysqli_fetch_row($result);
-                        echo "<li>Unread messages: {$something[0]}</li>";
+                        echo "Unread messages: {$something[0]}";
                     }
                     ?>
                 </li>
@@ -138,27 +138,22 @@ if (isset($_POST['logout'])) {
     </header>
 
     <body>
-        <article>
-
+    <article>
             <!-- Most Recent List -->
-            <table name='list'>
-                <?php
-
-                $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
-
-                $result = mysqli_query($conn, $list_query);
-
-                if ($result) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<table>";
-                        echo "<p><b>{$row['content']}</b></p>";
-                        echo "</table>";
-                    }
+            <h2>List</h2>
+            <?php
+            $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
+            $result = mysqli_query($conn, $list_query);
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<table>";
+                    echo "<div class='profile-feed'>";
+                    echo "<p><b>{$row['content']}</b></p>";
+                    echo "</div>";
+                    echo "</table>";
                 }
-
-
-                ?>
-                <hr>
+            }
+            ?>
         </article>
         <?php
         // Friend lists pending
@@ -212,14 +207,13 @@ if (isset($_POST['logout'])) {
                 <h2>Blog Feed</h2>
 
                 <?php
-                $blog_query = "SELECT * FROM user_blog b LEFT JOIN users u ON u.email = b.blog_owner WHERE b.blog_owner = '{$email}' LIMIT '2';";
+                $blog_query = "SELECT * FROM user_blog LEFT JOIN users ON email = blog_owner WHERE blog_owner = '{$email}' ORDER BY blog_id DESC LIMIT 1";
 
                 $result = mysqli_query($conn, $blog_query);
 
                 if (!empty($result)) {
                     foreach ($result as $row) {
                         echo "<div class = 'profile-feed'>";
-                        echo "<tr>";
                         echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
                         echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
 
@@ -235,7 +229,7 @@ if (isset($_POST['logout'])) {
                 }
                 ?>
                 <?php
-                $friend_blog_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner JOIN friends f ON b.blog_owner = f.sender WHERE status = 1;";
+                $friend_blog_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner JOIN friends f ON b.blog_owner = f.sender WHERE username!='$_SESSION[username]' AND status = 1 AND receiver = '$_SESSION[username]' ORDER BY blog_id DESC";
 
                 $result = mysqli_query($conn, $friend_blog_query);
                 if (!empty($result)) {
