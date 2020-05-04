@@ -38,7 +38,7 @@ if (isset($_POST['logout'])) {
                     // Getting the 'unread' data from users chat and displaying the count
                     // Maybe get the messages only from friends?
                     // Displaying 'all unread' data from the DB unless otherwise
-                    $query = "SELECT COUNT(msg_status) AS count FROM users_chat WHERE reciever_username = '{$email}' AND msg_status = 'unread'";
+                    $query = "SELECT COUNT(msg_status) AS count FROM users_chat WHERE reciever_username = '" . $_SESSION['username'] . "' AND msg_status = 'unread'";
                     $result = mysqli_query($conn, $query);
                     if ($result) {
                         $something = mysqli_fetch_row($result);
@@ -84,7 +84,12 @@ if (isset($_POST['search_val'])) {
             }
             echo ("<li class = left>$row[1]</li>");
             echo ("<li class = left>$row[2] </li>");
-            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+            if ($row[3] == $_SESSION['username']) {
+                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'profile.php'>$row[3]</a></li>");
+            }
+            else {
+                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+            }
             echo ('</section>');
             $counter += 1;
         }
