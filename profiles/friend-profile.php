@@ -113,7 +113,12 @@ if (isset($_POST['submit'])) {
                         }
                         echo ("<li class = left>$row[1]</li>");
                         echo ("<li class = left>$row[2] </li>");
-                        echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                        if ($row[3] == $_SESSION['username']) {
+                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'profile.php'>$row[3]</a></li>");
+                        }
+                        else {
+                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                        }
                         echo ('</section>');
                         $counter += 1;
                     }
