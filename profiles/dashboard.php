@@ -106,10 +106,7 @@ if (isset($_POST['logout'])) {
                             $counter += 1;
                         }
                     }
-                }
-            }
-        }
-    }
+                
     if (mysqli_num_rows($search) > 0) {
         $counter = 0;
         while ($row = mysqli_fetch_row($search)) {

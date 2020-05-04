@@ -2,11 +2,6 @@
 session_start();
 
 $host = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-if ($host == 'localhost/Community-Journal/') {
-	include("db/db.php");
-} else {
-	include("../db/db.php");
-}
 
 
 if (isset($_POST['sign_in'])) {
