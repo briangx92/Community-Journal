@@ -100,12 +100,17 @@ if (isset($_POST['logout'])) {
                                 echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
                             }
                             echo ("<li class = left>$row[1]</li>");
-                            echo ("<li class = left>$row[2] </li>");
-                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
-                            echo ('</section>');
-                            $counter += 1;
+                        echo ("<li class = left>$row[2] </li>");
+                        if ($row[3] == $_SESSION['username']) {
+                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'profile.php'>$row[3]</a></li>");
                         }
+                        else {
+                            echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                        }
+                        echo ('</section>');
+                        $counter += 1;
                     }
+                }
                 
     if (mysqli_num_rows($search) > 0) {
         $counter = 0;
@@ -137,10 +142,144 @@ if (isset($_POST['logout'])) {
         </nav>
     </header>
 
+    <article class="search">
+            <?php
+                $user = "SELECT * FROM users JOIN friends ON users.email = friends.sender WHERE username!='$_SESSION[username]' AND status = 1 AND receiver = '$_SESSION[username]'";
+
+                $run_user = mysqli_query($conn,$user);
+
+                if (mysqli_num_rows($run_user)==0) {
+                    echo '<h2 style="color:red;text-align:center;">You have no friends at the moment so you can not search</h2>';
+                }
+                else {
+                    echo '
+                    <h2>Search for Different Blogs</h2>
+                    <form action="" method="post">
+                        <label class = "search-label2">Name</label>
+                        <input class = "search-label" type="checkbox" name="filter[]" value="A">
+                        <label class = "search-label2">Title</label>
+                        <input class = "search-label" type="checkbox" name="filter[]" value="B">
+                        <label class = "search-label2">Content</label>
+                        <input class = "search-label" type="checkbox" name="filter[]" value="C">
+                        <input class = "blog-search" type="text" name="search_text" placeholder="Search here...">
+
+                        <input class = "blog-submit" type="submit" name="search">
+
+                    </form>';
+                }
+            ?>
+
+            
+        </article>
+
+        <?php
+
+        $submit = isset($_POST['search']);
+        @$search_text = $_POST['search_text'];
+
+
+        function IsChecked($chkname, $value, $submit, $search_text)
+        {
+            $submit = isset($_POST['search']);
+            @$search_text = $_POST['search_text'];
+
+            if (!empty($_POST[$chkname])) {
+                foreach ($_POST[$chkname] as $chkval) {
+                    if ($chkval == $value) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        if (IsChecked('filter', 'A', $submit, $search_text)) {
+
+            if ($submit) {
+
+                $filter_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner WHERE blog_owner LIKE '%{$search_text}%'";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<div class = 'profile-feed'>";
+                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+
+                        echo "<p class = 'date'>{$row['dates']}</p>";
+                        echo "<p class = 'content'>{$row['content']}</p>";
+                        if (!empty($row['blog_pic'])) {
+                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                        }
+                        echo "</tr>";
+                        echo "</div>";
+                    }
+                }
+                else {
+                    echo '<h2>There are no results</h2>';
+                }
+            }
+        }
+
+        if (IsChecked('filter', 'B', $submit, $search_text)) {
+
+            if ($submit) {
+                $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE title LIKE '%{$search_text}%';";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<div class = 'profile-feed'>";
+                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+
+                        echo "<p class = 'date'>{$row['dates']}</p>";
+                        echo "<p class = 'content'>{$row['content']}</p>";
+                        if (!empty($row['blog_pic'])) {
+                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                        }
+                        echo "</tr>";
+                        echo "</div>";
+                    }
+                }
+                else {
+                    echo '<h2>There are no results</h2>';
+                }
+            }
+        }
+        if (IsChecked('filter', 'C', $submit, $search_text)) {
+
+            if ($submit) {
+                $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE content LIKE '%{$search_text}%';";
+                $result = mysqli_query($conn, $filter_query);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<div class = 'profile-feed'>";
+                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
+
+                        echo "<p class = 'date'>{$row['dates']}</p>";
+                        echo "<p class = 'content'>{$row['content']}</p>";
+                        if (!empty($row['blog_pic'])) {
+                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                        }
+                        echo "</tr>";
+                        echo "</div>";
+                    }
+                }
+                else {
+                    echo '<h2>There are no results</h2>';
+                }
+            }
+        }
+
+        ?>
+
     <body>
     <article>
             <!-- Most Recent List -->
-            <h2>List</h2>
+            <h2 class = 'clear-fix'>List</h2>
             <?php
             $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
             $result = mysqli_query($conn, $list_query);
@@ -204,7 +343,7 @@ if (isset($_POST['logout'])) {
         <section>
             <article>
 
-                <h2>Blog Feed</h2>
+                <h2 class = 'clear-fix'>Blog Feed</h2>
 
                 <?php
                 $blog_query = "SELECT * FROM user_blog LEFT JOIN users ON email = blog_owner WHERE blog_owner = '{$email}' ORDER BY blog_id DESC LIMIT 1";
@@ -255,115 +394,6 @@ if (isset($_POST['logout'])) {
             </article>
 
         </section>
-        <article class="search">
-
-
-            <form action="dashboard.php" method="post">
-
-                <input type="checkbox" name="filter[]" value="A">Name<br>
-                <input type="checkbox" name="filter[]" value="B">Title<br>
-                <input type="checkbox" name="filter[]" value="C">Content<br>
-                <input type="text" name="search_text" placeholder="Search here...">
-
-                <input type="submit" name="search">
-
-            </form>
-        </article>
-
-        <?php
-
-        $submit = isset($_POST['search']);
-        @$search_text = $_POST['search_text'];
-
-
-        function IsChecked($chkname, $value, $submit, $search_text)
-        {
-            $submit = isset($_POST['search']);
-            @$search_text = $_POST['search_text'];
-
-            if (!empty($_POST[$chkname])) {
-                foreach ($_POST[$chkname] as $chkval) {
-                    if ($chkval == $value) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        if (IsChecked('filter', 'A', $submit, $search_text)) {
-
-            if ($submit) {
-
-                $filter_query = "SELECT * FROM users u JOIN user_blog b ON u.email = b.blog_owner WHERE blog_owner LIKE '%{$search_text}%'";
-                $result = mysqli_query($conn, $filter_query);
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<div class = 'profile-feed'>";
-                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
-
-                        echo "<p class = 'date'>{$row['dates']}</p>";
-                        echo "<p class = 'content'>{$row['content']}</p>";
-                        if (!empty($row['blog_pic'])) {
-                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
-                        }
-                        echo "</tr>";
-                        echo "</div>";
-                    }
-                }
-            }
-        }
-
-        if (IsChecked('filter', 'B', $submit, $search_text)) {
-
-            if ($submit) {
-                $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE title LIKE '%{$search_text}%';";
-                $result = mysqli_query($conn, $filter_query);
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<div class = 'profile-feed'>";
-                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
-
-                        echo "<p class = 'date'>{$row['dates']}</p>";
-                        echo "<p class = 'content'>{$row['content']}</p>";
-                        if (!empty($row['blog_pic'])) {
-                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
-                        }
-                        echo "</tr>";
-                        echo "</div>";
-                    }
-                }
-            }
-        }
-        if (IsChecked('filter', 'C', $submit, $search_text)) {
-
-            if ($submit) {
-                $filter_query = "SELECT * FROM user_blog ub JOIN users u ON ub.blog_owner = u.email WHERE content LIKE '%{$search_text}%';";
-                $result = mysqli_query($conn, $filter_query);
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<div class = 'profile-feed'>";
-                        echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
-                        echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                        echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
-
-                        echo "<p class = 'date'>{$row['dates']}</p>";
-                        echo "<p class = 'content'>{$row['content']}</p>";
-                        if (!empty($row['blog_pic'])) {
-                            echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
-                        }
-                        echo "</tr>";
-                        echo "</div>";
-                    }
-                }
-            }
-        }
-
-        ?>
 
 
     </body>

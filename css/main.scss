@@ -313,6 +313,7 @@ footer {
   margin-right: 25%;
   border: 3px solid #990011FF;
   margin-top: 50px;
+  overflow: auto;
 }
 
 .feed-pic {
@@ -367,9 +368,10 @@ footer {
 }
 
 .search {
+  width: 23%;
   text-align: center;
-  margin-left: 25%;
-  margin-right: 25%;
+  float: left;
+  margin-right: 30px;
 }
 
 .unread {
@@ -377,4 +379,28 @@ footer {
   padding: 10px;
   margin-top: 25px;
   font-size: 25px;;
+}
+
+.clear-fix {
+  text-align: left;
+  padding-right: 15px;
+}
+
+.blog-search {
+  background-color: white;  
+}
+
+.blog-submit {
+  background-color: #990011FF;
+  color: #FCF6F5FF;
+  width: 50%;
+}
+
+.search-label {
+  margin-left: 45%;
+  margin-right: 45%;
+}
+
+.search-label2 {
+  margin-top: 25px;
 }
