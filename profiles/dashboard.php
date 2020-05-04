@@ -52,9 +52,6 @@ if (isset($_POST['logout'])) {
                 <li>
                     <!-- Notifications -->
                     <?php
-                    // Getting the 'unread' data from users chat and displaying the count
-                    // Maybe get the messages only from friends?
-                    // Displaying 'all unread' data from the DB unless otherwise
                     $query = "SELECT COUNT(msg_status) AS count FROM users_chat WHERE reciever_username = '" . $_SESSION['username'] . "' AND msg_status = 'unread'";
                     $result = mysqli_query($conn, $query);
                     if ($result) {
@@ -106,59 +103,96 @@ if (isset($_POST['logout'])) {
                             $counter += 1;
                         }
                     }
-                
-    if (mysqli_num_rows($search) > 0) {
-        $counter = 0;
-        while ($row = mysqli_fetch_row($search)) {
-            echo ('<section class = search-navbar>');
-            if (empty($row[0])) {
-                echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
-            } else {
-                echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
-            }
-            echo ("<li class = left>$row[1]</li>");
-            echo ("<li class = left>$row[2] </li>");
-            if ($row[3] == $_SESSION['username']) {
-                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'profile.php'>$row[3]</a></li>");
-            }
-            else {
-                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
-            }
-            echo ('</section>');
-            $counter += 1;
-        }
-    }
-}
+
+                    if (mysqli_num_rows($search) > 0) {
+                        $counter = 0;
+                        while ($row = mysqli_fetch_row($search)) {
+                            echo ('<section class = search-navbar>');
+                            if (empty($row[0])) {
+                                echo '<img class = "profile-pic" alt = "This is a placeholder image for the profile picture" height="50" width="50" src = "../Pictures/null.png" />';
+                            } else {
+                                echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '" height="50" width="50" class="img-thumnail" />';
+                            }
+                            echo ("<li class = left>$row[1]</li>");
+                            echo ("<li class = left>$row[2] </li>");
+                            if ($row[3] == $_SESSION['username']) {
+                                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'profile.php'>$row[3]</a></li>");
+                            } else {
+                                echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
+                            }
+                            echo ('</section>');
+                            $counter += 1;
+                        }
+                    }
+                }
                 ?>
 
 
 
             </ul>
         </nav>
+        <hr>
     </header>
 
     <body>
         <article>
 
             <!-- Most Recent List -->
-            <table name='list'>
+            <h2>List</h2>
+            <form action="dashboard.php" method="post">
+                <input type="text" name="content" placeholder="Enter a list">
                 <?php
+                $listcount_query = "SELECT COUNT(content) FROM recent_list WHERE list_owner = '{$email}';";
 
-                $list_query = "SELECT content FROM `recent_list` WHERE `list_owner` = '{$email}' LIMIT 5;";
-
-                $result = mysqli_query($conn, $list_query);
-
-                if ($result) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<table>";
-                        echo "<p><b>{$row['content']}</b></p>";
-                        echo "</table>";
-                    }
+                $result = mysqli_query($conn, $listcount_query);
+                if (mysqli_num_rows($result) > 0) {
+                    echo '<input type="text" name="delete_list" placeholder="Enter number to delete list">';
                 }
 
-
                 ?>
-                <hr>
+
+                <button type="submit" name="submit">Submit</button>
+
+            </form>
+            <?php
+
+            if (isset($_POST['submit'])) {
+                if (!empty($_POST['content'])) {
+                    $query = "INSERT INTO recent_list (content,list_owner) VALUES ('{$_POST['content']}','{$email}');";
+                    $results = mysqli_query($conn, $query);
+                }
+                if (!empty($_POST['delete_list'])) {
+                    $delete_query = "DELETE FROM recent_list WHERE list_id = {$_POST['delete_list']} AND list_owner = '{$email}';";
+                    $result = mysqli_query($conn, $delete_query);
+                }
+            }
+
+
+            ?>
+
+            <?php
+
+            $list_query = "SELECT * FROM `recent_list` WHERE `list_owner` = '{$email}';";
+
+            $result = mysqli_query($conn, $list_query);
+
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+
+                    echo "<table>";
+                    echo "<div class='profile-feed'>";
+                    echo "<p>{$row['list_id']}). <b>{$row['content']}</b></p>";
+                    echo "<p><b></b></p>";
+
+                    echo "</div>";
+                    echo "</table>";
+                }
+            }
+
+
+            ?>
+
+
         </article>
         <?php
         // Friend lists pending
