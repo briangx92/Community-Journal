@@ -1,19 +1,26 @@
 body {
   min-height: 100%;
-  padding-bottom:120px;
+  // padding-bottom: 120px;
 }
 
-body, html {
-  background-color:#FCF6F5FF;
+body,
+html {
+  background-color: #FCF6F5FF;
 }
 
-body, p, input, select, textarea, button {
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: -0.2px;
-    font-size: 16px;
+body,
+p,
+input,
+select,
+textarea,
+button {
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.2px;
+  font-size: 16px;
 }
 
-div, p {
+div,
+p {
   color: #BABECC;
   text-shadow: 1px 1px 1px #FFF;
 }
@@ -23,7 +30,8 @@ h2 {
   color: #990011FF;
 }
 
-form, .registerBtn {
+form,
+.registerBtn {
   padding: 16px;
   width: 50%;
   margin: 0 auto;
@@ -49,17 +57,20 @@ form, .registerBtn {
   background-color: #008900;
   color: #FCF6F5FF;
 }
- 
+
 .nav-part {
   float: left;
   height: 100px;
+
 }
+
 
 .nav-part2 {
   float: right;
 }
 
-#h1-reg, #h2-reg {
+#h1-reg,
+#h2-reg {
   text-align: center;
   color: #990011FF;
 }
@@ -73,8 +84,10 @@ form, .registerBtn {
   text-align: center;
 }
 
-#password_login, #email_login, .reg {
-  box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+#password_login,
+#email_login,
+.reg {
+  box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
 }
 
 label {
@@ -84,7 +97,8 @@ label {
   color: #990011FF;
 }
 
-input, select {
+input,
+select {
   margin-top: 21px;
   margin-right: 16px/2;
   width: 100%;
@@ -95,11 +109,11 @@ input, select {
   font-size: 16px;
   border-radius: 3.5px;
   padding: 16px;
-  background-color:#FCF6F5FF;
+  background-color: #FCF6F5FF;
 
 
   &:focus {
-    box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+    box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
   }
 }
 
@@ -114,7 +128,7 @@ button {
   font-size: 16px;
   border-radius: 16px*20;
   padding: 16px;
-  background-color:#990011FF;
+  background-color: #990011FF;
   color: #FCF6F5FF;
 
   &:hover {
@@ -168,7 +182,7 @@ li a {
   text-decoration: none;
   padding: 15px;
   margin: 30px;
-  border-right:3px solid black;
+  border-right: 3px solid black;
 }
 
 li a:hover:not(.on) {
@@ -197,10 +211,12 @@ li a:hover:not(.on) {
 .login-footer {
   background-color: #990011FF;
   bottom: 0;
-  position: fixed;
-  width: 99%; 
-  height: 120px;
-;}
+  position: relative;
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  ;
+}
 
 footer ul li {
   color: #FCF6F5FF;
@@ -208,24 +224,28 @@ footer ul li {
   padding-top: 50px;
   padding-right: 50px;
   font-size: 20px;
-  float: right; 
+  float: right;
 }
 
 footer {
   background-color: #990011FF;
 }
 
-.dash-left, .dash-middle, .dash-right {
+.dash-left,
+.dash-middle,
+.dash-right {
   float: left;
   width: 33%;
 }
 
-.dash-body, .per-body {
+.dash-body,
+.per-body {
   margin-left: 12.5%;
   margin-right: 12.5%;
 }
 
-.per-left, .per-right {
+.per-left,
+.per-right {
   float: left;
   width: 49.5%;
 }
@@ -282,7 +302,8 @@ footer {
   padding-top: 25px;
 }
 
-.work p, .work2 p {
+.work p,
+.work2 p {
   font-size: 25px;
   border: 3px #990011FF solid;
   margin: 30px;
@@ -386,7 +407,8 @@ footer {
   border: solid 3px #990011FF;
   padding: 10px;
   margin-top: 25px;
-  font-size: 25px;;
+  font-size: 25px;
+  ;
 }
 
 .clear-fix {
@@ -399,11 +421,11 @@ footer {
 }
 
 .blog-search {
-  background-color: white;  
+  background-color: white;
 }
 
 .blog-submit {
-  background-color: #990011FF;
+  background-color: rgb(172, 67, 79);
   color: #FCF6F5FF;
   width: 50%;
 }
@@ -419,4 +441,10 @@ footer {
 
 .left5 {
   margin-bottom: 10px;
+}
+
+.new5 {
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }

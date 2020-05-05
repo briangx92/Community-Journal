@@ -108,8 +108,7 @@ if (isset($_POST['submit9'])) {
                         echo ("<li class = left>$row[2] </li>");
                         if ($row[3] == $_SESSION['username']) {
                             echo ("<li><a  name = friend-val value = $counter class = search-user href = 'profile.php'>$row[3]</a></li>");
-                        }
-                        else {
+                        } else {
                             echo ("<li><a  name = friend-val value = $counter class = search-user href = 'friend-profile.php?friend=$row[3]'>$row[3]</a></li>");
                         }
                         echo ('</section>');
@@ -121,7 +120,7 @@ if (isset($_POST['submit9'])) {
         </ul>
     </nav>
 </header>
-<hr>
+<hr class="new5">
 
 <body>
     <section>
