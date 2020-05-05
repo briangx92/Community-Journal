@@ -312,7 +312,6 @@ if (isset($_POST['logout'])) {
             if ($result) {
                 $counters = 1;
                 while ($row = mysqli_fetch_assoc($result)) {
-
                     echo "<table>";
                     echo "<div class='profile-feed'>";
                     echo "<p>$counters . <b>{$row['content']} <br> ID: ({$row['list_id']})</b></p>";
@@ -325,7 +324,7 @@ if (isset($_POST['logout'])) {
             }
 
 
-            ?>
+        ?>
                 
         </article>
         <?php

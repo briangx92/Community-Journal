@@ -185,6 +185,7 @@ if (isset($_POST['submit9'])) {
             <?php
             $friend_list = "SELECT * FROM friends f JOIN users u ON u.username = f.receiver WHERE sender = '{$email}' AND status = '1' LIMIT 5;";
             $result = mysqli_query($conn, $friend_list);
+
             if ($result) {
                 $counter2 = 0;
                 while ($rows = mysqli_fetch_row($result)) {
