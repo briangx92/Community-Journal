@@ -271,10 +271,10 @@ if (isset($_POST['logout'])) {
             <?php
             $listcount_query = "SELECT COUNT(content) FROM recent_list WHERE list_owner = '{$email}';";
 
-            $result = mysqli_query($conn, $listcount_query);
-            if (mysqli_num_rows($result) > 0) {
-                echo '<input type="text" name="delete_list" placeholder="Enter number to delete list">';
-            }
+                $result = mysqli_query($conn, $listcount_query);
+                if (mysqli_num_rows($result) > 0) {
+                    echo '<input type="text" name="delete_list" placeholder="Enter ID to delete list">';
+                }
 
             ?>
 
@@ -303,38 +303,40 @@ if (isset($_POST['logout'])) {
 
         $result = mysqli_query($conn, $list_query);
 
-        if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) {
+            if ($result) {
+                $counters = 1;
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<table>";
+                    echo "<div class='profile-feed'>";
+                    echo "<p>$counters . <b>{$row['content']} <br> ID: ({$row['list_id']})</b></p>";
+                    echo "<p><b></b></p>";
 
-                echo "<table>";
-                echo "<div class='profile-feed'>";
-                echo "<p>{$row['list_id']}). <b>{$row['content']}</b></p>";
-                echo "<p><b></b></p>";
-
-                echo "</div>";
-                echo "</table>";
+                    echo "</div>";
+                    echo "</table>";
+                    $counters += 1;
+                }
             }
-        }
 
 
         ?>
 
-    </article>
-    <?php
-    // Friend lists pending
-    $query = "SELECT * FROM users u JOIN friends f ON u.username = receiver WHERE f.receiver = '" . $_SESSION['username'] . "' AND status = '3';";
-    $result = mysqli_query($conn, $query);
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $sender = $row['sender'];
-            // Fetching friends profile picture to display next to name
-            $friend_info = "SELECT * FROM users WHERE email = '{$sender}'";
-            $result2 = mysqli_query($conn, $friend_info);
-            $row2 = mysqli_fetch_assoc($result2);
-            echo "
+                
+        </article>
+        <?php
+        // Friend lists pending
+        $query = "SELECT * FROM users u JOIN friends f ON u.username = receiver WHERE f.receiver = '" . $_SESSION['username'] . "' AND status = '3';";
+        $result = mysqli_query($conn, $query);
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $sender = $row['sender'];
+                // Fetching friends profile picture to display next to name
+                $friend_info = "SELECT * FROM users WHERE email = '{$sender}'";
+                $result2 = mysqli_query($conn, $friend_info);
+                $row2 = mysqli_fetch_assoc($result2);
+                echo "
                     <form method='post' action =''>
-                        <input type='radio' name='radio' value='{$sender}'>
-                        {$row2['Fname']} {$row2['Lname']}" . '<img src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50">
+                        <input class = 'left5'type='radio' name='radio' value='{$sender}'>
+                        <li class = 'left'>{$row2['Fname']}</li> <li class = 'left'>{$row2['Lname']}</li>" . '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50">
                         <input type="submit" name="accept" value="Accept">
                         <input type="submit" name="reject" value="Reject">
                     </form>';

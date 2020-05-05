@@ -15,6 +15,7 @@ include 'db/db.php';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.scss">
+    <link rel="icon" href="Pictures/logo.png">
 </head>
 
 <body>
@@ -32,7 +33,6 @@ include 'db/db.php';
 
             <div class="form-header">
                 <h2>Sign In</h2>
-                <p>Login to MyChat</p>
             </div>
             <div class="form-group">
                 <label>Email</label>

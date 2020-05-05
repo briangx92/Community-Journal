@@ -198,25 +198,36 @@ if (isset($_POST['submit'])) {
 
 
             ?>
-            <?php
-            $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$friend}' AND status = '1';";
-            $result = mysqli_query($conn, $friend_list);
-            if (mysqli_num_rows($result) == 0) {
-                echo '<h1>Friends list:</h1>';
-                echo 'They have no friends yet';
-            } else {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    if ($row['receiver'] != $email) {
-                        echo '<h1>Friends list:</h1>';
-                        echo "<p>{$row['Fname']} {$row['Lname']}</p>";
-                        echo "<br>";
-                        echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail" />';
-                        echo "<br>";
+            <article>
+            <h2 class = 'clear-fix'>Friends list:</h2>
+            <?php      
+            $email_get = "SELECT * FROM users WHERE username = '{$friend}'"; 
+            $results = mysqli_query($conn, $email_get);  
+            if ($results) {
+                while ($rows2 = mysqli_fetch_row($results)) {
+                    $please = $rows2[3];
+                    $friend_list = "SELECT * FROM friends f JOIN users u ON u.username = f.receiver WHERE sender = '{$please}' AND status = '1' LIMIT 5;";
+                    $result = mysqli_query($conn, $friend_list);
+                    if (mysqli_num_rows($result) == 0) { 
+                        echo '<h2>You have no Friends at the Moment</h2>';
+                    }
+                    if ($result) {
+                        $counter2 = 0;
+                        while ($rows = mysqli_fetch_row($result)) {
+                            echo ('<section class = search-navbar>');
+                            echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($rows[12]) . '" height="50" width="50" class="img-thumnail" />';
+                            echo ("<li class = left>$rows[5]</li>");
+                            echo ("<li class = left>$rows[6]</li>");
+                            echo ("<li class = left2><a  name = friend-val value = $counter2 class = search-user  href = 'friend-profile.php?friend=$rows[9]'>$rows[9]</a></li>");
+                            echo ('</section>');
+                            $counter2 += 1;
+                        }
+                        echo '<br>';
                     }
                 }
             }
-
-            ?>
+        ?>
+            
             </select>
 
         </article>
@@ -226,21 +237,25 @@ if (isset($_POST['submit'])) {
     <br>
     <section>
         <article>
-            <h1>Personal Blogs</h1>
+            <h2 class = 'clear-fix'>Personal Blogs</h2>
             <?php
-            $blog_query = "SELECT * FROM user_blog b JOIN users u ON b.blog_owner = u.email WHERE b.blog_owner = '{$host}'; ";
+            
+            $blog_query = "SELECT * FROM user_blog b JOIN users u ON b.blog_owner = u.email WHERE u.username = '{$friend}'; ";
             $result = mysqli_query($conn, $blog_query);
             if (!empty($result)) {
                 foreach ($result as $row) {
-                    echo "<tr>";
-                    echo "<p><b>{$row['Fname']} {$row['Lname']}</b></p>";
-                    echo '<img src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                    echo "<div class = 'profile-feed'>";
+                    echo '<img class = "feed-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50"">';
+                    echo "<p class = 'name'><b>{$row['Fname']} {$row['Lname']}</b></p>";
+                    echo "<p class = 'title'><b><i>{$row['title']}</i></b></p>";
 
-                    echo "<p><b><i>{$row['title']}</i></b></p>";
-                    echo "<p>{$row['dates']}</p>";
-                    echo "<p>{$row['content']}</p>";
-                    echo '<p>' . '<img src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="150" width="150"></p>';
+                    echo "<p class = 'date'>{$row['dates']}</p>";
+                    echo "<p class = 'content'>{$row['content']}</p>";
+                    if (!empty($row['blog_pic'])) {
+                        echo '<p>' . '<img class = "blogpropic" src="data:image/jpeg;base64,' . base64_encode($row['blog_pic']) . '" height="500" width="500"></p>';
+                    }
                     echo "</tr>";
+                    echo "</div>";
                 }
             }
 

@@ -180,18 +180,23 @@ if (isset($_POST['submit9'])) {
 
         </article>
         <article>
-            <h1>Friends list:</h1>
+            <h2 class = 'clear-fix'>Friends list:</h2>
             <?php
-            $friend_list = "SELECT * FROM friends f JOIN users u ON u.email = f.receiver WHERE sender = '{$email}' AND status = '1';";
+            $friend_list = "SELECT * FROM friends f JOIN users u ON u.username = f.receiver WHERE sender = '{$email}' AND status = '1' LIMIT 5;";
             $result = mysqli_query($conn, $friend_list);
-            if ($result) {
-                while ($row = mysqli_fetch_assoc($result)) {
 
-                    echo "<a href='friend-profile.php?{$row['receiver']}'>{$row['Fname']} {$row['Lname']}</a>";
-                    echo "<br>";
-                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row['profile_pic']) . '" height="50" width="50" class="img-thumnail" />';
-                    echo "<br>";
+            if ($result) {
+                $counter2 = 0;
+                while ($rows = mysqli_fetch_row($result)) {
+                    echo ('<section class = search-navbar>');
+                    echo '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($rows[12]) . '" height="50" width="50" class="img-thumnail" />';
+                    echo ("<li class = left>$rows[5]</li>");
+                    echo ("<li class = left>$rows[6]</li>");
+                    echo ("<li class = left2><a  name = friend-val value = $counter2 class = search-user  href = 'friend-profile.php?friend=$rows[9]'>$rows[9]</a></li>");
+                    echo ('</section>');
+                    $counter2 += 1;
                 }
+                echo '<br>';
             }
 
             ?>
