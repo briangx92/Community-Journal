@@ -279,7 +279,7 @@ if (isset($_POST['logout'])) {
 
                 $result = mysqli_query($conn, $listcount_query);
                 if (mysqli_num_rows($result) > 0) {
-                    echo '<input type="text" name="delete_list" placeholder="Enter number to delete list">';
+                    echo '<input type="text" name="delete_list" placeholder="Enter ID to delete list">';
                 }
 
                 ?>
@@ -310,15 +310,17 @@ if (isset($_POST['logout'])) {
             $result = mysqli_query($conn, $list_query);
 
             if ($result) {
+                $counters = 1;
                 while ($row = mysqli_fetch_assoc($result)) {
 
                     echo "<table>";
                     echo "<div class='profile-feed'>";
-                    echo "<p>{$row['list_id']}). <b>{$row['content']}</b></p>";
+                    echo "<p>$counters . <b>{$row['content']} <br> ID: ({$row['list_id']})</b></p>";
                     echo "<p><b></b></p>";
 
                     echo "</div>";
                     echo "</table>";
+                    $counters += 1;
                 }
             }
 
@@ -339,8 +341,8 @@ if (isset($_POST['logout'])) {
                 $row2 = mysqli_fetch_assoc($result2);
                 echo "
                     <form method='post' action =''>
-                        <input type='radio' name='radio' value='{$sender}'>
-                        {$row2['Fname']} {$row2['Lname']}" . '<img src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50">
+                        <input class = 'left5'type='radio' name='radio' value='{$sender}'>
+                        <li class = 'left'>{$row2['Fname']}</li> <li class = 'left'>{$row2['Lname']}</li>" . '<img class = "profile-pic" src="data:image/jpeg;base64,' . base64_encode($row2['profile_pic']) . '" height="50" width="50">
                         <input type="submit" name="accept" value="Accept">
                         <input type="submit" name="reject" value="Reject">
                     </form>';
