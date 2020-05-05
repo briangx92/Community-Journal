@@ -5,9 +5,13 @@ $dbPassword = "";
 $dbName = "community-journal";
 
 $conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
-	$user = "SELECT * FROM users WHERE username!='$_SESSION[username]'";
+	$user = "SELECT * FROM users JOIN friends ON users.email = friends.sender WHERE username!='$_SESSION[username]' AND status = 1 AND receiver = '$_SESSION[username]'";
 
 	$run_user = mysqli_query($conn,$user);
+
+	if (mysqli_num_rows($run_user)==0) {
+		echo '<h2 style="color:red;text-align:center;">You have no friends at the moment</h2>';
+	}
 
 	while ($row_user=mysqli_fetch_array($run_user)){
 
