@@ -56,7 +56,7 @@ include 'db/db.php';
 
 
 
-    <footer class='login-footer'>
+    <footer class='login-footer2'>
         <ul>
             <li>Phone: 717-555-5555</li>
             <li>Email: CommunityJournal@gmail.com</li>
